@@ -35,6 +35,14 @@ module.exports = {
             {
               from: 'node_modules/phaser/build/phaser.map',
               to: 'build/'
+            },
+            {
+              from: 'assets/Font/Bubblegum.ttf',
+              to: 'build/font/'
+            },
+            {
+              from: 'styles/styles.css',
+              to: 'build/'
             }
         ], {
             ignore: [],
