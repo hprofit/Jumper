@@ -1,9 +1,10 @@
 export default class Item {
-	constructor() {
-	}
+    constructor() {
+    }
 
-  update() {
-  }
+    update() {
+    }
 
-	touchItem(player) {}
+    touchItem(player) {
+    }
 }
