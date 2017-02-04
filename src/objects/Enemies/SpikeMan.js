@@ -1,14 +1,13 @@
 import Enemy from './Enemy.js';
 
 export class SpikeMan extends Enemy {
-    constructor(game, x, y) {
-        super(game, x, y, 'spikeMan');
+    constructor(game, x, y, worldX = x, worldY = y) {
+        super(game, x, y, worldX, worldY, 'spikeMan');
 
-        //this.sprite.scale.setTo(.4, .4);
         this.sprite.height = 64;
         this.sprite.width = 48;
         this.sprite.scale.x *= -1;
-        // this.sprite.scale.y *= -1;
+        this.sprite.body.setSize(this.sprite.body.width - 40, this.sprite.body.height - 20, 20, 20);
 
         this.standFrame = 0;
         this.jumpFrame = 1;
@@ -16,46 +15,26 @@ export class SpikeMan extends Enemy {
         this.sprite.frame = this.standFrame;
 
         this.touchDamage = 1;
-
-        // Debug
-        this.graphics1 = game.add.graphics(0, 0);
-        this.graphics2 = game.add.graphics(0, 0);
-        this.graphics3 = game.add.graphics(0, 0);
-        this.graphics4 = game.add.graphics(0, 0);
-
-        console.log(this.sprite.height);
-        this.sprite.body.setSize(30, this.sprite.height, 0, 0);
+        this.moveSpeed = 75;
+        this.direction = -1;
+        this.sprite.body.velocity.x = this.direction * this.moveSpeed;
     }
 
-    update() {
-        //this.sprite.animations.play('walking');
-
-        // Debug
-        this.graphics1.reset(this.sprite.body.x, this.sprite.body.y);
-        this.graphics1.beginFill(0xFFFFFF, 1);
-        this.graphics1.drawCircle(0, 0, 5);
-        this.graphics1.endFill();
-
-        this.graphics2.reset(this.sprite.body.x + this.sprite.body.width, this.sprite.body.y);
-        this.graphics2.beginFill(0x0000FF, 1);
-        this.graphics2.drawCircle(0, 0, 5);
-        this.graphics2.endFill();
-
-        this.graphics3.reset(this.sprite.body.x, this.sprite.body.y + this.sprite.body.height);
-        this.graphics3.beginFill(0xFF0000, 1);
-        this.graphics3.drawCircle(0, 0, 5);
-        this.graphics3.endFill();
-
-        this.graphics4.reset(this.sprite.body.x + this.sprite.body.width, this.sprite.body.y + this.sprite.body.height);
-        this.graphics4.beginFill(0xFF00FF, 1);
-        this.graphics4.drawCircle(0, 0, 5);
-        this.graphics4.endFill();
-
-        //console.log(this.sprite.body);
+    flipDirection() {
+        this.direction *= -1;
+        this.sprite.body.velocity.x = this.direction * this.moveSpeed;
+        this.sprite.scale.x *= -1;
     }
 
-    wander() {
+    update(enemiesThatHitPlatforms) {
+        super.update();
+        this.sprite.animations.play('walking');
 
+        if (this.sprite.body.onWall() || (
+            (this.sprite.body.touching.left || this.sprite.body.touching.right) &&
+            !(this.sprite.body.wasTouching.left || this.sprite.body.wasTouching.right)) ) {
+            this.flipDirection();
+        }
     }
 }
 

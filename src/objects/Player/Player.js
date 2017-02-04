@@ -1,26 +1,35 @@
+import isInDebugMode from '../Debug';
 import { HUD } from './HUD.js'
+import { DebugGraphicsObjectSquare } from '../DebugGraphicsObjects.js';
 
 export class Player {
-    constructor(game, x, y) {
+    constructor(game, x, y, worldX = x, worldY = y) {
         this.sprite = game.add.sprite(x, y, 'player_brown');
+        this.worldX = worldX;
+        this.worldY = worldY;
+        // TODO: DELETE
+        //this.worldXText = game.add.text(470, 16, `WX: ${this.worldX}`, {fontSize: '20px'});
+        //this.worldYText = game.add.text(470, 40, `WY: ${this.worldY}`, {fontSize: '20px'});
 
         game.physics.arcade.enable(this.sprite);
         this.sprite.body.gravity.y = 900;
-        this.sprite.body.collideWorldBounds = true;
+        //this.sprite.body.collideWorldBounds = true;
         this.sprite.anchor.setTo(.5, .5);
-        this.sprite.scale.setTo(.4, .4);
+        this.sprite.height = 64;
+        this.sprite.width = 48;
+        this.sprite.body.setSize(this.sprite.body.width - 30, this.sprite.body.height - 70, 15, 70);
 
         this.hurtFrame = 5;
         this.jumpFrame = 4;
         this.sprite.animations.add('stand', [0, 1], 5, true);
-        this.sprite.animations.add('walk', [2, 3], 15, true);
+        this.sprite.animations.add('walk', [2, 3], 10, true);
 
         this.left = this.sprite.scale.x * -1;
         this.right = this.sprite.scale.x;
 
         this.health = 10;
         this.hurtTimer = 0;
-        this.maxHurtTimer = .8;
+        this.maxHurtTimer = .5;
         this.isHurt = false;
 
         this.coins = {
@@ -30,6 +39,18 @@ export class Player {
         };
 
         this.HUD = new HUD(game);
+
+        if (isInDebugMode()) {
+            this.debugGraphics = new DebugGraphicsObjectSquare(game);
+        }
+    }
+
+    isMoving() {
+        return this.sprite.body.velocity.x !== 0;
+    }
+
+    getDeltaMovement() {
+        return this.sprite.body.deltaX();
     }
 
     update(cursors, contacts, delta) {
@@ -47,13 +68,24 @@ export class Player {
             this.handleInput(cursors, contacts);
         }
         this.HUD.updateHealth(this.health);
+
+        if (this.debugGraphics) {
+            this.debugGraphics.render(this.sprite.body);
+        }
+
+        this.worldX += this.sprite.body.deltaX();
+        this.worldY += this.sprite.body.deltaY();
+
+        // TODO: DELETE
+        //this.worldXText.text = `WX: ${this.worldX}`;
+        //this.worldYText.text = `WY: ${this.worldY}`;
     }
 
-// player, enemy
+    // player, enemy
     hurtPlayer(first, second) {
         let direction = first.x - second.x; // negative is left
+        this.sprite.body.velocity.x = 150 * (direction / Math.abs(direction));
 
-        this.sprite.body.velocity.x = direction;
         this.sprite.body.velocity.y = -150;
         this.sprite.body.bounce.y = 0.2;
         this.hurtTimer = this.maxHurtTimer;
@@ -98,7 +130,7 @@ export class Player {
 
         //  Allow the player to jump if they are touching the ground.
         if (cursors.up.isDown && this.sprite.body.touching.down && contacts) {
-            this.sprite.body.velocity.y = -400;
+            this.sprite.body.velocity.y = -450;
             this.sprite.animations.stop();
             this.sprite.frame = this.jumpFrame;
             this.jumping = true;

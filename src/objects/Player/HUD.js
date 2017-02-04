@@ -2,12 +2,14 @@ export class HUD {
     constructor(game) {
         this.fontOptions = {
             fontSize: '30px',
-            fill: '#29ad60',
             font: 'Bubblegum',
-            stroke: '#1b8246',
             strokeThickness: 5
         };
-        this.healthText = game.add.text(16, 16, '', this.fontOptions);
+        this.goodHealth = {fill: '#29ad60', stroke: '#1b8246'};
+        this.badHealth = {fill: '#ffad49', stroke: '#ea8509'};
+        this.crititcalHealth = {fill: '#ff5656', stroke: '#d30a0a'};
+
+        this.healthText = game.add.text(16, 16, '', Object.assign(this.fontOptions, this.goodHealth));
 
         this.coinFontOptions = {fontSize: '24px', font: 'Bubblegum', strokeThickness: 5};
 
@@ -32,6 +34,19 @@ export class HUD {
 
     updateHealth(health) {
         this.healthText.text = `Health: ${health}`;
+
+        if (health > 5) {
+            this.healthText.stroke = this.goodHealth.stroke;
+            this.healthText.fill = this.goodHealth.fill;
+        }
+        else if (health <= 5 && health > 2) {
+            this.healthText.stroke = this.badHealth.stroke;
+            this.healthText.fill = this.badHealth.fill;
+        }
+        else if (health <= 2) {
+            this.healthText.stroke = this.crititcalHealth.stroke;
+            this.healthText.fill = this.crititcalHealth.fill;
+        }
     }
 
     updateCoinAmount(type, amount) {

@@ -1,14 +1,27 @@
 export class Platform {
-    constructor(game, x, y, type, subType, owningGroup = null, hovers = false) {
+    constructor(game, type, subType, x, y, worldX = x, worldY = y, owningGroup = null) {
+        this.worldX = worldX;
+        this.worldY = worldY;
+
+        this.type = type;
+        this.subType = subType;
+
         if (!owningGroup) {
-            this.sprite = game.add.sprite(x, y, subType + type.toLowerCase());
+            this.sprite = game.add.sprite(x, y, subType + type);
         }
         else {
-            this.sprite = owningGroup.create(x, y, subType + type.toLowerCase());
+            this.sprite = owningGroup.create(x, y, subType + type);
         }
-        this.sprite.scale.setTo(.4, .4);
+        //this.sprite.scale.setTo(.4, .4);
+        if (subType === PlatformSubtypes.NORMAL || subType === PlatformSubtypes.BROKEN) {
+            this.sprite.height = 32;
+            this.sprite.width = 128;
+        }
+        if (subType === PlatformSubtypes.SMALL || subType === PlatformSubtypes.SMALL_BROKEN) {
+            this.sprite.height = 32;
+            this.sprite.width = 64;
+        }
         this.sprite.body.immovable = true;
-        this.hovers = hovers;
     }
 
     update() {
@@ -16,6 +29,15 @@ export class Platform {
 }
 
 export const PlatformTypes = {
+    CAKE: 'cake',
+    GRASS: 'grass',
+    SAND: 'sand',
+    SNOW: 'snow',
+    STONE: 'stone',
+    WOOD: 'wood'
+};
+
+export const PlatformSubtypes = {
     NORMAL: 'g_',
     BROKEN: 'gb_',
     SMALL: 'gs_',

@@ -1,5 +1,7 @@
 export default class Item {
-    constructor() {
+    constructor(worldX, worldY) {
+        this.worldX = worldX;
+        this.worldY = worldY;
     }
 
     update() {
