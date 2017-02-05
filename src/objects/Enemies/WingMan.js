@@ -11,7 +11,6 @@ export default class WingMan extends Enemy {
 
         this.sprite.height = 48;
         this.sprite.width = 64;
-        this.sprite.scale.x *= -1;
         this.sprite.body.setSize(this.sprite.body.width - 100, this.sprite.body.height - 20, 50, 20);
 
         this.standFrame = 0;

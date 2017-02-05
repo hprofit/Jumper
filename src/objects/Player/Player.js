@@ -132,7 +132,6 @@ export default class Player {
         }
         else if (!this.jumping) {
             //  Stand still
-            // this.sprite.animations.stop();
             this.sprite.animations.play('stand');
         }
 
