@@ -2,7 +2,12 @@ import isInDebugMode from '../Debug';
 import HUD from './HUD.js'
 import { DebugGraphicsObjectSquare } from '../DebugGraphicsObjects.js';
 
-export class Player {
+export function loadPlayerImage(game) {
+    game.load.spritesheet('player_purple', 'assets/Player/player_purple.png', 150, 207);
+    game.load.spritesheet('player_brown', 'assets/Player/player_brown.png', 150, 207);
+}
+
+export default class Player {
     constructor(game, x, y, worldX = x, worldY = y) {
         this.sprite = game.add.sprite(x, y, 'player_brown');
         this.worldX = worldX;
@@ -133,7 +138,7 @@ export class Player {
 
         //  Allow the player to jump if they are touching the ground.
         if (cursors.up.isDown && this.sprite.body.touching.down && contacts) {
-            this.sprite.body.velocity.y = -450;
+            this.sprite.body.velocity.y = -500;
             this.sprite.animations.stop();
             this.sprite.frame = this.jumpFrame;
             this.jumping = true;
@@ -153,9 +158,4 @@ export class Player {
             console.log("Dead");
         }
     }
-}
-
-export function loadPlayerImage(game) {
-    game.load.spritesheet('player_purple', 'assets/Player/player_purple.png', 150, 207);
-    game.load.spritesheet('player_brown', 'assets/Player/player_brown.png', 150, 207);
 }

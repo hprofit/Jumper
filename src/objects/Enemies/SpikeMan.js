@@ -1,6 +1,10 @@
 import Enemy from './Enemy.js';
 
-export class SpikeMan extends Enemy {
+export function loadSpikeManImage(game) {
+    game.load.spritesheet('spikeMan', 'assets/Enemies/spikeMan.png', 120, 159); // 480 x 159
+}
+
+export default class SpikeMan extends Enemy {
     constructor(game, x, y, worldX = x, worldY = y) {
         super(game, x, y, worldX, worldY, 'spikeMan');
 
@@ -26,7 +30,7 @@ export class SpikeMan extends Enemy {
         this.sprite.scale.x *= -1;
     }
 
-    update(enemiesThatHitPlatforms) {
+    update() {
         super.update();
         this.sprite.animations.play('walking');
 
@@ -36,8 +40,4 @@ export class SpikeMan extends Enemy {
             this.flipDirection();
         }
     }
-}
-
-export function loadSpikeManImage(game) {
-    game.load.spritesheet('spikeMan', 'assets/Enemies/spikeMan.png', 120, 159); // 480 x 159
 }

@@ -2,7 +2,13 @@ import isInDebugMode from '../Debug';
 import { DebugGraphicsObjectCircle } from '../DebugGraphicsObjects.js';
 import Item from './Item.js';
 
-export class Coin extends Item {
+export function loadCoinImages(game) {
+    game.load.spritesheet('bronze', 'assets/Items/bronze.png', 84, 84);
+    game.load.spritesheet('silver', 'assets/Items/silver.png', 84, 84);
+    game.load.spritesheet('gold', 'assets/Items/gold.png', 84, 84);
+}
+
+export default class Coin extends Item {
     constructor(game, type, x, y, worldX = x, worldY = y) {
         super(worldX, worldY);
         this.type = type.toLowerCase();
@@ -33,10 +39,4 @@ export class Coin extends Item {
         player.addCoin(this.type);
         this.sprite.kill();
     }
-}
-
-export function loadCoinImages(game) {
-    game.load.spritesheet('bronze', 'assets/Items/bronze.png', 84, 84);
-    game.load.spritesheet('silver', 'assets/Items/silver.png', 84, 84);
-    game.load.spritesheet('gold', 'assets/Items/gold.png', 84, 84);
 }

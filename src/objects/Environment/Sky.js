@@ -1,4 +1,11 @@
-export class Sky {
+export function loadSkyImages(game) {
+    game.load.image('bg_1', 'assets/Background/bg_layer1.png');
+    game.load.image('bg_2', 'assets/Background/bg_layer2.png');
+    game.load.image('bg_3', 'assets/Background/bg_layer3.png');
+    game.load.image('bg_4', 'assets/Background/bg_layer4.png');
+}
+
+export default class Sky {
     constructor(game) {
         this['bg_1'] = game.add.sprite(0, 0, 'bg_1');
         this['bg_2'] = game.add.tileSprite(0, 0, game.world.width, game.world.height, 'bg_2');
@@ -29,11 +36,4 @@ export class Sky {
         this['bg_3'].tilePosition.x += this.bg3_rate * this.directions[direction];
         this['bg_4'].tilePosition.x += this.bg4_rate * this.directions[direction];
     }
-}
-
-export function loadSkyImages(game) {
-    game.load.image('bg_1', 'assets/Background/bg_layer1.png');
-    game.load.image('bg_2', 'assets/Background/bg_layer2.png');
-    game.load.image('bg_3', 'assets/Background/bg_layer3.png');
-    game.load.image('bg_4', 'assets/Background/bg_layer4.png');
 }

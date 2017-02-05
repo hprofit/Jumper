@@ -1,10 +1,11 @@
 import preloadImages from './ImagePreloader.js';
 import PhysicsService from './PhysicsService.js';
-import { SpikeMan } from '../objects/Enemies/SpikeMan.js';
-import { Sky } from '../objects/Environment/Sky.js';
-import { Coin } from '../objects/Items/Coin.js';
+import SpikeMan from '../objects/Enemies/SpikeMan.js';
+import WingMan from '../objects/Enemies/WingMan.js';
+import Sky from '../objects/Environment/Sky.js';
+import Coin from '../objects/Items/Coin.js';
 import { Platform, PlatformTypes, PlatformSubtypes } from '../objects/Environment/Platform.js';
-import { Player } from '../objects/Player/Player.js';
+import Player from '../objects/Player/Player.js';
 import MathExtensions from '../MathExtensions';
 
 export default class GameState extends Phaser.State {
@@ -39,15 +40,17 @@ export default class GameState extends Phaser.State {
             new Platform(this.game, PlatformTypes.GRASS, PlatformSubtypes.SMALL, -32, y, -32, y, this.group_platforms);
         }
 
-        let max = 20;
-        for (let idx = 0; idx < max; idx++) {
-            let tmp = MathExtensions.plotOnBell((idx) / max) * -100;
-            this.items.push(new Coin(this.game, 'bronze', 200 + idx * 35, 200 + tmp));
-            this.items.push(new Coin(this.game, 'silver', 200 + idx * 35, 150 + tmp));
-            this.items.push(new Coin(this.game, 'gold', 200 + idx * 35, 100 + tmp));
-        }
+        // let max = 20;
+        // for (let idx = 0; idx < max; idx++) {
+        //     let tmp = MathExtensions.plotOnBell(idx / max) * -100;
+        //     this.items.push(new Coin(this.game, 'bronze', 300 + idx * 35, 200 + tmp));
+        //     this.items.push(new Coin(this.game, 'silver', 300 + idx * 35, 150 + tmp));
+        //     this.items.push(new Coin(this.game, 'gold', 300 + idx * 35, 100 + tmp));
+        // }
 
-        this.enemies.push(new SpikeMan(this.game, 1000, 100));
+        // this.enemies.push(new SpikeMan(this.game, 1000, 100));
+        // this.enemies.push(new WingMan(this.game, 600, 480));
+        this.enemies.push(new WingMan(this.game, 700, 480, 700, 480, true));
 
         this.player = new Player(this.game, this.game.scale.width / 2, this.game.world.height - 300);
     }
@@ -79,10 +82,9 @@ export default class GameState extends Phaser.State {
     update() {
         let deltaTime = this.getDeltaTime();
 
-
         let enemiesThatHitPlatforms = this.PhysicsService.collideArrayAndGroup(this.game, this.enemies, this.group_platforms);
         for (let enemy of this.enemies) {
-            enemy.update(enemiesThatHitPlatforms);
+            enemy.update(deltaTime);
         }
         for (let item of this.items) {
             item.update();
