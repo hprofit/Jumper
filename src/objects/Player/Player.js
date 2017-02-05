@@ -1,5 +1,5 @@
 import isInDebugMode from '../Debug';
-import { HUD } from './HUD.js'
+import HUD from './HUD.js'
 import { DebugGraphicsObjectSquare } from '../DebugGraphicsObjects.js';
 
 export class Player {
@@ -39,6 +39,8 @@ export class Player {
         };
 
         this.HUD = new HUD(game);
+        this.HUD.updateHealth(this.health);
+        this.HUD.updateLife(3);
 
         if (isInDebugMode()) {
             this.debugGraphics = new DebugGraphicsObjectSquare(game);
@@ -67,7 +69,6 @@ export class Player {
         if (!this.isHurt) {
             this.handleInput(cursors, contacts);
         }
-        this.HUD.updateHealth(this.health);
 
         if (this.debugGraphics) {
             this.debugGraphics.render(this.sprite.body);
@@ -93,6 +94,8 @@ export class Player {
 
         this.sprite.animations.stop();
         this.sprite.frame = this.hurtFrame;
+
+        this.HUD.updateHealth(this.health);
     }
 
     canBeHurt() {

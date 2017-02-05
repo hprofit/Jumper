@@ -1,5 +1,13 @@
-export class HUD {
-    constructor(game) {
+export function loadHUDImages(game) {
+    game.load.image('coin_bronze', 'assets/HUD/coin_bronze.png', 61, 61);
+    game.load.image('coin_silver', 'assets/HUD/coin_silver.png', 61, 61);
+    game.load.image('coin_gold', 'assets/HUD/coin_gold.png', 61, 61);
+
+    game.load.image('life_icon', 'assets/HUD/lifes.png', 52, 71);
+}
+
+export default class HUD {
+    constructor(game, playerType = 'brown') {
         this.fontOptions = {
             fontSize: '30px',
             font: 'Bubblegum',
@@ -10,6 +18,7 @@ export class HUD {
         this.crititcalHealth = {fill: '#ff5656', stroke: '#d30a0a'};
 
         this.healthText = game.add.text(16, 16, '', Object.assign(this.fontOptions, this.goodHealth));
+
 
         this.coinFontOptions = {fontSize: '24px', font: 'Bubblegum', strokeThickness: 5};
 
@@ -30,10 +39,25 @@ export class HUD {
 
         this.goldCoin = game.add.sprite(16, 102, 'coin_gold');
         this.goldCoin.scale.setTo(.4, .4);
+
+
+        this.lifeFontOptions = {fontSize: '30px', font: 'Bubblegum', strokeThickness: 8};
+        this.lifeText = game.add.text(728, 16, '', Object.assign({fill: '#B67B3F', stroke: '#87592A'}, this.lifeFontOptions));
+
+        this.lifeIcon = game.add.sprite(700, 16, 'life_icon');
+        this.lifeIcon.scale.setTo(.5, .5);
+    }
+
+    updateLife(lives) {
+        this.lifeText.text = `x${lives}`;
     }
 
     updateHealth(health) {
-        this.healthText.text = `Health: ${health}`;
+        let healthBars = '';
+        for (let idx = 0; idx < health; idx++) {
+            healthBars += '|';
+        }
+        this.healthText.text = `Health: ${healthBars}`;
 
         if (health > 5) {
             this.healthText.stroke = this.goodHealth.stroke;
@@ -52,10 +76,4 @@ export class HUD {
     updateCoinAmount(type, amount) {
         this[`${type}CoinText`].text = `x${amount}`;
     }
-}
-
-export function loadHUDImages(game) {
-    game.load.image('coin_bronze', 'assets/HUD/coin_bronze.png', 61, 61);
-    game.load.image('coin_silver', 'assets/HUD/coin_silver.png', 61, 61);
-    game.load.image('coin_gold', 'assets/HUD/coin_gold.png', 61, 61);
 }
