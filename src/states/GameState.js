@@ -5,6 +5,8 @@ import SpikeMan from '../objects/Enemies/SpikeMan.js';
 import WingMan from '../objects/Enemies/WingMan.js';
 import FlyMan from '../objects/Enemies/FlyMan.js';
 import SpikeBall from '../objects/Enemies/SpikeBall';
+import SpringMan from '../objects/Enemies/SpringMan';
+import Sun from '../objects/Enemies/Sun';
 
 import Sky from '../objects/Environment/Sky.js';
 import Coin from '../objects/Items/Coin.js';
@@ -52,11 +54,13 @@ export default class GameState extends Phaser.State {
         //     this.items.push(new Coin(this.game, 'gold', 300 + idx * 35, 100 + tmp));
         // }
 
-        // this.enemies.push(new SpikeMan(this.game, 1000, 100));
-        // this.enemies.push(new WingMan(this.game, 600, 480));
-        //this.enemies.push(new WingMan(this.game, 700, 300, 700, 300, true, 100));
-        //this.enemies.push(new FlyMan(this.game, 100, this.game.world.height - 150));
-        this.enemies.push(new SpikeBall(this.game, 100, this.game.world.height - 100));
+         this.enemies.push(new SpikeMan(this.game, 1000, 100));
+         this.enemies.push(new WingMan(this.game, 600, 480));
+        this.enemies.push(new WingMan(this.game, 700, 300, 700, 300, true, 100));
+        this.enemies.push(new FlyMan(this.game, 100, this.game.world.height - 150));
+        this.enemies.push(new SpikeBall(this.game, 200, this.game.world.height - 100));
+        this.enemies.push(new SpringMan(this.game, 600, this.game.world.height - 150));
+        this.enemies.push(new Sun(this.game, 600, this.game.world.height - 400));
 
         this.player = new Player(this.game, this.game.scale.width / 2, this.game.world.height - 300);
     }

@@ -9,6 +9,10 @@ class MathExtensionsClass {
       let pow = -(Math.pow(x - mean, 2) / (2 * Math.pow(stdD, 2)));
       return Math.pow(denominator, pow);
     }
+
+    random (min, max) {
+        return Math.random() * (max - min) + min;
+    }
 }
 
 const MathExtensions = new MathExtensionsClass();
