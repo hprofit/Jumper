@@ -20,16 +20,10 @@ export default class WingMan extends Enemy {
         this.sprite.animations.play('flying');
 
         this.touchDamage = 1;
-        this.speedY = .25;
         this.speedX = stationary ? 0 : 100;
         this.directionX = -1;
-        this.directionY = 1;
         this.sprite.body.velocity.x = this.directionX * this.speedX;
         this.sprite.body.gravity.y = 0;
-
-        this.maxYChange = maxYSwing * 2;
-        this.startY = y;
-        this.curMove = .25;
 
         this.easeInOutComponent = new EaseInOutComponent(y, maxYSwing * 2, .25)
     }
@@ -49,14 +43,6 @@ export default class WingMan extends Enemy {
      */
     update(deltaTime) {
         super.update();
-        //this.curMove += (deltaTime * this.directionY * this.speedY) * MathExtensions.plotOnBell(this.curMove);
-        //if (this.curMove >= .75 || this.curMove <= .25) {
-        //    this.directionY *= -1;
-        //    this.curMove = this.curMove >= .75 ? .75 : .25;
-        //}
-        //
-        //let currentPos = ((this.curMove - .25) * 2) * this.maxYChange;
-        //this.sprite.body.y = this.startY - currentPos;
 
         this.easeInOutComponent.update(deltaTime);
         this.sprite.body.y = this.easeInOutComponent.getCurrentPos();

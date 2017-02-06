@@ -42,8 +42,6 @@ export default class EaseInOutComponent {
     }
 
     getCurrentPos() {
-        //let currentPos = ((this.curMove - this.clipMin) * 2) * this.max;
-        //this.sprite.body.y = this.start - currentPos;
         let currentPos = this._getValueInClipRange(this._curMove) * this._max;
         return this._start - currentPos;
     }
