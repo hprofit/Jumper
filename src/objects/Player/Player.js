@@ -9,7 +9,8 @@ export function loadPlayerImage(game) {
 
 export default class Player {
     constructor(game, x, y, worldX = x, worldY = y) {
-        this.sprite = game.add.sprite(x, y, 'player_brown');
+        //this.sprite = game.add.sprite(x, y, 'player_brown');
+        this.sprite = game.add.sprite(x, y, 'player_purple');
         this.worldX = worldX;
         this.worldY = worldY;
         // TODO: DELETE

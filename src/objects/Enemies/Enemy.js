@@ -11,7 +11,7 @@ export default class Enemy {
         // Default physics options for Enemy
         game.physics.arcade.enable(this.sprite);
 
-        this.sprite.body.gravity.y = 300;
+        this.sprite.body.gravity.y = 900;
         //this.sprite.body.collideWorldBounds = true;
         this.sprite.anchor.setTo(.5, .5);
 

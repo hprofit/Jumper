@@ -2,6 +2,7 @@ import preloadImages from './ImagePreloader.js';
 import PhysicsService from './PhysicsService.js';
 import SpikeMan from '../objects/Enemies/SpikeMan.js';
 import WingMan from '../objects/Enemies/WingMan.js';
+import FlyMan from '../objects/Enemies/FlyMan.js';
 import Sky from '../objects/Environment/Sky.js';
 import Coin from '../objects/Items/Coin.js';
 import { Platform, PlatformTypes, PlatformSubtypes } from '../objects/Environment/Platform.js';
@@ -50,7 +51,8 @@ export default class GameState extends Phaser.State {
 
         // this.enemies.push(new SpikeMan(this.game, 1000, 100));
         // this.enemies.push(new WingMan(this.game, 600, 480));
-        this.enemies.push(new WingMan(this.game, 700, 480, 700, 480, true));
+        this.enemies.push(new WingMan(this.game, 700, 300, 700, 300, true, 100));
+        this.enemies.push(new FlyMan(this.game, 100, this.game.world.height - 150));
 
         this.player = new Player(this.game, this.game.scale.width / 2, this.game.world.height - 300);
     }
@@ -84,7 +86,7 @@ export default class GameState extends Phaser.State {
 
         let enemiesThatHitPlatforms = this.PhysicsService.collideArrayAndGroup(this.game, this.enemies, this.group_platforms);
         for (let enemy of this.enemies) {
-            enemy.update(deltaTime);
+            enemy.update(deltaTime, enemiesThatHitPlatforms);
         }
         for (let item of this.items) {
             item.update();

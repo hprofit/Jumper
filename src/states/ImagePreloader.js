@@ -2,6 +2,7 @@ import { loadHUDImages } from '../objects/Player/HUD.js';
 import { loadPlayerImage } from '../objects/Player/Player.js';
 import { loadSpikeManImage } from '../objects/Enemies/SpikeMan.js';
 import { loadWingManImage } from '../objects/Enemies/WingMan.js';
+import { loadFlyManImage } from '../objects/Enemies/FlyMan.js';
 import { loadSkyImages } from '../objects/Environment/Sky.js';
 import { loadCoinImages } from '../objects/Items/Coin.js';
 import { loadAllPlatformImages, loadCakePlatformImages,
@@ -11,6 +12,7 @@ import { loadAllPlatformImages, loadCakePlatformImages,
 export default function preloadImages(game) {
     loadSpikeManImage(game);
     loadWingManImage(game);
+    loadFlyManImage(game);
     loadSkyImages(game);
     loadCoinImages(game);
     loadHUDImages(game);
