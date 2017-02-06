@@ -2,7 +2,7 @@ import { turnDebugModeOn, turnDebugModeOff } from './objects/Debug.js';
 import GameState from './states/GameState';
 
 turnDebugModeOff();
-// turnDebugModeOn();
+ //turnDebugModeOn();
 
 class Game extends Phaser.Game {
     constructor() {

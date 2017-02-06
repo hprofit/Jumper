@@ -1,5 +1,4 @@
 import Enemy from './Enemy.js';
-import MathExtensions from '../../MathExtensions';
 import EaseInOutComponent from '../EaseInOutComponent';
 
 export function loadWingManImage(game) {
@@ -33,14 +32,6 @@ export default class WingMan extends Enemy {
         this.sprite.body.velocity.x = this.directionX * this.speedX;
     }
 
-    /**
-     * Using the bell curve Y coord from curMove, increments curMove by Y * deltaTime * speedY in the direction of travel
-     * (positive for down, negative for up)
-     * curMove is capped at .25 and .75 respectively to avoid the ~0 values at the edges of the bell curve
-     * curMove is then made into a decimal of 0-1 and multiplied by the maxYChange to find the currentPos
-     * this currentPos is then subtracted from startY to find the final position on the screen
-     * @param deltaTime
-     */
     update(deltaTime) {
         super.update();
 
