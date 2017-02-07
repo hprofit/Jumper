@@ -9,8 +9,8 @@ export function loadCoinImages(game) {
 }
 
 export default class Coin extends Item {
-    constructor(game, type, x, y, worldX = x, worldY = y) {
-        super(worldX, worldY);
+    constructor(game, type, x, y) {
+        super();
         this.type = type.toLowerCase();
         this.sprite = game.add.sprite(x, y, this.type);
 

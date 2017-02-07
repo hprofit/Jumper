@@ -10,7 +10,8 @@ export class Platform {
         else {
             this.sprite = owningGroup.create(x, y, subType + type);
         }
-        //this.sprite.scale.setTo(.4, .4);
+        game.physics.arcade.enable(this.sprite);
+
         if (subType === PlatformSubtypes.NORMAL || subType === PlatformSubtypes.BROKEN) {
             this.sprite.height = 32;
             this.sprite.width = 128;

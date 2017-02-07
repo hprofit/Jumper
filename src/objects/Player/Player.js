@@ -8,14 +8,9 @@ export function loadPlayerImage(game) {
 }
 
 export default class Player {
-    constructor(game, x, y, worldX = x, worldY = y) {
+    constructor(game, x, y) {
         //this.sprite = game.add.sprite(x, y, 'player_brown');
         this.sprite = game.add.sprite(x, y, 'player_purple');
-        this.worldX = worldX;
-        this.worldY = worldY;
-        // TODO: DELETE
-        //this.worldXText = game.add.text(470, 16, `WX: ${this.worldX}`, {fontSize: '20px'});
-        //this.worldYText = game.add.text(470, 40, `WY: ${this.worldY}`, {fontSize: '20px'});
 
         game.physics.arcade.enable(this.sprite);
         this.sprite.body.gravity.y = 900;
@@ -34,8 +29,10 @@ export default class Player {
         this.right = this.sprite.scale.x;
 
         this.health = 10;
-        this.hurtTimer = 0;
         this.maxHurtTimer = .5;
+        this.invincibleTimer = 1;
+        this.hurtTimer = 0;
+        this.moveEnabled = true;
         this.isHurt = false;
 
         this.coins = {
@@ -61,31 +58,67 @@ export default class Player {
         return this.sprite.body.deltaX();
     }
 
+    /**
+     * If the player is hurt and the hurtTimer has not yet reached invincibleTimer,
+     * increment hurtTimer
+     *
+     * If hurtTimer reaches invincibleTimer, player is no longer hurt
+     * else if hurtTimer has not reached maxHurtTimer, player is still hurt and cannot move yet
+     * else if hurtTimer reaches maxHurtTimer, player can move and the hurt animation should stop
+     *
+     * Finally, if we have reached this far, handleInput
+     * @param cursors
+     * @param contacts
+     * @param delta
+     */
     update(cursors, contacts, delta) {
-        if (this.hurtTimer > 0) {
-            this.hurtTimer -= delta;
-        }
-        if (this.hurtTimer <= 0 && contacts && this.isHurt) {
-            this.sprite.body.velocity.x = 0;
-            this.sprite.body.velocity.y = 0;
-            this.sprite.body.bounce.y = 0;
-            this.isHurt = false;
-        }
-
-        if (!this.isHurt) {
-            this.handleInput(cursors, contacts);
-        }
-
         if (this.debugGraphics) {
             this.debugGraphics.render(this.sprite.body);
         }
 
-        this.worldX += this.sprite.body.deltaX();
-        this.worldY += this.sprite.body.deltaY();
+        if (this.isHurt && this.hurtTimer < this.invincibleTimer) {
+            this.hurtTimer += delta;
 
-        // TODO: DELETE
-        //this.worldXText.text = `WX: ${this.worldX}`;
-        //this.worldYText.text = `WY: ${this.worldY}`;
+            if (this.hurtTimer >= this.invincibleTimer) {
+                this.isHurt = false;
+            }
+            else if (this.hurtTimer < this.maxHurtTimer) {
+                return;
+            }
+            else if (!this.moveEnabled) {
+                this.moveEnabled = true;
+                this.sprite.body.velocity.x = 0;
+                this.sprite.body.bounce.y = 0;
+            }
+        }
+        this.handleInput(cursors, contacts);
+    }
+
+    _updateHealth(changeInHealth) {
+        this.health += changeInHealth;
+        if (this.health <= 0) {
+            this.health = 0;
+            console.log("Dead");
+        }
+        this.health = this.health > 10 ? 10 : this.health;
+        this.HUD.updateHealth(this.health);
+    }
+
+    _hurtPlayer(damage) {
+        this.hurtTimer = 0;
+        this.isHurt = true;
+        this.moveEnabled = false;
+
+        this.sprite.animations.stop();
+        this.sprite.frame = this.hurtFrame;
+
+        this._updateHealth(-damage);
+    }
+
+    hazardHurtPlayer(damage) {
+        this.sprite.body.velocity.y = -250;
+        this.sprite.body.bounce.y = 0.3;
+        this._hurtPlayer(damage);
     }
 
     touchHurtPlayer(enemy) {
@@ -95,23 +128,12 @@ export default class Player {
 
             this.sprite.body.velocity.y = -150;
             this.sprite.body.bounce.y = 0.2;
-            this.hurtTimer = this.maxHurtTimer;
-            this.isHurt = true;
-
-            this.sprite.animations.stop();
-            this.sprite.frame = this.hurtFrame;
-
-            this.health -= enemy.touchDamage;
-            if (this.health <= 0) {
-                this.health = 0;
-                console.log("Dead");
-            }
-            this.HUD.updateHealth(this.health);
+            this._hurtPlayer(enemy.touchDamage);
         }
     }
 
     canBeHurt() {
-        return this.hurtTimer <= 0;
+        return !this.isHurt;
     }
 
     handleInput(cursors, contacts) {

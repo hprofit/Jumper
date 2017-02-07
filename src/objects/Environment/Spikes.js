@@ -8,7 +8,7 @@ export class Spikes {
         else {
             this.sprite = owningGroup.create(x, y, type);
         }
-
+        game.physics.arcade.enable(this.sprite);
         this.sprite.height = 48;
         this[`_${type}Size`]();
         this.sprite.body.immovable = true;

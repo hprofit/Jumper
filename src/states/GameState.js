@@ -114,13 +114,14 @@ export default class GameState extends Phaser.State {
         }
 
         let hitPlatforms = this.PhysicsService.collideGroups(this.game, this.player.sprite, this.group_platforms);
+        let hitHazards = this.PhysicsService.collideGroups(this.game, this.player.sprite, this.group_hazards);
 
-        //let hitEnemies = this.PhysicsService.overlapArrayAndEntity(this.game, this.enemies, this.player, this.player.hurtPlayer, this.player.canBeHurt, this.player);
-        let hitEnemies = this.PhysicsService.overlapArrayAndEntity(this.game, this.enemies, this.player, null, this.player.canBeHurt, this.player);
-        //for (let enemy of hitEnemies) {
-        //    this.player.doDamage(enemy.touchDamage);
-        //}
+        if (hitHazards && this.player.canBeHurt()) {
+            this.player.hazardHurtPlayer(2)
+        }
+
         // Only take damage from the first enemy
+        let hitEnemies = this.PhysicsService.overlapArrayAndEntity(this.game, this.enemies, this.player, null, this.player.canBeHurt, this.player);
         if (hitEnemies[0]) {
             this.player.touchHurtPlayer(hitEnemies[0]);
         }
