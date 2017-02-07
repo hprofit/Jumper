@@ -1,19 +1,22 @@
-import preloadImages from './ImagePreloader.js';
-import PhysicsService from './PhysicsService.js';
+import preloadImages from './ImagePreloader';
+import PhysicsService from './PhysicsService';
 
-import SpikeMan from '../objects/Enemies/SpikeMan.js';
-import WingMan from '../objects/Enemies/WingMan.js';
-import FlyMan from '../objects/Enemies/FlyMan.js';
+import SpikeMan from '../objects/Enemies/SpikeMan';
+import WingMan from '../objects/Enemies/WingMan';
+import FlyMan from '../objects/Enemies/FlyMan';
 import SpikeBall from '../objects/Enemies/SpikeBall';
 import SpringMan from '../objects/Enemies/SpringMan';
 import Sun from '../objects/Enemies/Sun';
 import Cloud from '../objects/Enemies/Cloud';
 
 import { Spikes, SpikeTypes } from '../objects/Environment/Spikes';
-import Sky from '../objects/Environment/Sky.js';
-import Coin from '../objects/Items/Coin.js';
-import { Platform, PlatformTypes, PlatformSubtypes } from '../objects/Environment/Platform.js';
-import Player from '../objects/Player/Player.js';
+import Sky from '../objects/Environment/Sky';
+
+import Coin from '../objects/Items/Coin';
+import { Portal, PortalTypes } from '../objects/Items/Portal';
+
+import { Platform, PlatformTypes, PlatformSubtypes } from '../objects/Environment/Platform';
+import Player from '../objects/Player/Player';
 import MathExtensions from '../MathExtensions';
 
 export default class GameState extends Phaser.State {
@@ -57,13 +60,23 @@ export default class GameState extends Phaser.State {
         new Spikes(this.game, SpikeTypes.SPIKES_UP, 200, this.game.world.height - 80, this.group_hazards);
         new Spikes(this.game, SpikeTypes.SPIKES_DOWN, 300, 32, this.group_hazards);
 
-        // let max = 20;
-        // for (let idx = 0; idx < max; idx++) {
-        //     let tmp = MathExtensions.plotOnBell(idx / max) * -100;
-        //     this.items.push(new Coin(this.game, 'bronze', 300 + idx * 35, 200 + tmp));
-        //     this.items.push(new Coin(this.game, 'silver', 300 + idx * 35, 150 + tmp));
-        //     this.items.push(new Coin(this.game, 'gold', 300 + idx * 35, 100 + tmp));
-        // }
+         let max = 20;
+         for (let idx = 0; idx < max; idx++) {
+             let tmp = MathExtensions.plotOnBell(idx / max) * -100;
+             this.items.push(new Coin(this.game, 'bronze', 300 + idx * 35, 200 + tmp));
+             this.items.push(new Coin(this.game, 'silver', 300 + idx * 35, 250 + tmp));
+             this.items.push(new Coin(this.game, 'gold', 300 + idx * 35, 300 + tmp));
+             this.items.push(new Coin(this.game, 'silver', 300 + idx * 35, 350 + tmp));
+             this.items.push(new Coin(this.game, 'bronze', 300 + idx * 35, 400 + tmp));
+         }
+
+        // TODO: EXPERIMENTAL
+        //let p1 = new Portal(this.game, PortalTypes.ORANGE, 600, this.game.world.height - 64);
+        //let p2 = new Portal(this.game, PortalTypes.ORANGE, 600, 32, false);
+        //p1.linkToPortal(p2);
+        //p2.linkToPortal(p1);
+        //this.items.push(p1);
+        //this.items.push(p2);
 
         //this.enemies.push(new SpikeMan(this.game, 1000, 100));
         //this.enemies.push(new WingMan(this.game, 600, 480));
@@ -72,9 +85,9 @@ export default class GameState extends Phaser.State {
         //this.enemies.push(new SpikeBall(this.game, 200, this.game.world.height - 100));
         //this.enemies.push(new SpringMan(this.game, 600, this.game.world.height - 150));
         //this.enemies.push(new Sun(this.game, 600, this.game.world.height - 400));
-        this.enemies.push(new Cloud(this.game, 600, this.game.world.height - 400));
+        //this.enemies.push(new Cloud(this.game, 600, this.game.world.height - 400));
 
-        this.player = new Player(this.game, this.game.scale.width / 2, this.game.world.height - 300);
+        this.player = new Player(this.game, this.game.scale.width / 2, this.game.world.height - 100);
     }
 
     getDeltaTime() {
@@ -93,7 +106,7 @@ export default class GameState extends Phaser.State {
                 enemy.sprite.x -= deltaMove;
             }
             for (let item of this.items) {
-                item.sprite.x -= deltaMove;
+                item.updateLocation({x: deltaMove, y: 0});
             }
             this.player.sprite.x -= deltaMove; // Cancel out player movement
         }
@@ -110,7 +123,7 @@ export default class GameState extends Phaser.State {
             enemy.update(deltaTime, enemiesThatHitPlatforms);
         }
         for (let item of this.items) {
-            item.update();
+            item.update(deltaTime);
         }
 
         let hitPlatforms = this.PhysicsService.collideGroups(this.game, this.player.sprite, this.group_platforms);
@@ -129,6 +142,12 @@ export default class GameState extends Phaser.State {
         let hitItems = this.PhysicsService.overlapArrayAndEntity(this.game, this.items, this.player);
         for (let item of hitItems) {
             item.touchItem(this.player);
+            // TODO: EXPERIMENTAL
+            //let delta = item.touchItem(this.player);
+            //if (delta) {
+            //    this.updateWorldMovement(true, delta);
+            //    this.player.sprite.x = this.game.world.width / 2;
+            //}
         }
 
         let cursors = this.game.input.keyboard.createCursorKeys();
