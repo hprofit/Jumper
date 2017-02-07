@@ -5,8 +5,8 @@ export function loadSpikeManImage(game) {
 }
 
 export default class SpikeMan extends Enemy {
-    constructor(game, x, y, worldX = x, worldY = y) {
-        super(game, x, y, worldX, worldY, 'spikeMan');
+    constructor(game, x, y) {
+        super(game, x, y, 'spikeMan');
 
         this.sprite.height = 64;
         this.sprite.width = 48;

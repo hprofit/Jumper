@@ -1,7 +1,5 @@
 export class Platform {
-    constructor(game, type, subType, x, y, worldX = x, worldY = y, owningGroup = null) {
-        this.worldX = worldX;
-        this.worldY = worldY;
+    constructor(game, type, subType, x, y, owningGroup = null) {
 
         this.type = type;
         this.subType = subType;

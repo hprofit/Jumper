@@ -7,7 +7,9 @@ import FlyMan from '../objects/Enemies/FlyMan.js';
 import SpikeBall from '../objects/Enemies/SpikeBall';
 import SpringMan from '../objects/Enemies/SpringMan';
 import Sun from '../objects/Enemies/Sun';
+import Cloud from '../objects/Enemies/Cloud';
 
+import { Spikes, SpikeTypes } from '../objects/Environment/Spikes';
 import Sky from '../objects/Environment/Sky.js';
 import Coin from '../objects/Items/Coin.js';
 import { Platform, PlatformTypes, PlatformSubtypes } from '../objects/Environment/Platform.js';
@@ -27,6 +29,7 @@ export default class GameState extends Phaser.State {
         this.group_platforms = null;
         this.items = [];
         this.enemies = [];
+        this.group_hazards = null;
         this.player = null;
 
         this.previousTime = 0;
@@ -39,12 +42,20 @@ export default class GameState extends Phaser.State {
         this.group_platforms.enableBody = true;
         for (let idx = 0; idx < 100; idx++) {
             let x = 128 * idx, y = 576;
-            new Platform(this.game, PlatformTypes.GRASS, PlatformSubtypes.NORMAL, x, y, x, y, this.group_platforms);
+            new Platform(this.game, PlatformTypes.GRASS, PlatformSubtypes.NORMAL, x, y, this.group_platforms);
+            new Platform(this.game, PlatformTypes.GRASS, PlatformSubtypes.NORMAL, x, 0, this.group_platforms);
         }
-        for (let idx = 0; idx < 18; idx++) {
+        for (let idx = 1; idx < 18; idx++) {
             let y = idx * 32;
-            new Platform(this.game, PlatformTypes.GRASS, PlatformSubtypes.SMALL, -32, y, -32, y, this.group_platforms);
+            new Platform(this.game, PlatformTypes.GRASS, PlatformSubtypes.SMALL, 0, y, this.group_platforms);
         }
+
+        this.group_hazards = this.game.add.group();
+        this.group_hazards.enableBody = true;
+        new Spikes(this.game, SpikeTypes.SPIKE_UP, 100, this.game.world.height - 80, this.group_hazards);
+        new Spikes(this.game, SpikeTypes.SPIKE_DOWN, 200, 32, this.group_hazards);
+        new Spikes(this.game, SpikeTypes.SPIKES_UP, 200, this.game.world.height - 80, this.group_hazards);
+        new Spikes(this.game, SpikeTypes.SPIKES_DOWN, 300, 32, this.group_hazards);
 
         // let max = 20;
         // for (let idx = 0; idx < max; idx++) {
@@ -54,13 +65,14 @@ export default class GameState extends Phaser.State {
         //     this.items.push(new Coin(this.game, 'gold', 300 + idx * 35, 100 + tmp));
         // }
 
-         this.enemies.push(new SpikeMan(this.game, 1000, 100));
-         this.enemies.push(new WingMan(this.game, 600, 480));
-        this.enemies.push(new WingMan(this.game, 700, 300, 700, 300, true, 100));
-        this.enemies.push(new FlyMan(this.game, 100, this.game.world.height - 150));
-        this.enemies.push(new SpikeBall(this.game, 200, this.game.world.height - 100));
-        this.enemies.push(new SpringMan(this.game, 600, this.game.world.height - 150));
-        this.enemies.push(new Sun(this.game, 600, this.game.world.height - 400));
+        //this.enemies.push(new SpikeMan(this.game, 1000, 100));
+        //this.enemies.push(new WingMan(this.game, 600, 480));
+        //this.enemies.push(new WingMan(this.game, 700, 300, true, 100));
+        //this.enemies.push(new FlyMan(this.game, 100, this.game.world.height - 150));
+        //this.enemies.push(new SpikeBall(this.game, 200, this.game.world.height - 100));
+        //this.enemies.push(new SpringMan(this.game, 600, this.game.world.height - 150));
+        //this.enemies.push(new Sun(this.game, 600, this.game.world.height - 400));
+        this.enemies.push(new Cloud(this.game, 600, this.game.world.height - 400));
 
         this.player = new Player(this.game, this.game.scale.width / 2, this.game.world.height - 300);
     }
@@ -76,6 +88,7 @@ export default class GameState extends Phaser.State {
         if (playerIsMoving && deltaMove !== 0) {
             this.sky.update(deltaMove > 0 ? 'right' : 'left');
             this.group_platforms.x -= deltaMove;
+            this.group_hazards.x -= deltaMove;
             for (let enemy of this.enemies) {
                 enemy.sprite.x -= deltaMove;
             }
@@ -102,9 +115,14 @@ export default class GameState extends Phaser.State {
 
         let hitPlatforms = this.PhysicsService.collideGroups(this.game, this.player.sprite, this.group_platforms);
 
-        let hitEnemies = this.PhysicsService.overlapArrayAndEntity(this.game, this.enemies, this.player, this.player.hurtPlayer, this.player.canBeHurt, this.player);
-        for (let enemy of hitEnemies) {
-            this.player.doDamage(enemy.touchDamage);
+        //let hitEnemies = this.PhysicsService.overlapArrayAndEntity(this.game, this.enemies, this.player, this.player.hurtPlayer, this.player.canBeHurt, this.player);
+        let hitEnemies = this.PhysicsService.overlapArrayAndEntity(this.game, this.enemies, this.player, null, this.player.canBeHurt, this.player);
+        //for (let enemy of hitEnemies) {
+        //    this.player.doDamage(enemy.touchDamage);
+        //}
+        // Only take damage from the first enemy
+        if (hitEnemies[0]) {
+            this.player.touchHurtPlayer(hitEnemies[0]);
         }
 
         let hitItems = this.PhysicsService.overlapArrayAndEntity(this.game, this.items, this.player);

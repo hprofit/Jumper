@@ -6,8 +6,8 @@ export function loadWingManImage(game) {
 }
 
 export default class WingMan extends Enemy {
-    constructor(game, x, y, worldX = x, worldY = y, stationary = false, maxYSwing = 50) {
-        super(game, x, y, worldX, worldY, 'wingMan');
+    constructor(game, x, y, stationary = false, maxYSwing = 50) {
+        super(game, x, y, 'wingMan');
 
         this.sprite.height = 48;
         this.sprite.width = 64;

@@ -6,8 +6,8 @@ export function loadSunImage(game) {
 }
 
 export default class Sun extends Enemy {
-    constructor(game, x, y, worldX = x, worldY = y) {
-        super(game, x, y, worldX, worldY, 'sun');
+    constructor(game, x, y) {
+        super(game, x, y, 'sun');
 
         this.sprite.height = 128;
         this.sprite.width = 128;

@@ -5,8 +5,8 @@ export function loadSpikeBallImage(game) {
 }
 
 export default class SpikeBall extends Enemy {
-    constructor(game, x, y, worldX = x, worldY = y) {
-        super(game, x, y, worldX, worldY, 'spikeBall');
+    constructor(game, x, y) {
+        super(game, x, y, 'spikeBall');
 
         this.sprite.height = 48;
         this.sprite.width = 48;
@@ -24,7 +24,7 @@ export default class SpikeBall extends Enemy {
         this.sprite.body.bounce.y = 1.0;
         this.speedX = 100;
         this.direction = -1;
-        this.sprite.body.velocity.x = -this.speedX;
+        this.sprite.body.velocity.x = this.direction * this.speedX;
     }
 
     flipDirection() {

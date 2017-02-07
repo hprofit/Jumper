@@ -6,8 +6,8 @@ export function loadFlyManImage(game) {
 }
 
 export default class FlyMan extends Enemy {
-    constructor(game, x, y, worldX = x, worldY = y, jumpHeight = 500) {
-        super(game, x, y, worldX, worldY, 'flyMan');
+    constructor(game, x, y, jumpHeight = 500) {
+        super(game, x, y, 'flyMan');
 
         this.sprite.height = 64;
         this.sprite.width = 48;

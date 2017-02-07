@@ -88,20 +88,26 @@ export default class Player {
         //this.worldYText.text = `WY: ${this.worldY}`;
     }
 
-    // player, enemy
-    hurtPlayer(first, second) {
-        let direction = first.x - second.x; // negative is left
-        this.sprite.body.velocity.x = 150 * (direction / Math.abs(direction));
+    touchHurtPlayer(enemy) {
+        if (enemy.doesDamage) {
+            let direction = this.sprite.body.x - enemy.sprite.body.x; // negative is left
+            this.sprite.body.velocity.x = 150 * (direction / Math.abs(direction));
 
-        this.sprite.body.velocity.y = -150;
-        this.sprite.body.bounce.y = 0.2;
-        this.hurtTimer = this.maxHurtTimer;
-        this.isHurt = true;
+            this.sprite.body.velocity.y = -150;
+            this.sprite.body.bounce.y = 0.2;
+            this.hurtTimer = this.maxHurtTimer;
+            this.isHurt = true;
 
-        this.sprite.animations.stop();
-        this.sprite.frame = this.hurtFrame;
+            this.sprite.animations.stop();
+            this.sprite.frame = this.hurtFrame;
 
-        this.HUD.updateHealth(this.health);
+            this.health -= enemy.touchDamage;
+            if (this.health <= 0) {
+                this.health = 0;
+                console.log("Dead");
+            }
+            this.HUD.updateHealth(this.health);
+        }
     }
 
     canBeHurt() {
@@ -148,14 +154,5 @@ export default class Player {
     addCoin(type) {
         this.coins[type]++;
         this.HUD.updateCoinAmount(type, this.coins[type]);
-    }
-
-    doDamage(damage) {
-        this.health -= damage;
-
-        if (this.health <= 0) {
-            this.health = 0;
-            console.log("Dead");
-        }
     }
 }

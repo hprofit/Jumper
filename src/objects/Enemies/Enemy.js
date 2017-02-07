@@ -2,10 +2,7 @@ import isInDebugMode from '../Debug';
 import { DebugGraphicsObjectSquare } from '../DebugGraphicsObjects.js';
 
 export default class Enemy {
-    constructor(game, x, y, worldX, worldY, spriteName) {
-        this.worldX = worldX;
-        this.worldY = worldY;
-
+    constructor(game, x, y, spriteName) {
         this.sprite = game.add.sprite(x, y, spriteName);
 
         // Default physics options for Enemy
@@ -16,6 +13,7 @@ export default class Enemy {
         this.sprite.anchor.setTo(.5, .5);
 
         this.touchDamage = 0;
+        this.doesDamage = true;
 
         if (isInDebugMode()) {
             this.debugGraphics = new DebugGraphicsObjectSquare(game);

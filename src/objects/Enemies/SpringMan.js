@@ -5,8 +5,8 @@ export function loadSpringManImage(game) {
 }
 
 export default class SpringMan extends Enemy {
-    constructor(game, x, y, worldX = x, worldY = y) {
-        super(game, x, y, worldX, worldY, 'springMan');
+    constructor(game, x, y) {
+        super(game, x, y, 'springMan');
 
         this.sprite.height = 48;
         this.sprite.width = 32;
