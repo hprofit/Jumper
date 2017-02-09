@@ -8,6 +8,9 @@ export function loadHUDImages(game) {
 
 export default class HUD {
     constructor(game, playerType = 'brown') {
+        this.group_hud = game.add.group();
+        this.group_hud.fixedToCamera = true;
+
         this.fontOptions = {
             fontSize: '30px',
             font: 'Bubblegum',
@@ -18,33 +21,35 @@ export default class HUD {
         this.crititcalHealth = {fill: '#ff5656', stroke: '#d30a0a'};
 
         this.healthText = game.add.text(16, 16, '', Object.assign(this.fontOptions, this.goodHealth));
-
+        this.group_hud.add(this.healthText);
 
         this.coinFontOptions = {fontSize: '24px', font: 'Bubblegum', strokeThickness: 5};
 
-        this.bronzeFontOptions = Object.assign({fill: '#E99F64', stroke: '#A57045'}, this.coinFontOptions);
-        this.bronzeCoinText = game.add.text(40, 50, 'x0', this.bronzeFontOptions);
+        this.bronzeCoinText = game.add.text(40, 50, 'x0', Object.assign({fill: '#E99F64', stroke: '#A57045'}, this.coinFontOptions));
+        this.group_hud.add(this.bronzeCoinText);
 
-        this.silverFontOptions = Object.assign({fill: '#95B3B5', stroke: '#576C6D'}, this.coinFontOptions);
-        this.silverCoinText = game.add.text(40, 75, 'x0', this.silverFontOptions);
+        this.silverCoinText = game.add.text(40, 75, 'x0', Object.assign({fill: '#95B3B5', stroke: '#576C6D'}, this.coinFontOptions));
+        this.group_hud.add(this.silverCoinText);
 
-        this.goldFontOptions = Object.assign({fill: '#FFCC00', stroke: '#A38200'}, this.coinFontOptions);
-        this.goldCoinText = game.add.text(40, 100, 'x0', this.goldFontOptions);
+        this.goldCoinText = game.add.text(40, 100, 'x0', Object.assign({fill: '#FFCC00', stroke: '#A38200'}, this.coinFontOptions));
+        this.group_hud.add(this.goldCoinText);
 
-        this.bronzeCoin = game.add.sprite(16, 52, 'coin_bronze');
+
+        this.bronzeCoin = this.group_hud.create(16, 52, 'coin_bronze');
         this.bronzeCoin.scale.setTo(.4, .4);
 
-        this.silverCoin = game.add.sprite(16, 77, 'coin_silver');
+        this.silverCoin = this.group_hud.create(16, 77, 'coin_silver');
         this.silverCoin.scale.setTo(.4, .4);
 
-        this.goldCoin = game.add.sprite(16, 102, 'coin_gold');
+        this.goldCoin = this.group_hud.create(16, 102, 'coin_gold');
         this.goldCoin.scale.setTo(.4, .4);
 
 
         this.lifeFontOptions = {fontSize: '30px', font: 'Bubblegum', strokeThickness: 8};
         this.lifeText = game.add.text(728, 16, '', Object.assign({fill: '#B67B3F', stroke: '#87592A'}, this.lifeFontOptions));
+        this.group_hud.add(this.lifeText);
 
-        this.lifeIcon = game.add.sprite(700, 16, 'life_icon');
+        this.lifeIcon = this.group_hud.create(700, 16, 'life_icon');
         this.lifeIcon.scale.setTo(.5, .5);
     }
 

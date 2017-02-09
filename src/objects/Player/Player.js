@@ -14,7 +14,6 @@ export default class Player {
 
         game.physics.arcade.enable(this.sprite);
         this.sprite.body.gravity.y = 900;
-        //this.sprite.body.collideWorldBounds = true;
         this.sprite.anchor.setTo(.5, .5);
         this.sprite.height = 64;
         this.sprite.width = 48;
@@ -58,6 +57,10 @@ export default class Player {
         return this.sprite.body.deltaX();
     }
 
+    getVelocity() {
+        return this.sprite.body.velocity.x;
+    }
+
     /**
      * If the player is hurt and the hurtTimer has not yet reached invincibleTimer,
      * increment hurtTimer
@@ -66,7 +69,7 @@ export default class Player {
      * else if hurtTimer has not reached maxHurtTimer, player is still hurt and cannot move yet
      * else if hurtTimer reaches maxHurtTimer, player can move and the hurt animation should stop
      *
-     * Finally, if we have reached this far, handleInput
+     * Finally, if we have reached this far, _handleInput
      * @param cursors
      * @param contacts
      * @param delta
@@ -91,7 +94,7 @@ export default class Player {
                 this.sprite.body.bounce.y = 0;
             }
         }
-        this.handleInput(cursors, contacts);
+        this._handleInput(cursors, contacts, delta);
     }
 
     _updateHealth(changeInHealth) {
@@ -136,12 +139,13 @@ export default class Player {
         return !this.isHurt;
     }
 
-    handleInput(cursors, contacts) {
-        if (this.sprite.body.touching.down) {
+    _handleInput(cursors, contacts, delta) {
+        if (this.sprite.body.touching.down && this.jumping) {
             this.jumping = false;
+            this.sprite.animations.play('stand');
         }
-        //  Reset the players velocity (movement)
-        this.sprite.body.velocity.x = 0;
+        ////  Reset the players velocity (movement)
+        //this.sprite.body.velocity.x = 0;
 
         if (cursors.left.isDown) {
             //  Move to the left
@@ -160,8 +164,21 @@ export default class Player {
             this.sprite.scale.x = this.right;
         }
         else if (!this.jumping) {
-            //  Stand still
-            this.sprite.animations.play('stand');
+            if (this.sprite.body.velocity.x !== 0) {
+                let dir = this.sprite.body.velocity.x > 0 ? -1 : 1;
+                let decrementAmount = delta * 500 * dir;
+                let newX = this.sprite.body.velocity.x + decrementAmount;
+
+                if ((dir === -1 && newX <= 2) ||
+                    (dir === 1 && newX >= -2)) {
+                    //  Stand still
+                    this.sprite.animations.play('stand');
+                    this.sprite.body.velocity.x = 0;
+                }
+                else {
+                    this.sprite.body.velocity.x += decrementAmount;
+                }
+            }
         }
 
         //  Allow the player to jump if they are touching the ground.

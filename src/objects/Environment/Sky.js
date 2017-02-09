@@ -13,27 +13,23 @@ export default class Sky {
         this['bg_4'] = game.add.tileSprite(0, 0, game.world.width, game.world.height, 'bg_4');
 
         let dimensionSize = 2048,
-            width = game.world.width / dimensionSize,
-            height = game.world.height / dimensionSize;
-        this['bg_1'].scale.setTo(width, height);
-        this['bg_2'].tileScale.setTo(width, height);
-        this['bg_3'].tileScale.setTo(width, height);
-        this['bg_4'].tileScale.setTo(width, height);
+            width = game.camera.width / dimensionSize,
+            height = game.camera.height / dimensionSize;
+        this.bg_1.scale.setTo(game.world.width, height);
+        this.bg_2.tileScale.setTo(width, height);
+        this.bg_3.tileScale.setTo(width, height);
+        this.bg_4.tileScale.setTo(width, height);
 
-        this.bg2_rate = .2;
-        this.bg3_rate = .8;
-        this.bg4_rate = 1.5;
+        this.bg2_speed = 50;
 
-        this.directions = {
-            left: 1,
-            right: -1,
-            none: 0
-        }
+        this.bg3_rate = .25;
     }
 
-    update(direction = 'none') {
-        this['bg_2'].tilePosition.x += this.bg2_rate * this.directions[direction];
-        this['bg_3'].tilePosition.x += this.bg3_rate * this.directions[direction];
-        this['bg_4'].tilePosition.x += this.bg4_rate * this.directions[direction];
+    update(playerIsMoving, velocity, deltaTime) {
+        if (playerIsMoving && velocity !== 0) {
+            let direction = velocity > 0 ? -1 : 1;
+            this.bg_3.tilePosition.x += this.bg3_rate * direction * velocity * deltaTime;
+        }
+        this.bg_2.tilePosition.x -= this.bg2_speed * deltaTime;
     }
 }
