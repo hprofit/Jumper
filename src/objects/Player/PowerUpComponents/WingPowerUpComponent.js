@@ -48,7 +48,7 @@ export default class WingPowerPowerUpComponent extends PowerUpComponent {
 
     handleJump(cursors, contacts, delta, player) {
         if (cursors.up.isDown && !this.pressed && this.delayTimer === 0 && this.flyJumps <= this.maxFlyJumps) {
-            player.jump();
+            player.jump(-700);
 
             this._flapWings();
             this.pressed = true;

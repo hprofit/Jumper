@@ -172,11 +172,51 @@ export default class Player {
         return !this.isHurt;
     }
     
-    jump() {
-        this.sprite.body.velocity.y = -500;
+    jump(velocity = -500) {
+        this.sprite.body.velocity.y = velocity;
         this.sprite.animations.stop();
         this.sprite.frame = this.jumpFrame;
         this.jumping = true;
+    }
+    
+    goLeft(velocity = -150) {
+        this.sprite.body.velocity.x = velocity;
+        if (!this.jumping) {
+            this.sprite.animations.play('walk');
+        }
+        this.sprite.scale.x = this.left;
+    }
+
+    goRight(velocity = 150) {
+        this.sprite.body.velocity.x = velocity;
+        if (!this.jumping) {
+            this.sprite.animations.play('walk');
+        }
+        this.sprite.scale.x = this.right;
+    }
+
+    stopMoving(delta, slowRate = 500) {
+        if (this.sprite.body.velocity.x !== 0) {
+            let dir = this.sprite.body.velocity.x > 0 ? -1 : 1;
+            let decrementAmount = delta * slowRate * dir;
+            let newX = this.sprite.body.velocity.x + decrementAmount;
+
+            if ((dir === -1 && newX <= 2) ||
+                (dir === 1 && newX >= -2)) {
+                //  Stand still
+                this.sprite.animations.stop();
+                this.sprite.animations.play('stand');
+                this.sprite.body.velocity.x = 0;
+            }
+            else {
+                this.sprite.body.velocity.x += decrementAmount;
+            }
+        }
+        else {
+            //  Stand still
+            this.sprite.animations.play('stand');
+            this.sprite.body.velocity.x = 0;
+        }
     }
 
     _handleInput(cursors, contacts, delta) {
@@ -185,45 +225,21 @@ export default class Player {
             this.sprite.animations.play('stand');
         }
 
-        if (cursors.left.isDown) {
-            //  Move to the left
-            this.sprite.body.velocity.x = -150;
-            if (!this.jumping) {
-                this.sprite.animations.play('walk');
-            }
-            this.sprite.scale.x = this.left;
+        if (this.powerUpComponent &&  this.powerUpComponent.handleHorizontalMovement) {
+            this.powerUpComponent.handleHorizontalMovement(cursors, contacts, delta, this);
         }
-        else if (cursors.right.isDown) {
-            //  Move to the right
-            this.sprite.body.velocity.x = 150;
-            if (!this.jumping) {
-                this.sprite.animations.play('walk');
+        else {
+            if (cursors.left.isDown) {
+                this.goLeft();
             }
-            this.sprite.scale.x = this.right;
+            else if (cursors.right.isDown) {
+                this.goRight();
+            }
+            else if (!this.jumping) {
+                this.stopMoving(delta);
+            }
         }
-        else if (!this.jumping) {
-            if (this.sprite.body.velocity.x !== 0) {
-                let dir = this.sprite.body.velocity.x > 0 ? -1 : 1;
-                let decrementAmount = delta * 500 * dir;
-                let newX = this.sprite.body.velocity.x + decrementAmount;
 
-                if ((dir === -1 && newX <= 2) ||
-                    (dir === 1 && newX >= -2)) {
-                    //  Stand still
-                    this.sprite.animations.stop();
-                    this.sprite.animations.play('stand');
-                    this.sprite.body.velocity.x = 0;
-                }
-                else {
-                    this.sprite.body.velocity.x += decrementAmount;
-                }
-            }
-            else {
-                //  Stand still
-                this.sprite.animations.play('stand');
-                this.sprite.body.velocity.x = 0;
-            }
-        }
 
         if (this.powerUpComponent && this.powerUpComponent.handleJump) {
             this.powerUpComponent.handleJump(cursors, contacts, delta, this);
@@ -257,9 +273,9 @@ export default class Player {
         this.powerUpComponent = new BubblePowerUpComponent(this.group_powerUpFront, this);
     }
 
-    addJetPackComponent() {
+    addJetPackComponent(game) {
         this._removePowerUpComponent();
-        this.powerUpComponent = new JetPackPowerUpComponent(this.group_powerUpBack, this);
+        this.powerUpComponent = new JetPackPowerUpComponent(this.group_powerUpBack, this, game);
     }
 
     addWingComponent(game) {

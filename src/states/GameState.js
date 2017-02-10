@@ -74,19 +74,19 @@ export default class GameState extends Phaser.State {
         new Spikes(this.game, SpikeTypes.SPIKES_UP, 200, this.game.world.height - 80, this.group_hazards);
         new Spikes(this.game, SpikeTypes.SPIKES_DOWN, 300, 32, this.group_hazards);
 
-        //let max = 20;
-        //for (let idx = 0; idx < max; idx++) {
-        //    let tmp = MathExtensions.plotOnBell(idx / max) * -100;
-        //    this.items.push(new Coin(this.game, 'bronze', 300 + idx * 35, 200 + tmp));
-        //    this.items.push(new Coin(this.game, 'silver', 300 + idx * 35, 250 + tmp));
-        //    this.items.push(new Coin(this.game, 'gold', 300 + idx * 35, 300 + tmp));
-        //    this.items.push(new Coin(this.game, 'silver', 300 + idx * 35, 350 + tmp));
-        //    this.items.push(new Coin(this.game, 'bronze', 300 + idx * 35, 400 + tmp));
-        //}
+        let max = 20;
+        for (let idx = 0; idx < max; idx++) {
+            let tmp = MathExtensions.plotOnBell(idx / max) * -100;
+            this.items.push(new Coin(this.game, 'bronze',   1200 + idx * 35, 200 + tmp));
+            this.items.push(new Coin(this.game, 'silver',   1200 + idx * 35, 250 + tmp));
+            this.items.push(new Coin(this.game, 'gold',     1200 + idx * 35, 300 + tmp));
+            this.items.push(new Coin(this.game, 'silver',   1200 + idx * 35, 350 + tmp));
+            this.items.push(new Coin(this.game, 'bronze',   1200 + idx * 35, 400 + tmp));
+        }
 
-        this.items.push(new PowerUpBubble(this.game, 512, 416));
+        //this.items.push(new PowerUpBubble(this.game, 512, 416));
         this.items.push(new PowerUpJetPack(this.game, 548, 416));
-        this.items.push(new PowerUpWings(this.game, 584, 416));
+        //this.items.push(new PowerUpWings(this.game, 584, 416));
 
         let p1 = new Portal(this.game, PortalTypes.ORANGE, 640, this.game.world.height - 64);
         let p2 = new Portal(this.game, PortalTypes.ORANGE, 640, 32, false);
