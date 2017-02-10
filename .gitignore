@@ -1,6 +1,8 @@
 node_modules/
 build/
+.idea/
+logs/
 *.log
 *.tmp
 *.psd
-.idea/
+.DS_Store

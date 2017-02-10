@@ -2,8 +2,12 @@ export default class PhysicsService {
     constructor() {
     }
 
-    collideGroups(game, groupA, groupB) {
-        return game.physics.arcade.collide(groupA, groupB);
+    collideGroups(game, groupA, groupB, collideCallback, processCallback, callbackContext) {
+        return game.physics.arcade.collide(groupA, groupB, collideCallback, processCallback, callbackContext);
+    }
+
+    overlapGroups(game, groupA, groupB, onOverlapCallback = null, processCallback = null, callbackContext = null) {
+        return game.physics.arcade.overlap(groupA, groupB, onOverlapCallback, processCallback, callbackContext);
     }
 
     overlapEntityAndGroup(game, entity, group, callback, callbackContext) {

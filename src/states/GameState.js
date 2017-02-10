@@ -19,6 +19,7 @@ import { Platform, PlatformTypes, PlatformSubtypes } from '../objects/Environmen
 import Player from '../objects/Player/Player';
 import MathExtensions from '../MathExtensions';
 
+
 export default class GameState extends Phaser.State {
     constructor() {
         super();
@@ -41,6 +42,8 @@ export default class GameState extends Phaser.State {
     }
 
     create() {
+        this.game.physics.startSystem(Phaser.Physics.ARCADE);
+
         this.sky = new Sky(this.game);
 
         this.group_platforms = this.game.add.group();
@@ -55,6 +58,11 @@ export default class GameState extends Phaser.State {
             new Platform(this.game, PlatformTypes.GRASS, PlatformSubtypes.SMALL, 0, y, this.group_platforms);
             new Platform(this.game, PlatformTypes.GRASS, PlatformSubtypes.SMALL, 6000, y, this.group_platforms);
         }
+        new Platform(this.game, PlatformTypes.GRASS, PlatformSubtypes.NORMAL, 512, 448, this.group_platforms);
+        new Platform(this.game, PlatformTypes.GRASS, PlatformSubtypes.NORMAL, 512, 544, this.group_platforms);
+
+        new Platform(this.game, PlatformTypes.GRASS, PlatformSubtypes.NORMAL, 704, 448, this.group_platforms);
+        new Platform(this.game, PlatformTypes.GRASS, PlatformSubtypes.NORMAL, 704, 544, this.group_platforms);
 
         this.group_hazards = this.game.add.group();
         this.group_hazards.enableBody = true;
@@ -63,23 +71,23 @@ export default class GameState extends Phaser.State {
         new Spikes(this.game, SpikeTypes.SPIKES_UP, 200, this.game.world.height - 80, this.group_hazards);
         new Spikes(this.game, SpikeTypes.SPIKES_DOWN, 300, 32, this.group_hazards);
 
-        let max = 20;
-        for (let idx = 0; idx < max; idx++) {
-            let tmp = MathExtensions.plotOnBell(idx / max) * -100;
-            this.items.push(new Coin(this.game, 'bronze', 300 + idx * 35, 200 + tmp));
-            this.items.push(new Coin(this.game, 'silver', 300 + idx * 35, 250 + tmp));
-            this.items.push(new Coin(this.game, 'gold', 300 + idx * 35, 300 + tmp));
-            this.items.push(new Coin(this.game, 'silver', 300 + idx * 35, 350 + tmp));
-            this.items.push(new Coin(this.game, 'bronze', 300 + idx * 35, 400 + tmp));
-        }
+        //let max = 20;
+        //for (let idx = 0; idx < max; idx++) {
+        //    let tmp = MathExtensions.plotOnBell(idx / max) * -100;
+        //    this.items.push(new Coin(this.game, 'bronze', 300 + idx * 35, 200 + tmp));
+        //    this.items.push(new Coin(this.game, 'silver', 300 + idx * 35, 250 + tmp));
+        //    this.items.push(new Coin(this.game, 'gold', 300 + idx * 35, 300 + tmp));
+        //    this.items.push(new Coin(this.game, 'silver', 300 + idx * 35, 350 + tmp));
+        //    this.items.push(new Coin(this.game, 'bronze', 300 + idx * 35, 400 + tmp));
+        //}
 
         // TODO: EXPERIMENTAL
-        //let p1 = new Portal(this.game, PortalTypes.ORANGE, 600, this.game.world.height - 64);
-        //let p2 = new Portal(this.game, PortalTypes.ORANGE, 600, 32, false);
-        //p1.linkToPortal(p2);
-        //p2.linkToPortal(p1);
-        //this.items.push(p1);
-        //this.items.push(p2);
+        let p1 = new Portal(this.game, PortalTypes.ORANGE, 640, this.game.world.height - 64);
+        let p2 = new Portal(this.game, PortalTypes.ORANGE, 640, 32, false);
+        p1.linkToPortal(p2);
+        p2.linkToPortal(p1);
+        this.items.push(p1);
+        this.items.push(p2);
 
         //this.enemies.push(new SpikeMan(this.game, 1000, 100));
         //this.enemies.push(new WingMan(this.game, 600, 480));
@@ -88,7 +96,7 @@ export default class GameState extends Phaser.State {
         //this.enemies.push(new SpikeBall(this.game, 200, this.game.world.height - 100));
         //this.enemies.push(new SpringMan(this.game, 600, this.game.world.height - 150));
         //this.enemies.push(new Sun(this.game, 600, this.game.world.height - 400));
-        //this.enemies.push(new Cloud(this.game, 600, this.game.world.height - 400));
+        this.enemies.push(new Cloud(this.game, 600, this.game.world.height - 400));
 
         this.player = new Player(this.game, this.game.scale.width / 2, this.game.world.height - 100);
 
@@ -108,6 +116,9 @@ export default class GameState extends Phaser.State {
         let enemiesThatHitPlatforms = this.PhysicsService.collideArrayAndGroup(this.game, this.enemies, this.group_platforms);
         for (let enemy of this.enemies) {
             enemy.update(deltaTime, enemiesThatHitPlatforms);
+            if (enemy.emitterComponent && enemy.emitterComponent.particlesHitWalls) {
+                this.PhysicsService.collideGroups(this.game, enemy.emitterComponent.emitter, this.group_platforms, enemy.emitterComponent.killParticle, enemy.emitterComponent.tryThis, enemy.emitterComponent);
+            }
         }
         for (let item of this.items) {
             item.update(deltaTime);
@@ -117,7 +128,7 @@ export default class GameState extends Phaser.State {
         let hitHazards = this.PhysicsService.collideGroups(this.game, this.player.sprite, this.group_hazards);
 
         if (hitHazards && this.player.canBeHurt()) {
-            this.player.hazardHurtPlayer(2)
+            this.player.hazardHurtPlayer(2);
         }
 
         // Only take damage from the first enemy
@@ -125,16 +136,19 @@ export default class GameState extends Phaser.State {
         if (hitEnemies[0]) {
             this.player.touchHurtPlayer(hitEnemies[0]);
         }
+        else {
+            for (let enemy of this.enemies) {
+                if (enemy.emitterComponent && enemy.emitterComponent.particlesDoDamage &&
+                    this.PhysicsService.overlapGroups(this.game, enemy.emitterComponent.emitter, this.player.sprite, null, this.player.canBeHurt, this.player)) {
+                    this.player.hazardHurtPlayer(enemy.emitterComponent.particleDamage);
+                    break;
+                }
+            }
+        }
 
         let hitItems = this.PhysicsService.overlapArrayAndEntity(this.game, this.items, this.player);
         for (let item of hitItems) {
             item.touchItem(this.player);
-            // TODO: EXPERIMENTAL
-            //let delta = item.touchItem(this.player);
-            //if (delta) {
-            //    this.updateWorldMovement(true, delta);
-            //    this.player.sprite.x = this.game.world.width / 2;
-            //}
         }
 
         let cursors = this.game.input.keyboard.createCursorKeys();

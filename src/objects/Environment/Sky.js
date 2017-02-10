@@ -7,10 +7,10 @@ export function loadSkyImages(game) {
 
 export default class Sky {
     constructor(game) {
-        this['bg_1'] = game.add.sprite(0, 0, 'bg_1');
-        this['bg_2'] = game.add.tileSprite(0, 0, game.world.width, game.world.height, 'bg_2');
-        this['bg_3'] = game.add.tileSprite(0, 0, game.world.width, game.world.height, 'bg_3');
-        this['bg_4'] = game.add.tileSprite(0, 0, game.world.width, game.world.height, 'bg_4');
+        this.bg_1 = game.add.sprite(0, 0, 'bg_1');
+        this.bg_2 = game.add.tileSprite(0, 0, game.world.width, game.world.height, 'bg_2');
+        this.bg_3 = game.add.tileSprite(0, 0, game.world.width, game.world.height, 'bg_3');
+        this.bg_4 = game.add.tileSprite(0, 0, game.world.width, game.world.height, 'bg_4');
 
         let dimensionSize = 2048,
             width = game.camera.width / dimensionSize,
@@ -27,8 +27,7 @@ export default class Sky {
 
     update(playerIsMoving, velocity, deltaTime) {
         if (playerIsMoving && velocity !== 0) {
-            let direction = velocity > 0 ? -1 : 1;
-            this.bg_3.tilePosition.x += this.bg3_rate * direction * velocity * deltaTime;
+            this.bg_3.tilePosition.x += this.bg3_rate * -velocity * deltaTime;
         }
         this.bg_2.tilePosition.x -= this.bg2_speed * deltaTime;
     }

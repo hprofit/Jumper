@@ -50,7 +50,7 @@ export default class Player {
     }
 
     isMoving() {
-        return this.sprite.body.velocity.x !== 0;
+        return this.sprite.body.deltaX() !== 0;
     }
 
     getDeltaMovement() {
@@ -144,8 +144,6 @@ export default class Player {
             this.jumping = false;
             this.sprite.animations.play('stand');
         }
-        ////  Reset the players velocity (movement)
-        //this.sprite.body.velocity.x = 0;
 
         if (cursors.left.isDown) {
             //  Move to the left
@@ -172,6 +170,7 @@ export default class Player {
                 if ((dir === -1 && newX <= 2) ||
                     (dir === 1 && newX >= -2)) {
                     //  Stand still
+                    this.sprite.animations.stop();
                     this.sprite.animations.play('stand');
                     this.sprite.body.velocity.x = 0;
                 }
@@ -179,6 +178,15 @@ export default class Player {
                     this.sprite.body.velocity.x += decrementAmount;
                 }
             }
+            else {
+                //  Stand still
+                this.sprite.animations.play('stand');
+                this.sprite.body.velocity.x = 0;
+            }
+        }
+
+        if (this.sprite.body.touching.right || this.sprite.body.touching.left) {
+            this.sprite.body.velocity.x = 0;
         }
 
         //  Allow the player to jump if they are touching the ground.

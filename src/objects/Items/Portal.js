@@ -1,6 +1,7 @@
 import isInDebugMode from '../Debug';
 import { DebugGraphicsObjectSquare } from '../DebugGraphicsObjects.js';
 import Item from './Item.js';
+import EmitterComponent from '../EmitterComponent';
 
 export function loadPortalImages(game) {
     game.load.image('portal_orange', 'assets/Items/portal_orange.png');
@@ -29,40 +30,17 @@ export class Portal extends Item {
         this.otherPortal = null;
         this.direction = up ? -1 : 1;
 
-
-        //	Emitters have a center point and a width/height, which extends from their center point to the left/right and up/down
-        this.emitter = game.add.emitter(x + 32, y + 10, 50);
-        //this.emitter.autoScale = true;
-        this.emitter.width = 50;
-
-        this.emitter.makeParticles(`${this.type}Particle`);
-
-        this.emitter.minParticleSpeed.set(0, 2);
-        this.emitter.maxParticleSpeed.set(0, 10);
-
-        //this.emitter.setRotation(0, 0);
-        //this.emitter.setAlpha(0.3, 0.8);
-        this.emitter.setScale(.5, .5, .5, .5);
-        this.emitter.minParticleScale = .5;
-        this.emitter.maxParticleScale = .5;
-        this.emitter.gravity = 200 * this.direction;
-
-        this.emitter.start(false, 700, 100);
+        this.emitterComponent = new EmitterComponent(game, x + 32, y + 10, 50);
+        this.emitterComponent.setWidth(50);
+        this.emitterComponent.makeParticles(`${this.type}Particle`);
+        this.emitterComponent.setSpeed(0, 0, 2, 10);
+        this.emitterComponent.setScaleBoth(.5, .5);
+        this.emitterComponent.setGravity(200 * this.direction);
+        this.emitterComponent.start(false, 700, 100);
 
         if (isInDebugMode()) {
             this.debugGraphics = new DebugGraphicsObjectSquare(game);
         }
-    }
-
-    updateLocation(deltaMove) {
-        super.updateLocation(deltaMove);
-        this.emitter.x -= deltaMove.x;
-        this.emitter.y -= deltaMove.y;
-
-        this.emitter.forEachAlive(function(particle){
-            particle.x -= deltaMove.x;
-            particle.y -= deltaMove.y;
-        }, null)
     }
 
     linkToPortal(otherPortal) {
@@ -74,7 +52,7 @@ export class Portal extends Item {
             this.debugGraphics.render(this.sprite.body);
         }
 
-        this.emitter.forEachAlive(function(particle){
+        this.emitterComponent.emitter.forEachAlive(function(particle){
             particle.alpha -= deltaTime * 1.25;
         }, null)
     }
