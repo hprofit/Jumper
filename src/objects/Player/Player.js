@@ -3,6 +3,7 @@ import HUD from './HUD.js'
 import { DebugGraphicsObjectSquare } from '../DebugGraphicsObjects.js';
 import BubblePowerUpComponent from './PowerUpComponents/BubblePowerUpComponent';
 import JetPackPowerUpComponent from './PowerUpComponents/JetPackPowerUpComponent';
+import WingPowerUpComponent from './PowerUpComponents/WingPowerUpComponent';
 
 export function loadPlayerImage(game) {
     game.load.spritesheet('player_purple', 'assets/Player/player_purple.png', 150, 207);
@@ -170,6 +171,13 @@ export default class Player {
     canBeHurt() {
         return !this.isHurt;
     }
+    
+    jump() {
+        this.sprite.body.velocity.y = -500;
+        this.sprite.animations.stop();
+        this.sprite.frame = this.jumpFrame;
+        this.jumping = true;
+    }
 
     _handleInput(cursors, contacts, delta) {
         if (this.sprite.body.touching.down && this.jumping) {
@@ -217,16 +225,19 @@ export default class Player {
             }
         }
 
-        if (this.sprite.body.touching.right || this.sprite.body.touching.left) {
-            this.sprite.body.velocity.x = 0;
+        if (this.powerUpComponent && this.powerUpComponent.handleJump) {
+            this.powerUpComponent.handleJump(cursors, contacts, delta, this);
         }
-
         //  Allow the player to jump if they are touching the ground.
-        if (cursors.up.isDown && this.sprite.body.touching.down && contacts) {
+        else if (cursors.up.isDown && this.sprite.body.touching.down && contacts) {
             this.sprite.body.velocity.y = -500;
             this.sprite.animations.stop();
             this.sprite.frame = this.jumpFrame;
             this.jumping = true;
+        }
+
+        if (this.sprite.body.touching.right || this.sprite.body.touching.left) {
+            this.sprite.body.velocity.x = 0;
         }
     }
 
@@ -249,5 +260,10 @@ export default class Player {
     addJetPackComponent() {
         this._removePowerUpComponent();
         this.powerUpComponent = new JetPackPowerUpComponent(this.group_powerUpBack, this);
+    }
+
+    addWingComponent(game) {
+        this._removePowerUpComponent();
+        this.powerUpComponent = new WingPowerUpComponent(this.group_powerUpBack, this, game);
     }
 }

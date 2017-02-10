@@ -24,7 +24,7 @@ export class PowerUp extends Item {
         this.sprite.width = 32;
         this.sprite.height = 32;
 
-        this.tween = game.add.tween(this.sprite).to( { y: y - 10 }, 1000, 'Linear', true, 0, -1, true);
+        this.tween = game.add.tween(this.sprite).to( { y: y - 10 }, 1000, Phaser.Easing.Quadratic.InOut, true, 0, -1, true);
     }
 
     update() {
