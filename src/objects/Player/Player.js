@@ -1,6 +1,8 @@
 import isInDebugMode from '../Debug';
 import HUD from './HUD.js'
 import { DebugGraphicsObjectSquare } from '../DebugGraphicsObjects.js';
+import BubblePowerUpComponent from './PowerUpComponents/BubblePowerUpComponent';
+import JetPackPowerUpComponent from './PowerUpComponents/JetPackPowerUpComponent';
 
 export function loadPlayerImage(game) {
     game.load.spritesheet('player_purple', 'assets/Player/player_purple.png', 150, 207);
@@ -9,8 +11,10 @@ export function loadPlayerImage(game) {
 
 export default class Player {
     constructor(game, x, y) {
+        this.group_powerUpBack = game.add.group();
         //this.sprite = game.add.sprite(x, y, 'player_brown');
         this.sprite = game.add.sprite(x, y, 'player_purple');
+        this.group_powerUpFront = game.add.group();
 
         game.physics.arcade.enable(this.sprite);
         this.sprite.body.gravity.y = 900;
@@ -29,7 +33,7 @@ export default class Player {
 
         this.health = 10;
         this.maxHurtTimer = .5;
-        this.invincibleTimer = 1;
+        this.invincibleTimer = 1.5;
         this.hurtTimer = 0;
         this.moveEnabled = true;
         this.isHurt = false;
@@ -43,6 +47,8 @@ export default class Player {
         this.HUD = new HUD(game);
         this.HUD.updateHealth(this.health);
         this.HUD.updateLife(3);
+
+        this.powerUpComponent = null;
 
         if (isInDebugMode()) {
             this.debugGraphics = new DebugGraphicsObjectSquare(game);
@@ -79,13 +85,20 @@ export default class Player {
             this.debugGraphics.render(this.sprite.body);
         }
 
+        if (this.powerUpComponent) {
+            this.powerUpComponent.update(cursors, contacts, delta, this);
+        }
+
         if (this.isHurt && this.hurtTimer < this.invincibleTimer) {
             this.hurtTimer += delta;
+            // Toggle alpha to display "hurt status"
+            this.sprite.alpha = parseInt((this.hurtTimer / .1), 10) % 2 === 0 ? 0.25 : 1;
 
             if (this.hurtTimer >= this.invincibleTimer) {
                 this.isHurt = false;
+                this.sprite.alpha = 1;
             }
-            else if (this.hurtTimer < this.maxHurtTimer) {
+            else if (!this.moveEnabled && this.hurtTimer < this.maxHurtTimer) {
                 return;
             }
             else if (!this.moveEnabled) {
@@ -118,20 +131,39 @@ export default class Player {
         this._updateHealth(-damage);
     }
 
+    _powerUpTakeHit() {
+        this.powerUpComponent.takeHit();
+        this.powerUpComponent = null;
+
+        this.hurtTimer = 0;
+        this.isHurt = true;
+        this.moveEnabled = true;
+    }
+
     hazardHurtPlayer(damage) {
-        this.sprite.body.velocity.y = -250;
-        this.sprite.body.bounce.y = 0.3;
-        this._hurtPlayer(damage);
+        if (this.powerUpComponent && this.powerUpComponent.takeHit) {
+            this._powerUpTakeHit();
+        }
+        else {
+            this.sprite.body.velocity.y = -250;
+            this.sprite.body.bounce.y = 0.3;
+            this._hurtPlayer(damage);
+        }
     }
 
     touchHurtPlayer(enemy) {
         if (enemy.doesDamage) {
-            let direction = this.sprite.body.x - enemy.sprite.body.x; // negative is left
-            this.sprite.body.velocity.x = 150 * (direction / Math.abs(direction));
+            if (this.powerUpComponent && this.powerUpComponent.takeHit) {
+                this._powerUpTakeHit();
+            }
+            else {
+                let direction = this.sprite.body.x - enemy.sprite.body.x; // negative is left
+                this.sprite.body.velocity.x = 150 * (direction / Math.abs(direction));
 
-            this.sprite.body.velocity.y = -150;
-            this.sprite.body.bounce.y = 0.2;
-            this._hurtPlayer(enemy.touchDamage);
+                this.sprite.body.velocity.y = -150;
+                this.sprite.body.bounce.y = 0.2;
+                this._hurtPlayer(enemy.touchDamage);
+            }
         }
     }
 
@@ -201,5 +233,21 @@ export default class Player {
     addCoin(type) {
         this.coins[type]++;
         this.HUD.updateCoinAmount(type, this.coins[type]);
+    }
+
+    _removePowerUpComponent() {
+        if (this.powerUpComponent) {
+            this.powerUpComponent.remove();
+        }
+    }
+
+    addBubbleComponent() {
+        this._removePowerUpComponent();
+        this.powerUpComponent = new BubblePowerUpComponent(this.group_powerUpFront, this);
+    }
+
+    addJetPackComponent() {
+        this._removePowerUpComponent();
+        this.powerUpComponent = new JetPackPowerUpComponent(this.group_powerUpBack, this);
     }
 }

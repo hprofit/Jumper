@@ -14,6 +14,8 @@ import Sky from '../objects/Environment/Sky';
 
 import Coin from '../objects/Items/Coin';
 import { Portal, PortalTypes } from '../objects/Items/Portal';
+import PowerUpBubble from '../objects/Items/Powerups/PowerUpBubble';
+import PowerUpJetPack from '../objects/Items/Powerups/PowerUpJetPack';
 
 import { Platform, PlatformTypes, PlatformSubtypes } from '../objects/Environment/Platform';
 import Player from '../objects/Player/Player';
@@ -81,7 +83,9 @@ export default class GameState extends Phaser.State {
         //    this.items.push(new Coin(this.game, 'bronze', 300 + idx * 35, 400 + tmp));
         //}
 
-        // TODO: EXPERIMENTAL
+        this.items.push(new PowerUpBubble(this.game, 512, 416));
+        this.items.push(new PowerUpJetPack(this.game, 548, 416));
+
         let p1 = new Portal(this.game, PortalTypes.ORANGE, 640, this.game.world.height - 64);
         let p2 = new Portal(this.game, PortalTypes.ORANGE, 640, 32, false);
         p1.linkToPortal(p2);
@@ -96,7 +100,7 @@ export default class GameState extends Phaser.State {
         //this.enemies.push(new SpikeBall(this.game, 200, this.game.world.height - 100));
         //this.enemies.push(new SpringMan(this.game, 600, this.game.world.height - 150));
         //this.enemies.push(new Sun(this.game, 600, this.game.world.height - 400));
-        this.enemies.push(new Cloud(this.game, 600, this.game.world.height - 400));
+        //this.enemies.push(new Cloud(this.game, 600, this.game.world.height - 400));
 
         this.player = new Player(this.game, this.game.scale.width / 2, this.game.world.height - 100);
 
@@ -148,7 +152,7 @@ export default class GameState extends Phaser.State {
 
         let hitItems = this.PhysicsService.overlapArrayAndEntity(this.game, this.items, this.player);
         for (let item of hitItems) {
-            item.touchItem(this.player);
+            item.touchItem(this.player, this.game);
         }
 
         let cursors = this.game.input.keyboard.createCursorKeys();

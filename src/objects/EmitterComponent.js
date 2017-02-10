@@ -1,5 +1,3 @@
-//import MathExtensions from '../MathExtensions';
-
 export default class EmitterComponent {
     constructor(game, x, y, maxParticles, doDamage = false, damageAmount = 0, hitWalls = false) {
         this.emitter = game.add.emitter(x, y, maxParticles);

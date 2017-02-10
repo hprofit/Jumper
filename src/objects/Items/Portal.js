@@ -54,7 +54,7 @@ export class Portal extends Item {
 
         this.emitterComponent.emitter.forEachAlive(function(particle){
             particle.alpha -= deltaTime * 1.25;
-        }, null)
+        }, null);
     }
 
     movePlayer(player){

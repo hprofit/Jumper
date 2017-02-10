@@ -14,6 +14,9 @@ import { loadSpikeImages } from '../objects/Environment/Spikes';
 
 import { loadCoinImages } from '../objects/Items/Coin';
 import { loadPortalImages } from '../objects/Items/Portal';
+import { loadPowerUpImages } from '../objects/Items/Powerups/PowerUp';
+import { loadBubblePowerUpImage } from '../objects/Player/PowerUpComponents/BubblePowerUpComponent';
+import { loadJetPackPowerUpImage } from '../objects/Player/PowerUpComponents/JetPackPowerUpComponent';
 
 import { loadAllPlatformImages, loadCakePlatformImages,
     loadGrassPlatformImages, loadSandPlatformImages, loadSnowPlatformImages,
@@ -33,6 +36,9 @@ export default function preloadImages(game) {
 
     loadCoinImages(game);
     loadPortalImages(game);
+    loadPowerUpImages(game);
+    loadBubblePowerUpImage(game);
+    loadJetPackPowerUpImage(game);
 
     loadHUDImages(game);
     loadPlayerImage(game);
