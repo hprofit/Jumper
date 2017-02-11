@@ -2,11 +2,7 @@ import { PowerUp, PowerUpTypes } from './PowerUp';
 
 export default class PowerUpJetPack extends PowerUp {
     constructor(game, x, y) {
-        super(game, PowerUpTypes.JET_PACK, x, y);
-    }
-
-    update() {
-        super.update();
+        super(game, x, y, PowerUpTypes.JET_PACK);
     }
 
     touchItem(player, game) {

@@ -41,14 +41,14 @@ export default class Cloud extends Enemy {
     constructor(game, x, y, maxYSwing = 25) {
         super(game, x, y, 'cloud');
 
-        this.sprite.height = 48;
-        this.sprite.width = 96;
+        this.height = 48;
+        this.width = 96;
 
         this.doesDamage = false;
         this.speedX = 50;
         this.directionX = -1;
-        this.sprite.body.velocity.x = this.directionX * this.speedX;
-        this.sprite.body.gravity.y = 0;
+        this.body.velocity.x = this.directionX * this.speedX;
+        this.body.gravity.y = 0;
 
         this.easeInOutComponent = new EaseInOutComponent(y, maxYSwing * 2, 1);
 
@@ -59,25 +59,24 @@ export default class Cloud extends Enemy {
         this.emitterComponent.setSpeed(0, 0, 500, 500);
         this.emitterComponent.setScaleBoth(.5, .5);
         this.emitterComponent.setRotation(0, 0);
-        //this.emitter.particleSendToBack = true;
         this.emitterComponent.start(false, 0, 1500);
     }
 
     flipDirection() {
         this.directionX *= -1;
-        this.sprite.body.velocity.x = this.directionX * this.speedX;
-        this.sprite.scale.x *= -1;
+        this.body.velocity.x = this.directionX * this.speedX;
+        this.scale.x *= -1;
     }
 
-    update(deltaTime) {
-        super.update();
-        this.emitterComponent.moveEmitter(this.sprite.x, this.sprite.y);
+    updateEnemy(deltaTime) {
+        super.updateEnemy();
+        this.emitterComponent.moveEmitter(this.x, this.y);
 
         this.easeInOutComponent.update(deltaTime);
-        this.sprite.body.y = this.easeInOutComponent.getCurrentPos();
+        this.body.y = this.easeInOutComponent.getCurrentPos();
 
-        if (this.sprite.body.onWall() || (
-            (this.sprite.body.touching.left || this.sprite.body.touching.right) && !(this.sprite.body.wasTouching.left || this.sprite.body.wasTouching.right))) {
+        if (this.body.onWall() || (
+            (this.body.touching.left || this.body.touching.right) && !(this.body.wasTouching.left || this.body.wasTouching.right))) {
             this.flipDirection();
         }
     }

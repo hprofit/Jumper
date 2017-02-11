@@ -1,15 +1,15 @@
 import isInDebugMode from '../Debug';
 import { DebugGraphicsObjectSquare } from '../DebugGraphicsObjects.js';
 
-export default class Enemy {
-    constructor(game, x, y, spriteName) {
-        this.sprite = game.add.sprite(x, y, spriteName);
-
+export default class Enemy extends Phaser.Sprite {
+    constructor(game, x, y, key) {
+        super(game, x, y, key);
+        game.add.existing(this);
         // Default physics options for Enemy
-        game.physics.arcade.enable(this.sprite);
+        game.physics.arcade.enable(this);
 
-        this.sprite.body.gravity.y = 900;
-        this.sprite.anchor.setTo(.5, .5);
+        this.body.gravity.y = 900;
+        this.anchor.setTo(.5, .5);
 
         this.touchDamage = 0;
         this.doesDamage = true;
@@ -19,9 +19,9 @@ export default class Enemy {
         }
     }
 
-    update() {
+    updateEnemy() {
         if (this.debugGraphics) {
-            this.debugGraphics.render(this.sprite.body);
+            this.debugGraphics.render(this.body);
         }
     }
 }

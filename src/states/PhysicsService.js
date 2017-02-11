@@ -2,15 +2,15 @@ export default class PhysicsService {
     constructor() {
     }
 
-    collideGroups(game, groupA, groupB, collideCallback, processCallback, callbackContext) {
+    static collideGroups(game, groupA, groupB, collideCallback, processCallback, callbackContext) {
         return game.physics.arcade.collide(groupA, groupB, collideCallback, processCallback, callbackContext);
     }
 
-    overlapGroups(game, groupA, groupB, onOverlapCallback = null, processCallback = null, callbackContext = null) {
+    static overlapGroups(game, groupA, groupB, onOverlapCallback = null, processCallback = null, callbackContext = null) {
         return game.physics.arcade.overlap(groupA, groupB, onOverlapCallback, processCallback, callbackContext);
     }
 
-    overlapEntityAndGroup(game, entity, group, callback, callbackContext) {
+    static overlapEntityAndGroup(game, entity, group, callback, callbackContext) {
         let hits = 0;
         if (group.children) {
             group.children.forEach(function (groupEntity, index) {
@@ -20,7 +20,7 @@ export default class PhysicsService {
         return hits;
     }
 
-    overlapArrayAndEntity(game, array, entity, onOverlapCallback, processCallback, callbackContext) {
+    static overlapArrayAndEntity(game, array, entity, onOverlapCallback, processCallback, callbackContext) {
         let hits = [];
         for (let arrayEntity of array) {
             if (game.physics.arcade.overlap(entity.sprite, arrayEntity.sprite, onOverlapCallback, processCallback, callbackContext)) {
@@ -30,7 +30,27 @@ export default class PhysicsService {
         return hits;
     }
 
-    collideArrayAndGroup(game, array, group) {
+    static overlapSpriteArrayAndSprite(game, spriteArray, sprite, onOverlapCallback, processCallback, callbackContext) {
+        let hits = [];
+        for (let spriteItem of spriteArray) {
+            if (game.physics.arcade.overlap(sprite, spriteItem, onOverlapCallback, processCallback, callbackContext)) {
+                hits.push(spriteItem);
+            }
+        }
+        return hits;
+    }
+
+    static collideSpriteArrayAndGroup(game, spriteArray, group) {
+        let hitEntities = [];
+        for (let sprite of spriteArray) {
+            if (this.collideGroups(game, sprite, group)) {
+                hitEntities.push(sprite);
+            }
+        }
+        return hitEntities;
+    }
+
+    static collideArrayAndGroup(game, array, group) {
         let hitEntities = [];
         for (let entity of array) {
             if (this.collideGroups(game, entity.sprite, group)) {
@@ -40,7 +60,7 @@ export default class PhysicsService {
         return hitEntities;
     }
 
-    collideArrayAndEntity(game, array, entity) {
+    static collideArrayAndEntity(game, array, entity) {
         let hitEntities = [];
         for (let arrayEntity of array) {
             if (this.collideGroups(game, arrayEntity.sprite, entity.sprite)) {

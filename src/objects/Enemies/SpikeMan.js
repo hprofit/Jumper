@@ -8,35 +8,35 @@ export default class SpikeMan extends Enemy {
     constructor(game, x, y) {
         super(game, x, y, 'spikeMan');
 
-        this.sprite.height = 64;
-        this.sprite.width = 48;
-        this.sprite.scale.x *= -1;
-        this.sprite.body.setSize(this.sprite.body.width - 40, this.sprite.body.height - 20, 20, 20);
+        this.height = 64;
+        this.width = 48;
+        this.scale.x *= -1;
+        this.body.setSize(this.body.width - 40, this.body.height - 20, 20, 20);
 
         this.standFrame = 0;
         this.jumpFrame = 1;
-        this.sprite.animations.add('walking', [2, 3], 5, true);
-        this.sprite.frame = this.standFrame;
+        this.animations.add('walking', [2, 3], 5, true);
+        this.frame = this.standFrame;
 
         this.touchDamage = 1;
         this.moveSpeed = 75;
         this.direction = -1;
-        this.sprite.body.velocity.x = this.direction * this.moveSpeed;
+        this.body.velocity.x = this.direction * this.moveSpeed;
     }
 
     flipDirection() {
         this.direction *= -1;
-        this.sprite.body.velocity.x = this.direction * this.moveSpeed;
-        this.sprite.scale.x *= -1;
+        this.body.velocity.x = this.direction * this.moveSpeed;
+        this.scale.x *= -1;
     }
 
-    update() {
-        super.update();
-        this.sprite.animations.play('walking');
+    updateEnemy() {
+        super.updateEnemy();
+        this.animations.play('walking');
 
-        if (this.sprite.body.onWall() || (
-            (this.sprite.body.touching.left || this.sprite.body.touching.right) &&
-            !(this.sprite.body.wasTouching.left || this.sprite.body.wasTouching.right)) ) {
+        if (this.body.onWall() || (
+            (this.body.touching.left || this.body.touching.right) &&
+            !(this.body.wasTouching.left || this.body.wasTouching.right)) ) {
             this.flipDirection();
         }
     }

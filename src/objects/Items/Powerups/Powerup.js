@@ -15,23 +15,18 @@ export function loadPowerUpImages(game) {
 }
 
 export class PowerUp extends Item {
-    constructor(game, type, x, y) {
-        super();
+    constructor(game, x, y, type) {
+        super(game, x, y, type);
 
         this.type = type;
-        this.sprite = game.add.sprite(x, y, this.type);
-        game.physics.arcade.enable(this.sprite);
-        this.sprite.width = 32;
-        this.sprite.height = 32;
+        game.physics.arcade.enable(this);
+        this.width = 32;
+        this.height = 32;
 
-        this.tween = game.add.tween(this.sprite).to( { y: y - 10 }, 1000, Phaser.Easing.Quadratic.InOut, true, 0, -1, true);
-    }
-
-    update() {
-
+        this.tween = game.add.tween(this).to( { y: y - 10 }, 1000, Phaser.Easing.Quadratic.InOut, true, 0, -1, true);
     }
 
     touchItem(player) {
-        this.sprite.kill();
+        this.kill();
     }
 }

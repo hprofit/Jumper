@@ -8,7 +8,7 @@ export function loadJetPackPowerUpImage(game) {
 export default class JetPackPowerUpComponent extends PowerUpComponent {
     constructor(group, player, game) {
         super();
-        this.sprite = group.create(player.sprite.x, player.sprite.y, 'jetPack');
+        this.sprite = group.create(player.x, player.y, 'jetPack');
         this.sprite.anchor.setTo(.5, .5);
         this.sprite.width = 48;
         this.sprite.height = 48;
@@ -77,7 +77,7 @@ export default class JetPackPowerUpComponent extends PowerUpComponent {
             this._stopFire();
         }
 
-        if (player.sprite.body.touching.down && contacts) {
+        if (player.body.touching.down && contacts) {
             this.flightTimer = 0;
             this._stopFire();
         }
@@ -90,8 +90,8 @@ export default class JetPackPowerUpComponent extends PowerUpComponent {
     }
 
     update(cursors, contacts, delta, player) {
-        this.sprite.x = player.sprite.x;
-        this.sprite.y = player.sprite.y;
+        this.sprite.x = player.x;
+        this.sprite.y = player.y;
 
         this.flameSpriteLeft.x = this.sprite.x - 16;
         this.flameSpriteLeft.y = this.sprite.y + 24;

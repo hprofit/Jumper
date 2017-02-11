@@ -9,13 +9,13 @@ export default class FlyMan extends Enemy {
     constructor(game, x, y, jumpHeight = 500) {
         super(game, x, y, 'flyMan');
 
-        this.sprite.height = 64;
-        this.sprite.width = 48;
-         this.sprite.body.setSize(this.sprite.body.width - 40, this.sprite.body.height, 20, 0);
+        this.height = 64;
+        this.width = 48;
+         this.body.setSize(this.body.width - 40, this.body.height, 20, 0);
 
-        this.sprite.animations.add('hover', [0, 1], 25, true);
-        this.sprite.animations.add('stand', [2, 3], 25, true);
-        this.sprite.animations.play('stand');
+        this.animations.add('hover', [0, 1], 25, true);
+        this.animations.add('stand', [2, 3], 25, true);
+        this.animations.play('stand');
         this.jumpFrame = 4;
         this.fallFrame = 5;
 
@@ -31,15 +31,15 @@ export default class FlyMan extends Enemy {
     }
 
     jump() {
-        this.sprite.body.velocity.y = -(this.jumpHeight);
-        this.sprite.animations.stop();
-        this.sprite.animations.frame = this.jumpFrame;
+        this.body.velocity.y = -(this.jumpHeight);
+        this.animations.stop();
+        this.animations.frame = this.jumpFrame;
     }
 
     handleRest(deltaTime, contact) {
         if (this.waitTimer < this.maxWaitTime) {
             this.waitTimer += deltaTime;
-            this.sprite.animations.play('stand');
+            this.animations.play('stand');
         }
         else if (this.waitTimer >= this.maxWaitTime && contact) {
             this.jump();
@@ -51,21 +51,21 @@ export default class FlyMan extends Enemy {
     handleHover(deltaTime) {
         if (this.waitTimer < this.maxWaitTime) {
             this.easeInOutComponent.update(deltaTime);
-            this.sprite.body.y = this.easeInOutComponent.getCurrentPos();
+            this.body.y = this.easeInOutComponent.getCurrentPos();
             this.waitTimer += deltaTime;
-            this.sprite.animations.play('hover');
+            this.animations.play('hover');
         }
         else if (this.waitTimer >= this.maxWaitTime) {
-            this.sprite.body.gravity.y = 900;
+            this.body.gravity.y = 900;
             this.waitTimer = 0;
             this.hovering = false;
-            this.sprite.animations.stop();
-            this.sprite.animations.frame = this.fallFrame;
+            this.animations.stop();
+            this.animations.frame = this.fallFrame;
         }
     }
 
-    update(deltaTime, enemiesThatHitPlatforms) {
-        super.update();
+    updateEnemy(deltaTime, enemiesThatHitPlatforms) {
+        super.updateEnemy();
 
         let contact = _.indexOf(enemiesThatHitPlatforms, this) !== -1;
 
@@ -81,12 +81,12 @@ export default class FlyMan extends Enemy {
             this.waitTimer = 0;
         }
 
-        if (this.sprite.animations.frame === this.jumpFrame && this.sprite.body.velocity.y > 0) {
+        if (this.animations.frame === this.jumpFrame && this.body.velocity.y > 0) {
             this.waitTimer = 0;
             this.hovering = true;
-            this.sprite.body.gravity.y = 0;
-            this.sprite.body.velocity.y = 0;
-            this.easeInOutComponent.updateStart(this.sprite.body.y);
+            this.body.gravity.y = 0;
+            this.body.velocity.y = 0;
+            this.easeInOutComponent.updateStart(this.body.y);
             this.easeInOutComponent.reset();
         }
     }

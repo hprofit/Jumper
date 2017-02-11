@@ -8,35 +8,35 @@ export default class SpringMan extends Enemy {
     constructor(game, x, y) {
         super(game, x, y, 'springMan');
 
-        this.sprite.height = 48;
-        this.sprite.width = 32;
+        this.height = 48;
+        this.width = 32;
 
         this.touchDamage = 1;
 
-        this.sprite.body.bounce.y = 1.0;
-        this.sprite.body.velocity.x = 200;
+        this.body.bounce.y = 1.0;
+        this.body.velocity.x = 200;
     }
 
     flipDirection() {
-        this.sprite.body.velocity.x *= -1;
+        this.body.velocity.x *= -1;
     }
 
     /**
      * @param deltaTime
      * @param enemiesThatHitPlatforms
      */
-    update(deltaTime, enemiesThatHitPlatforms) {
-        super.update();
+    updateEnemy(deltaTime, enemiesThatHitPlatforms) {
+        super.updateEnemy();
 
         let contact = _.indexOf(enemiesThatHitPlatforms, this) !== -1;
 
-        if (contact || this.sprite.body.onFloor() || this.sprite.body.touching.down) {
+        if (contact || this.body.onFloor() || this.body.touching.down) {
             this.flipDirection();
         }
 
-        if (this.sprite.body.onWall() || (
-            (this.sprite.body.touching.left || this.sprite.body.touching.right) &&
-            !(this.sprite.body.wasTouching.left || this.sprite.body.wasTouching.right)) ) {
+        if (this.body.onWall() || (
+            (this.body.touching.left || this.body.touching.right) &&
+            !(this.body.wasTouching.left || this.body.wasTouching.right)) ) {
             this.flipDirection();
         }
     }

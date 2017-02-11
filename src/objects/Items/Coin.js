@@ -10,33 +10,33 @@ export function loadCoinImages(game) {
 
 export default class Coin extends Item {
     constructor(game, type, x, y) {
-        super();
-        this.type = type.toLowerCase();
-        this.sprite = game.add.sprite(x, y, this.type);
+        type = type.toLowerCase();
+        super(game, x, y, type);
+        this.type = type;
 
-        game.physics.arcade.enable(this.sprite);
+        game.physics.arcade.enable(this);
 
-        this.sprite.anchor.setTo(.5, .5);
-        this.sprite.width = 32;
-        this.sprite.height = 32;
-        this.sprite.body.setCircle(16, 42, 42);
+        this.anchor.setTo(.5, .5);
+        this.width = 32;
+        this.height = 32;
+        this.body.setCircle(16, 42, 42);
 
-        this.sprite.animations.add('spin', [0, 1, 2, 3, 4, 5], 10, true);
-        this.sprite.animations.play('spin');
+        this.animations.add('spin', [0, 1, 2, 3, 4, 5], 10, true);
+        this.animations.play('spin');
 
         if (isInDebugMode()) {
             this.debugGraphics = new DebugGraphicsObjectCircle(game);
         }
     }
 
-    update() {
+    updateItem() {
         if (this.debugGraphics) {
-            this.debugGraphics.render(this.sprite.body);
+            this.debugGraphics.render(this.body);
         }
     }
 
     touchItem(player) {
         player.addCoin(this.type);
-        this.sprite.kill();
+        this.kill();
     }
 }

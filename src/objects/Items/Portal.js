@@ -18,14 +18,13 @@ export const PortalTypes = {
 
 export class Portal extends Item {
     constructor(game, type, x, y, up = true) {
-        super();
-        this.type = type.toLowerCase();
-        this.sprite = game.add.sprite(x, y, this.type);
+        super(game, x, y, type);
+        this.type = type;
 
-        game.physics.arcade.enable(this.sprite);
+        game.physics.arcade.enable(this);
 
-        this.sprite.width = 64;
-        this.sprite.height = 16;
+        this.width = 64;
+        this.height = 16;
 
         this.otherPortal = null;
         this.direction = up ? -1 : 1;
@@ -47,9 +46,9 @@ export class Portal extends Item {
         this.otherPortal = otherPortal;
     }
 
-    update(deltaTime) {
+    updateItem(deltaTime) {
         if (this.debugGraphics) {
-            this.debugGraphics.render(this.sprite.body);
+            this.debugGraphics.render(this.body);
         }
 
         this.emitterComponent.emitter.forEachAlive(function(particle){
@@ -58,14 +57,14 @@ export class Portal extends Item {
     }
 
     movePlayer(player){
-        let newX = this.sprite.x + 8 + (player.sprite.width / 2);
-        let deltaX = player.sprite.x - newX;
-        player.sprite.x = this.sprite.x + 8 + (player.sprite.width / 2);
+        let newX = this.x + 8 + (player.width / 2);
+        let deltaX = player.x - newX;
+        player.x = this.x + 8 + (player.width / 2);
         if (this.direction === -1) {
-            player.sprite.y = this.sprite.y - player.sprite.height - 5;
+            player.y = this.y - player.height - 5;
         }
         else {
-            player.sprite.y = this.sprite.y + this.sprite.height + 5;
+            player.y = this.y + this.height + 5;
         }
         return deltaX;
     }

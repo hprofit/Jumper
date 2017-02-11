@@ -30,7 +30,6 @@ export default class GameState extends Phaser.State {
 
     preload() {
         preloadImages(this.game);
-        this.PhysicsService = new PhysicsService();
 
         this.sky = null;
         this.group_platforms = null;
@@ -96,18 +95,18 @@ export default class GameState extends Phaser.State {
         this.items.push(p1);
         this.items.push(p2);
 
-        //this.enemies.push(new SpikeMan(this.game, 1000, 100));
-        //this.enemies.push(new WingMan(this.game, 600, 480));
-        //this.enemies.push(new WingMan(this.game, 700, 300, true, 100));
-        //this.enemies.push(new FlyMan(this.game, 100, this.game.world.height - 150));
-        //this.enemies.push(new SpikeBall(this.game, 200, this.game.world.height - 100));
-        //this.enemies.push(new SpringMan(this.game, 600, this.game.world.height - 150));
-        //this.enemies.push(new Sun(this.game, 600, this.game.world.height - 400));
-        //this.enemies.push(new Cloud(this.game, 600, this.game.world.height - 400));
+        this.enemies.push(new SpikeMan(this.game, 1000, 100));
+        this.enemies.push(new WingMan(this.game, 600, 480));
+        this.enemies.push(new WingMan(this.game, 700, 300, true, 100));
+        this.enemies.push(new FlyMan(this.game, 100, this.game.world.height - 150));
+        this.enemies.push(new SpikeBall(this.game, 200, this.game.world.height - 100));
+        this.enemies.push(new SpringMan(this.game, 600, this.game.world.height - 150));
+        this.enemies.push(new Sun(this.game, 600, this.game.world.height - 400));
+        this.enemies.push(new Cloud(this.game, 600, this.game.world.height - 400));
 
         this.player = new Player(this.game, this.game.scale.width / 2, this.game.world.height - 100);
 
-        this.game.camera.follow(this.player.sprite);
+        this.game.camera.follow(this.player);
     }
 
     getDeltaTime() {
@@ -120,46 +119,46 @@ export default class GameState extends Phaser.State {
     update() {
         let deltaTime = this.getDeltaTime();
 
-        let enemiesThatHitPlatforms = this.PhysicsService.collideArrayAndGroup(this.game, this.enemies, this.group_platforms);
+        let enemiesThatHitPlatforms = PhysicsService.collideSpriteArrayAndGroup(this.game, this.enemies, this.group_platforms);
         for (let enemy of this.enemies) {
-            enemy.update(deltaTime, enemiesThatHitPlatforms);
+            enemy.updateEnemy(deltaTime, enemiesThatHitPlatforms);
             if (enemy.emitterComponent && enemy.emitterComponent.particlesHitWalls) {
-                this.PhysicsService.collideGroups(this.game, enemy.emitterComponent.emitter, this.group_platforms, enemy.emitterComponent.killParticle, enemy.emitterComponent.tryThis, enemy.emitterComponent);
+                PhysicsService.collideGroups(this.game, enemy.emitterComponent.emitter, this.group_platforms, enemy.emitterComponent.killParticle, enemy.emitterComponent.tryThis, enemy.emitterComponent);
             }
         }
         for (let item of this.items) {
-            item.update(deltaTime);
+            item.updateItem(deltaTime);
         }
 
-        let hitPlatforms = this.PhysicsService.collideGroups(this.game, this.player.sprite, this.group_platforms);
-        let hitHazards = this.PhysicsService.collideGroups(this.game, this.player.sprite, this.group_hazards);
+        let hitPlatforms = PhysicsService.collideGroups(this.game, this.player, this.group_platforms);
+        let hitHazards = PhysicsService.collideGroups(this.game, this.player, this.group_hazards);
 
         if (hitHazards && this.player.canBeHurt()) {
             this.player.hazardHurtPlayer(2);
         }
 
         // Only take damage from the first enemy
-        let hitEnemies = this.PhysicsService.overlapArrayAndEntity(this.game, this.enemies, this.player, null, this.player.canBeHurt, this.player);
+        let hitEnemies = PhysicsService.overlapSpriteArrayAndSprite(this.game, this.enemies, this.player, null, this.player.canBeHurt, this.player);
         if (hitEnemies[0]) {
             this.player.touchHurtPlayer(hitEnemies[0]);
         }
         else {
             for (let enemy of this.enemies) {
                 if (enemy.emitterComponent && enemy.emitterComponent.particlesDoDamage &&
-                    this.PhysicsService.overlapGroups(this.game, enemy.emitterComponent.emitter, this.player.sprite, null, this.player.canBeHurt, this.player)) {
+                    PhysicsService.overlapGroups(this.game, enemy.emitterComponent.emitter, this.player, null, this.player.canBeHurt, this.player)) {
                     this.player.hazardHurtPlayer(enemy.emitterComponent.particleDamage);
                     break;
                 }
             }
         }
 
-        let hitItems = this.PhysicsService.overlapArrayAndEntity(this.game, this.items, this.player);
+        let hitItems = PhysicsService.overlapSpriteArrayAndSprite(this.game, this.items, this.player);
         for (let item of hitItems) {
             item.touchItem(this.player, this.game);
         }
 
         let cursors = this.game.input.keyboard.createCursorKeys();
-        this.player.update(cursors, hitPlatforms, deltaTime);
+        this.player.updatePlayer(cursors, hitPlatforms, deltaTime);
 
         this.sky.update(this.player.isMoving(), this.player.getVelocity(), deltaTime);
     }

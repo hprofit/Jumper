@@ -10,27 +10,27 @@ export function loadPlayerImage(game) {
     game.load.spritesheet('player_brown', 'assets/Player/player_brown.png', 150, 207);
 }
 
-export default class Player {
+export default class Player extends Phaser.Sprite {
     constructor(game, x, y, lives = 3) {
+        super(game, x, y, 'player_purple');
         this.group_powerUpBack = game.add.group();
-        //this.sprite = game.add.sprite(x, y, 'player_brown');
-        this.sprite = game.add.sprite(x, y, 'player_purple');
+        game.add.existing(this);
         this.group_powerUpFront = game.add.group();
 
-        game.physics.arcade.enable(this.sprite);
-        this.sprite.body.gravity.y = 900;
-        this.sprite.anchor.setTo(.5, .5);
-        this.sprite.height = 64;
-        this.sprite.width = 48;
-        this.sprite.body.setSize(this.sprite.body.width - 30, this.sprite.body.height - 70, 15, 70);
+        game.physics.enable(this);
+        this.body.gravity.y = 900;
+        this.anchor.setTo(.5, .5);
+        this.height = 64;
+        this.width = 48;
+        this.body.setSize(this.body.width - 30, this.body.height - 70, 15, 70);
 
         this.hurtFrame = 5;
         this.jumpFrame = 4;
-        this.sprite.animations.add('stand', [0, 1], 5, true);
-        this.sprite.animations.add('walk', [2, 3], 10, true);
+        this.animations.add('stand', [0, 1], 5, true);
+        this.animations.add('walk', [2, 3], 10, true);
 
-        this.left = this.sprite.scale.x * -1;
-        this.right = this.sprite.scale.x;
+        this.leftDir = this.scale.x * -1;
+        this.rightDir = this.scale.x;
 
         this.health = 10;
         this.maxHurtTimer = .5;
@@ -59,15 +59,15 @@ export default class Player {
     }
 
     isMoving() {
-        return this.sprite.body.deltaX() !== 0;
+        return this.body.deltaX() !== 0;
     }
 
     getDeltaMovement() {
-        return this.sprite.body.deltaX();
+        return this.body.deltaX();
     }
 
     getVelocity() {
-        return this.sprite.body.velocity.x;
+        return this.body.velocity.x;
     }
 
     /**
@@ -83,9 +83,9 @@ export default class Player {
      * @param contacts
      * @param delta
      */
-    update(cursors, contacts, delta) {
+    updatePlayer(cursors, contacts, delta) {
         if (this.debugGraphics) {
-            this.debugGraphics.render(this.sprite.body);
+            this.debugGraphics.render(this.body);
         }
 
         if (this.powerUpComponent) {
@@ -95,19 +95,19 @@ export default class Player {
         if (this.isHurt && this.hurtTimer < this.invincibleTimer) {
             this.hurtTimer += delta;
             // Toggle alpha to display "hurt status"
-            this.sprite.alpha = parseInt((this.hurtTimer / .1), 10) % 2 === 0 ? 0.25 : 1;
+            this.alpha = parseInt((this.hurtTimer / .1), 10) % 2 === 0 ? 0.25 : 1;
 
             if (this.hurtTimer >= this.invincibleTimer) {
                 this.isHurt = false;
-                this.sprite.alpha = 1;
+                this.alpha = 1;
             }
             else if (!this.moveEnabled && this.hurtTimer < this.maxHurtTimer) {
                 return;
             }
             else if (!this.moveEnabled) {
                 this.moveEnabled = true;
-                this.sprite.body.velocity.x = 0;
-                this.sprite.body.bounce.y = 0;
+                this.body.velocity.x = 0;
+                this.body.bounce.y = 0;
             }
         }
         this._handleInput(cursors, contacts, delta);
@@ -128,8 +128,8 @@ export default class Player {
         this.isHurt = true;
         this.moveEnabled = false;
 
-        this.sprite.animations.stop();
-        this.sprite.frame = this.hurtFrame;
+        this.animations.stop();
+        this.frame = this.hurtFrame;
 
         this._updateHealth(-damage);
     }
@@ -148,8 +148,8 @@ export default class Player {
             this._powerUpTakeHit();
         }
         else {
-            this.sprite.body.velocity.y = -250;
-            this.sprite.body.bounce.y = 0.3;
+            this.body.velocity.y = -250;
+            this.body.bounce.y = 0.3;
             this._hurtPlayer(damage);
         }
     }
@@ -160,11 +160,11 @@ export default class Player {
                 this._powerUpTakeHit();
             }
             else {
-                let direction = this.sprite.body.x - enemy.sprite.body.x; // negative is left
-                this.sprite.body.velocity.x = 150 * (direction / Math.abs(direction));
+                let direction = this.body.x - enemy.body.x; // negative is left
+                this.body.velocity.x = 150 * (direction / Math.abs(direction));
 
-                this.sprite.body.velocity.y = -150;
-                this.sprite.body.bounce.y = 0.2;
+                this.body.velocity.y = -150;
+                this.body.bounce.y = 0.2;
                 this._hurtPlayer(enemy.touchDamage);
             }
         }
@@ -173,58 +173,58 @@ export default class Player {
     canBeHurt() {
         return !this.isHurt;
     }
-    
+
     jump(velocity = -500) {
-        this.sprite.body.velocity.y = velocity;
-        this.sprite.animations.stop();
-        this.sprite.frame = this.jumpFrame;
+        this.body.velocity.y = velocity;
+        this.animations.stop();
+        this.frame = this.jumpFrame;
         this.jumping = true;
     }
-    
+
     goLeft(velocity = -150) {
-        this.sprite.body.velocity.x = velocity;
+        this.body.velocity.x = velocity;
         if (!this.jumping) {
-            this.sprite.animations.play('walk');
+            this.animations.play('walk');
         }
-        this.sprite.scale.x = this.left;
+        this.scale.x = this.leftDir;
     }
 
     goRight(velocity = 150) {
-        this.sprite.body.velocity.x = velocity;
+        this.body.velocity.x = velocity;
         if (!this.jumping) {
-            this.sprite.animations.play('walk');
+            this.animations.play('walk');
         }
-        this.sprite.scale.x = this.right;
+        this.scale.x = this.rightDir;
     }
 
     stopMoving(delta, slowRate = 500) {
-        if (this.sprite.body.velocity.x !== 0) {
-            let dir = this.sprite.body.velocity.x > 0 ? -1 : 1;
+        if (this.body.velocity.x !== 0) {
+            let dir = this.body.velocity.x > 0 ? -1 : 1;
             let decrementAmount = delta * slowRate * dir;
-            let newX = this.sprite.body.velocity.x + decrementAmount;
+            let newX = this.body.velocity.x + decrementAmount;
 
             if ((dir === -1 && newX <= 2) ||
                 (dir === 1 && newX >= -2)) {
                 //  Stand still
-                this.sprite.animations.stop();
-                this.sprite.animations.play('stand');
-                this.sprite.body.velocity.x = 0;
+                this.animations.stop();
+                this.animations.play('stand');
+                this.body.velocity.x = 0;
             }
             else {
-                this.sprite.body.velocity.x += decrementAmount;
+                this.body.velocity.x += decrementAmount;
             }
         }
         else {
             //  Stand still
-            this.sprite.animations.play('stand');
-            this.sprite.body.velocity.x = 0;
+            this.animations.play('stand');
+            this.body.velocity.x = 0;
         }
     }
 
     _handleInput(cursors, contacts, delta) {
-        if (this.sprite.body.touching.down && this.jumping) {
+        if (this.body.touching.down && this.jumping) {
             this.jumping = false;
-            this.sprite.animations.play('stand');
+            this.animations.play('stand');
         }
 
         if (this.powerUpComponent &&  this.powerUpComponent.handleHorizontalMovement) {
@@ -247,15 +247,15 @@ export default class Player {
             this.powerUpComponent.handleJump(cursors, contacts, delta, this);
         }
         //  Allow the player to jump if they are touching the ground.
-        else if (cursors.up.isDown && this.sprite.body.touching.down && contacts) {
-            this.sprite.body.velocity.y = -500;
-            this.sprite.animations.stop();
-            this.sprite.frame = this.jumpFrame;
+        else if (cursors.up.isDown && this.body.touching.down && contacts) {
+            this.body.velocity.y = -500;
+            this.animations.stop();
+            this.frame = this.jumpFrame;
             this.jumping = true;
         }
 
-        if (this.sprite.body.touching.right || this.sprite.body.touching.left) {
-            this.sprite.body.velocity.x = 0;
+        if (this.body.touching.right || this.body.touching.left) {
+            this.body.velocity.x = 0;
         }
     }
 

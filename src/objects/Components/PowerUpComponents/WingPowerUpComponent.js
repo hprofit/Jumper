@@ -8,12 +8,12 @@ export function loadWingPowerUpImage(game) {
 export default class WingPowerPowerUpComponent extends PowerUpComponent {
     constructor(group, player, game) {
         super();
-        this.spriteLeft = group.create(player.sprite.x - 10, player.sprite.y, 'leftWing');
+        this.spriteLeft = group.create(player.x - 10, player.y, 'leftWing');
         this.spriteLeft.anchor.setTo(1, .5);
         this.spriteLeft.width = 32;
         this.spriteLeft.height = 32;
 
-        this.spriteRight = group.create(player.sprite.x + 10, player.sprite.y, 'rightWing');
+        this.spriteRight = group.create(player.x + 10, player.y, 'rightWing');
         this.spriteRight.anchor.setTo(0, .5);
         this.spriteRight.width = 32;
         this.spriteRight.height = 32;
@@ -91,10 +91,10 @@ export default class WingPowerPowerUpComponent extends PowerUpComponent {
     }
 
     update(cursors, contacts, delta, player) {
-        this.spriteLeft.x = player.sprite.x - 10;
-        this.spriteLeft.y = player.sprite.y;
+        this.spriteLeft.x = player.x - 10;
+        this.spriteLeft.y = player.y;
 
-        this.spriteRight.x = player.sprite.x + 10;
-        this.spriteRight.y = player.sprite.y;
+        this.spriteRight.x = player.x + 10;
+        this.spriteRight.y = player.y;
     }
 }

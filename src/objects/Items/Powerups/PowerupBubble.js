@@ -2,11 +2,7 @@ import { PowerUp, PowerUpTypes } from './PowerUp';
 
 export default class PowerUpBubble extends PowerUp {
     constructor(game, x, y) {
-        super(game, PowerUpTypes.BUBBLE, x, y);
-    }
-
-    update() {
-        super.update();
+        super(game, x, y, PowerUpTypes.BUBBLE);
     }
 
     touchItem(player, game) {

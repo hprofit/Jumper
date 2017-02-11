@@ -7,7 +7,7 @@ export function loadBubblePowerUpImage(game) {
 export default class BubblePowerUpComponent extends PowerUpComponent {
     constructor(group, player) {
         super();
-        this.sprite = group.create(player.sprite.x - 32, player.sprite.y - 32, 'bubble');
+        this.sprite = group.create(player.x - 32, player.y - 32, 'bubble');
         this.sprite.width = 64;
         this.sprite.height = 64;
     }
@@ -21,7 +21,7 @@ export default class BubblePowerUpComponent extends PowerUpComponent {
     }
 
     update(cursors, contacts, delta, player) {
-        this.sprite.x = player.sprite.x - 32;
-        this.sprite.y = player.sprite.y - 32;
+        this.sprite.x = player.x - 32;
+        this.sprite.y = player.y - 32;
     }
 }

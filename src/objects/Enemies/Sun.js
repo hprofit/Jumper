@@ -9,40 +9,40 @@ export default class Sun extends Enemy {
     constructor(game, x, y) {
         super(game, x, y, 'sun');
 
-        this.sprite.height = 128;
-        this.sprite.width = 128;
-        //this.sprite.body.setSize(this.sprite.body.width - 40, this.sprite.body.height, 20, 0);
+        this.height = 128;
+        this.width = 128;
+        //this.body.setSize(this.body.width - 40, this.body.height, 20, 0);
 
-        this.sprite.animations.add('roll', [0, 1], 10, true);
-        this.sprite.animations.play('roll');
+        this.animations.add('roll', [0, 1], 10, true);
+        this.animations.play('roll');
 
         this.touchDamage = 5;
         this.speedX = 75;
         this.direction = -1;
-        this.sprite.body.velocity.x = -this.speedX;
+        this.body.velocity.x = -this.speedX;
     }
 
     flipDirection() {
         this.direction *= -1;
-        this.sprite.body.velocity.x = this.speedX * this.direction;
+        this.body.velocity.x = this.speedX * this.direction;
     }
 
     /**
      * @param deltaTime
      * @param enemiesThatHitPlatforms
      */
-    update(deltaTime, enemiesThatHitPlatforms) {
-        super.update();
+    updateEnemy(deltaTime, enemiesThatHitPlatforms) {
+        super.updateEnemy();
 
         let contact = _.indexOf(enemiesThatHitPlatforms, this) !== -1;
 
-        if (contact && (this.sprite.body.onFloor() || this.sprite.body.touching.down)) {
-            this.sprite.body.velocity.y = -1 * MathExtensions.random(400, 700);
+        if (contact && (this.body.onFloor() || this.body.touching.down)) {
+            this.body.velocity.y = -1 * MathExtensions.random(400, 700);
         }
 
-        if (this.sprite.body.onWall() || (
-            (this.sprite.body.touching.left || this.sprite.body.touching.right) &&
-            !(this.sprite.body.wasTouching.left || this.sprite.body.wasTouching.right)) ) {
+        if (this.body.onWall() || (
+            (this.body.touching.left || this.body.touching.right) &&
+            !(this.body.wasTouching.left || this.body.wasTouching.right)) ) {
             this.flipDirection();
         }
     }

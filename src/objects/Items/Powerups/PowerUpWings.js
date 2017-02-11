@@ -2,11 +2,7 @@ import { PowerUp, PowerUpTypes } from './PowerUp';
 
 export default class PowerUpWings extends PowerUp {
     constructor(game, x, y) {
-        super(game, PowerUpTypes.WINGS, x, y);
-    }
-
-    update() {
-        super.update();
+        super(game, x, y, PowerUpTypes.WINGS);
     }
 
     touchItem(player, game) {
