@@ -17,11 +17,11 @@ import { Portal, PortalTypes } from '../objects/Items/Portal';
 import PowerUpBubble from '../objects/Items/Powerups/PowerUpBubble';
 import PowerUpJetPack from '../objects/Items/Powerups/PowerUpJetPack';
 import PowerUpWings from '../objects/Items/Powerups/PowerUpWings';
+import PowerUpLife from '../objects/Items/Powerups/PowerUpLife';
 
 import { Platform, PlatformTypes, PlatformSubtypes } from '../objects/Environment/Platform';
 import Player from '../objects/Player/Player';
 import MathExtensions from '../MathExtensions';
-
 
 export default class GameState extends Phaser.State {
     constructor() {
@@ -87,6 +87,7 @@ export default class GameState extends Phaser.State {
         this.items.push(new PowerUpBubble(this.game, 512, 416));
         this.items.push(new PowerUpJetPack(this.game, 548, 416));
         this.items.push(new PowerUpWings(this.game, 584, 416));
+        this.items.push(new PowerUpLife(this.game, 620, 416));
 
         let p1 = new Portal(this.game, PortalTypes.ORANGE, 640, this.game.world.height - 64);
         let p2 = new Portal(this.game, PortalTypes.ORANGE, 640, 32, false);

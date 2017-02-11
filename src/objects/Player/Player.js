@@ -11,7 +11,7 @@ export function loadPlayerImage(game) {
 }
 
 export default class Player {
-    constructor(game, x, y) {
+    constructor(game, x, y, lives = 3) {
         this.group_powerUpBack = game.add.group();
         //this.sprite = game.add.sprite(x, y, 'player_brown');
         this.sprite = game.add.sprite(x, y, 'player_purple');
@@ -45,9 +45,11 @@ export default class Player {
             gold: 0
         };
 
+        this.lives = lives;
+
         this.HUD = new HUD(game);
         this.HUD.updateHealth(this.health);
-        this.HUD.updateLife(3);
+        this.HUD.updateLife(this.lives);
 
         this.powerUpComponent = null;
 
@@ -260,6 +262,16 @@ export default class Player {
     addCoin(type) {
         this.coins[type]++;
         this.HUD.updateCoinAmount(type, this.coins[type]);
+    }
+
+    addLife() {
+        this.lives++;
+        this.HUD.updateLife(this.lives);
+    }
+
+    removeLife() {
+        this.lives--;
+        this.HUD.updateLife(this.lives);
     }
 
     _removePowerUpComponent() {

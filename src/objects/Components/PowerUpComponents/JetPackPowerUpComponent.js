@@ -85,6 +85,8 @@ export default class JetPackPowerUpComponent extends PowerUpComponent {
 
     remove() {
         this.sprite.kill();
+        this.flameSpriteLeft.kill();
+        this.flameSpriteRight.kill();
     }
 
     update(cursors, contacts, delta, player) {
