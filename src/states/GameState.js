@@ -84,9 +84,9 @@ export default class GameState extends Phaser.State {
             this.items.push(new Coin(this.game, 'bronze',   1200 + idx * 35, 400 + tmp));
         }
 
-        //this.items.push(new PowerUpBubble(this.game, 512, 416));
+        this.items.push(new PowerUpBubble(this.game, 512, 416));
         this.items.push(new PowerUpJetPack(this.game, 548, 416));
-        //this.items.push(new PowerUpWings(this.game, 584, 416));
+        this.items.push(new PowerUpWings(this.game, 584, 416));
 
         let p1 = new Portal(this.game, PortalTypes.ORANGE, 640, this.game.world.height - 64);
         let p2 = new Portal(this.game, PortalTypes.ORANGE, 640, 32, false);

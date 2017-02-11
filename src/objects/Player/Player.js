@@ -1,9 +1,9 @@
 import isInDebugMode from '../Debug';
 import HUD from './HUD.js'
 import { DebugGraphicsObjectSquare } from '../DebugGraphicsObjects.js';
-import BubblePowerUpComponent from './PowerUpComponents/BubblePowerUpComponent';
-import JetPackPowerUpComponent from './PowerUpComponents/JetPackPowerUpComponent';
-import WingPowerUpComponent from './PowerUpComponents/WingPowerUpComponent';
+import BubblePowerUpComponent from '../Components/PowerUpComponents/BubblePowerUpComponent';
+import JetPackPowerUpComponent from '../Components/PowerUpComponents/JetPackPowerUpComponent';
+import WingPowerUpComponent from '../Components/PowerUpComponents/WingPowerUpComponent';
 
 export function loadPlayerImage(game) {
     game.load.spritesheet('player_purple', 'assets/Player/player_purple.png', 150, 207);

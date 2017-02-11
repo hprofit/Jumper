@@ -1,6 +1,6 @@
 import Enemy from './Enemy.js';
-import EaseInOutComponent from '../EaseInOutComponent';
-import EmitterComponent from '../EmitterComponent';
+import EaseInOutComponent from '../Components/EaseInOutComponent';
+import EmitterComponent from '../Components/EmitterComponent';
 
 export function loadCloudImage(game) {
     game.load.image('cloud', 'assets/Enemies/cloud.png');

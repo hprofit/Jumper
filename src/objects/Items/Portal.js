@@ -1,7 +1,7 @@
 import isInDebugMode from '../Debug';
 import { DebugGraphicsObjectSquare } from '../DebugGraphicsObjects.js';
 import Item from './Item.js';
-import EmitterComponent from '../EmitterComponent';
+import EmitterComponent from '../Components/EmitterComponent';
 
 export function loadPortalImages(game) {
     game.load.image('portal_orange', 'assets/Items/portal_orange.png');

@@ -1,4 +1,4 @@
-import MathExtensions from '../MathExtensions';
+import MathExtensions from '../../MathExtensions';
 
 export default class EaseInOutComponent {
     constructor(start, max, speed, direction = 1, clip = .25){

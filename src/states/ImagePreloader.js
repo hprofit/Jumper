@@ -15,9 +15,9 @@ import { loadSpikeImages } from '../objects/Environment/Spikes';
 import { loadCoinImages } from '../objects/Items/Coin';
 import { loadPortalImages } from '../objects/Items/Portal';
 import { loadPowerUpImages } from '../objects/Items/Powerups/PowerUp';
-import { loadBubblePowerUpImage } from '../objects/Player/PowerUpComponents/BubblePowerUpComponent';
-import { loadJetPackPowerUpImage } from '../objects/Player/PowerUpComponents/JetPackPowerUpComponent';
-import { loadWingPowerUpImage } from '../objects/Player/PowerUpComponents/WingPowerUpComponent';
+import { loadBubblePowerUpImage } from '../objects/Components/PowerUpComponents/BubblePowerUpComponent';
+import { loadJetPackPowerUpImage } from '../objects/Components/PowerUpComponents/JetPackPowerUpComponent';
+import { loadWingPowerUpImage } from '../objects/Components/PowerUpComponents/WingPowerUpComponent';
 
 import { loadAllPlatformImages, loadCakePlatformImages,
     loadGrassPlatformImages, loadSandPlatformImages, loadSnowPlatformImages,

@@ -1,5 +1,5 @@
 import Enemy from './Enemy.js';
-import EaseInOutComponent from '../EaseInOutComponent';
+import EaseInOutComponent from '../Components/EaseInOutComponent';
 
 export function loadFlyManImage(game) {
     game.load.spritesheet('flyMan', 'assets/Enemies/flyMan.png', 122, 139); // 480 x 159
