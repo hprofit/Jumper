@@ -1,5 +1,5 @@
-import isInDebugMode from '../Debug';
-import { DebugGraphicsObjectSquare } from '../DebugGraphicsObjects.js';
+import isInDebugMode from '../Debug/Debug';
+import { DebugGraphicsObjectSquare } from '../Debug/DebugGraphicsObjects.js';
 import Item from './Item.js';
 import EmitterComponent from '../Components/EmitterComponent';
 

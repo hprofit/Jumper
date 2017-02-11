@@ -1,5 +1,5 @@
-import isInDebugMode from '../Debug';
-import { DebugGraphicsObjectCircle } from '../DebugGraphicsObjects.js';
+import isInDebugMode from '../Debug/Debug';
+import { DebugGraphicsObjectCircle } from '../Debug/DebugGraphicsObjects.js';
 import Item from './Item.js';
 
 export function loadCoinImages(game) {

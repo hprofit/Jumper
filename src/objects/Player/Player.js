@@ -1,6 +1,6 @@
-import isInDebugMode from '../Debug';
+import isInDebugMode from '../Debug/Debug';
 import HUD from './HUD.js'
-import { DebugGraphicsObjectSquare } from '../DebugGraphicsObjects.js';
+import { DebugGraphicsObjectSquare } from '../Debug/DebugGraphicsObjects.js';
 import BubblePowerUpComponent from '../Components/PowerUpComponents/BubblePowerUpComponent';
 import JetPackPowerUpComponent from '../Components/PowerUpComponents/JetPackPowerUpComponent';
 import WingPowerUpComponent from '../Components/PowerUpComponents/WingPowerUpComponent';

@@ -1,4 +1,4 @@
-import { turnDebugModeOn, turnDebugModeOff } from './objects/Debug.js';
+import { turnDebugModeOn, turnDebugModeOff } from './objects/Debug/Debug.js';
 import GameState from './states/GameState';
 
 turnDebugModeOff();
