@@ -14,6 +14,3 @@ export default class MathExtensionsClass {
         return Math.random() * (max - min) + min;
     }
 }
-
-//const MathExtensions = new MathExtensionsClass();
-//export default MathExtensions;
