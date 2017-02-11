@@ -31,11 +31,11 @@ export class Portal extends Item {
 
         this.emitterComponent = new EmitterComponent(game, x + 32, y + 10, 50);
         this.emitterComponent.setWidth(50);
-        this.emitterComponent.makeParticles(`${this.type}Particle`);
+        this.emitterComponent.makeParticlesFromImage(`${this.type}Particle`);
         this.emitterComponent.setSpeed(0, 0, 2, 10);
         this.emitterComponent.setScaleBoth(.5, .5);
         this.emitterComponent.setGravity(200 * this.direction);
-        this.emitterComponent.start(false, 700, 100);
+        this.emitterComponent.startEmitter(false, 700, 100);
 
         if (isInDebugMode()) {
             this.debugGraphics = new DebugGraphicsObjectSquare(game);
@@ -51,7 +51,7 @@ export class Portal extends Item {
             this.debugGraphics.render(this.body);
         }
 
-        this.emitterComponent.emitter.forEachAlive(function(particle){
+        this.emitterComponent.forEachAlive(function(particle){
             particle.alpha -= deltaTime * 1.25;
         }, null);
     }

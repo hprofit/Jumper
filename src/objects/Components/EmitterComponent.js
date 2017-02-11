@@ -1,7 +1,8 @@
-export default class EmitterComponent {
+export default class EmitterComponent extends Phaser.Particles.Arcade.Emitter {
     constructor(game, x, y, maxParticles, doDamage = false, damageAmount = 0, hitWalls = false) {
-        this.emitter = game.add.emitter(x, y, maxParticles);
-        this.emitter.bounce.setTo(0.5, 0.5);
+        super(game, x, y, maxParticles);
+        game.add.existing(this);
+        this.bounce.setTo(0.5, 0.5);
 
         this.maxParticles = maxParticles;
         this.particlesDoDamage = doDamage;
@@ -19,48 +20,48 @@ export default class EmitterComponent {
     }
 
     setWidth (width) {
-        this.emitter.width = width;
+        this.width = width;
     }
 
     setGravity(gravity) {
-        this.emitter.gravity = gravity;
+        this.gravity = gravity;
     }
 
     moveEmitter(x, y) {
-        this.emitter.x = x;
-        this.emitter.y = y;
+        this.x = x;
+        this.y = y;
     }
 
     setParticleClass(particleClass) {
-        this.emitter.particleClass = particleClass;
+        this.particleClass = particleClass;
     }
 
-    makeParticles(particleImage, frames) {
-        this.emitter.makeParticles(particleImage, frames, this.maxParticles, true);
+    makeParticlesFromImage(particleImage, frames = [0]) {
+        this.makeParticles(particleImage, frames, this.maxParticles, true);
     }
 
     setSpeed(xMin = 0, xMax = 0, yMin = 0, yMax = 0) {
-        this.emitter.setXSpeed(xMin, xMax);
-        this.emitter.setYSpeed(yMin, yMax);
+        this.setXSpeed(xMin, xMax);
+        this.setYSpeed(yMin, yMax);
     }
 
-    setScale(xMin = 0, xMax = 0, yMin = 0, yMax = 0) {
-        this.emitter.setScale(xMin, xMax, yMin, yMax);
+    setScaleWithDefaults(xMin = 0, xMax = 0, yMin = 0, yMax = 0) {
+        this.setScale(xMin, xMax, yMin, yMax);
     }
 
     setScaleBoth(min, max) {
         this.setScale(min, max, min, max);
-        this.emitter.minParticleScale = min;
-        this.emitter.maxParticleScale = max;
+        this.minParticleScale = min;
+        this.maxParticleScale = max;
     }
 
-    setRotation(min, max) {
-        this.emitter.setRotation(min, max);
-        this.emitter.minRotation = min;
-        this.emitter.maxRotation = max;
+    setRotationWithDefaults(min = 0, max = 0) {
+        this.setRotation(min, max);
+        this.minRotation = min;
+        this.maxRotation = max;
     }
 
-    start(explode = true, lifespan = 0, frequency = 250, quantity = 0, forceQuantity = false) {
-        this.emitter.start(explode, lifespan, frequency, quantity, forceQuantity);
+    startEmitter(explode = true, lifespan = 0, frequency = 250, quantity = 0, forceQuantity = false) {
+        this.start(explode, lifespan, frequency, quantity, forceQuantity);
     }
 }

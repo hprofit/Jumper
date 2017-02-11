@@ -123,7 +123,7 @@ export default class GameState extends Phaser.State {
         for (let enemy of this.enemies) {
             enemy.updateEnemy(deltaTime, enemiesThatHitPlatforms);
             if (enemy.emitterComponent && enemy.emitterComponent.particlesHitWalls) {
-                PhysicsService.collideGroups(this.game, enemy.emitterComponent.emitter, this.group_platforms, enemy.emitterComponent.killParticle, enemy.emitterComponent.tryThis, enemy.emitterComponent);
+                PhysicsService.collideGroups(this.game, enemy.emitterComponent, this.group_platforms, enemy.emitterComponent.killParticle, enemy.emitterComponent.tryThis, enemy.emitterComponent);
             }
         }
         for (let item of this.items) {
@@ -145,7 +145,7 @@ export default class GameState extends Phaser.State {
         else {
             for (let enemy of this.enemies) {
                 if (enemy.emitterComponent && enemy.emitterComponent.particlesDoDamage &&
-                    PhysicsService.overlapGroups(this.game, enemy.emitterComponent.emitter, this.player, null, this.player.canBeHurt, this.player)) {
+                    PhysicsService.overlapGroups(this.game, enemy.emitterComponent, this.player, null, this.player.canBeHurt, this.player)) {
                     this.player.hazardHurtPlayer(enemy.emitterComponent.particleDamage);
                     break;
                 }

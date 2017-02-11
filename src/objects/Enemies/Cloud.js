@@ -25,14 +25,14 @@ class LightningLarge extends Lightning {
         super(game, x, y, key, frame);
         this.emitterComponent = new EmitterComponent(game, x, y, 10);
         this.emitterComponent.setParticleClass(Lightning);
-        this.emitterComponent.makeParticles('lightning_particle', [0, 1]);
+        this.emitterComponent.makeParticlesFromImage('lightning_particle', [0, 1]);
         this.emitterComponent.setSpeed(-250, 250, -250, 250);
         this.emitterComponent.setScaleBoth(.125, .125);
     }
 
     onKill() {
         this.emitterComponent.moveEmitter(this.x + this.width / 2, this.y + this.height / 2);
-        this.emitterComponent.start(true, 200, null, 10);
+        this.emitterComponent.startEmitter(true, 200, null, 10);
         this.kill();
     }
 }
@@ -55,11 +55,11 @@ export default class Cloud extends Enemy {
         this.emitterComponent = new EmitterComponent(game, x + 48, y + 24, 10, true, 2, true);
 
         this.emitterComponent.setParticleClass(LightningLarge);
-        this.emitterComponent.makeParticles('lightning_particle', [0, 1]);
+        this.emitterComponent.makeParticlesFromImage('lightning_particle', [0, 1]);
         this.emitterComponent.setSpeed(0, 0, 500, 500);
         this.emitterComponent.setScaleBoth(.5, .5);
-        this.emitterComponent.setRotation(0, 0);
-        this.emitterComponent.start(false, 0, 1500);
+        this.emitterComponent.setRotationWithDefaults();
+        this.emitterComponent.startEmitter(false, 0, 1500);
     }
 
     flipDirection() {
