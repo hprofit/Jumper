@@ -23,6 +23,8 @@ import { loadAllPlatformImages, loadCakePlatformImages,
     loadGrassPlatformImages, loadSandPlatformImages, loadSnowPlatformImages,
     loadStonePlatformImages, loadWoodPlatformImages } from '../objects/Environment/Platform';
 
+import { loadMenuImages } from '../menus/MenuBase';
+
 export default function preloadImages(game) {
     loadSpikeManImage(game);
     loadWingManImage(game);
@@ -45,5 +47,8 @@ export default function preloadImages(game) {
     loadHUDImages(game);
     loadPlayerImage(game);
 
+    // TODO: Replace this
     loadGrassPlatformImages(game);
+
+    loadMenuImages(game);
 }

@@ -1,4 +1,3 @@
-import preloadImages from './ImagePreloader';
 import PhysicsService from './PhysicsService';
 
 import SpikeMan from '../objects/Enemies/SpikeMan';
@@ -23,14 +22,15 @@ import { Platform, PlatformTypes, PlatformSubtypes } from '../objects/Environmen
 import Player from '../objects/Player/Player';
 import MathExtensions from '../MathExtensions';
 
+import PauseMenu from '../menus/PauseMenu';
+import OptionsMenu from '../menus/OptionsMenu';
+
 export default class GameState extends Phaser.State {
     constructor() {
         super();
     }
 
     preload() {
-        preloadImages(this.game);
-
         this.sky = null;
         this.group_platforms = null;
         this.items = [];
@@ -41,11 +41,11 @@ export default class GameState extends Phaser.State {
         this.previousTime = 0;
 
         this.game.world.resize(6016, this.game.world.height);
+
+        this.currentMenu = null;
     }
 
     create() {
-        this.game.physics.startSystem(Phaser.Physics.ARCADE);
-
         this.sky = new Sky(this.game);
 
         this.group_platforms = this.game.add.group();
@@ -76,11 +76,11 @@ export default class GameState extends Phaser.State {
         let max = 20;
         for (let idx = 0; idx < max; idx++) {
             let tmp = MathExtensions.plotOnBell(idx / max) * -100;
-            this.items.push(new Coin(this.game, 'bronze',   1200 + idx * 35, 200 + tmp));
-            this.items.push(new Coin(this.game, 'silver',   1200 + idx * 35, 250 + tmp));
-            this.items.push(new Coin(this.game, 'gold',     1200 + idx * 35, 300 + tmp));
-            this.items.push(new Coin(this.game, 'silver',   1200 + idx * 35, 350 + tmp));
-            this.items.push(new Coin(this.game, 'bronze',   1200 + idx * 35, 400 + tmp));
+            this.items.push(new Coin(this.game, 'bronze', 1200 + idx * 35, 200 + tmp));
+            this.items.push(new Coin(this.game, 'silver', 1200 + idx * 35, 250 + tmp));
+            this.items.push(new Coin(this.game, 'gold', 1200 + idx * 35, 300 + tmp));
+            this.items.push(new Coin(this.game, 'silver', 1200 + idx * 35, 350 + tmp));
+            this.items.push(new Coin(this.game, 'bronze', 1200 + idx * 35, 400 + tmp));
         }
 
         this.items.push(new PowerUpBubble(this.game, 512, 416));
@@ -95,18 +95,48 @@ export default class GameState extends Phaser.State {
         this.items.push(p1);
         this.items.push(p2);
 
-        this.enemies.push(new SpikeMan(this.game, 1000, 100));
-        this.enemies.push(new WingMan(this.game, 600, 480));
-        this.enemies.push(new WingMan(this.game, 700, 300, true, 100));
-        this.enemies.push(new FlyMan(this.game, 100, this.game.world.height - 150));
-        this.enemies.push(new SpikeBall(this.game, 200, this.game.world.height - 100));
-        this.enemies.push(new SpringMan(this.game, 600, this.game.world.height - 150));
-        this.enemies.push(new Sun(this.game, 600, this.game.world.height - 400));
-        this.enemies.push(new Cloud(this.game, 600, this.game.world.height - 400));
+        //this.enemies.push(new SpikeMan(this.game, 1000, 100));
+        //this.enemies.push(new WingMan(this.game, 600, 480));
+        //this.enemies.push(new WingMan(this.game, 700, 300, true, 100));
+        //this.enemies.push(new FlyMan(this.game, 100, this.game.world.height - 150));
+        //this.enemies.push(new SpikeBall(this.game, 200, this.game.world.height - 100));
+        //this.enemies.push(new SpringMan(this.game, 600, this.game.world.height - 150));
+        //this.enemies.push(new Sun(this.game, 600, this.game.world.height - 400));
+        //this.enemies.push(new Cloud(this.game, 600, this.game.world.height - 400));
 
         this.player = new Player(this.game, this.game.scale.width / 2, this.game.world.height - 100);
 
         this.game.camera.follow(this.player);
+    }
+
+    killCurrentMenu() {
+        if (this.currentMenu) {
+            this.currentMenu.kill();
+        }
+    }
+
+    resumeGame() {
+        this.killCurrentMenu();
+        this.game.paused = false;
+    }
+
+    exitGame() {
+        this.game.state.start('main');
+    }
+
+    launchPauseMenu() {
+        this.game.paused = true;
+        this.killCurrentMenu();
+        this.currentMenu = new PauseMenu(this.game);
+        this.currentMenu.resume.add(this.resumeGame, this);
+        this.currentMenu.options.add(this.launchOptions, this);
+        this.currentMenu.exit.add(this.exitGame, this);
+    }
+
+    launchOptions() {
+        this.killCurrentMenu();
+        this.currentMenu = new OptionsMenu(this.game);
+        this.currentMenu.back.add(this.launchPauseMenu, this);
     }
 
     getDeltaTime() {
@@ -117,6 +147,11 @@ export default class GameState extends Phaser.State {
     }
 
     update() {
+        console.log("update");
+        if (this.input.keyboard.isDown(Phaser.KeyCode.SPACEBAR)) {
+            this.launchPauseMenu();
+        }
+
         let deltaTime = this.getDeltaTime();
 
         let enemiesThatHitPlatforms = PhysicsService.collideSpriteArrayAndGroup(this.game, this.enemies, this.group_platforms);
