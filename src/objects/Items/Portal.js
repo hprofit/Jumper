@@ -3,14 +3,6 @@ import { DebugGraphicsObjectSquare } from '../Debug/DebugGraphicsObjects.js';
 import Item from './Item.js';
 import EmitterComponent from '../Components/EmitterComponent';
 
-export function loadPortalImages(game) {
-    game.load.image('portal_orange', 'assets/Items/portal_orange.png');
-    game.load.image('portal_yellow', 'assets/Items/portal_yellow.png');
-
-    game.load.image('portal_orangeParticle', 'assets/Particles/portal_orangeParticle.png');
-    game.load.image('portal_yellowParticle', 'assets/Particles/portal_yellowParticle.png');
-}
-
 export const PortalTypes = {
     ORANGE: 'portal_orange',
     YELLOW: 'portal_yellow'
@@ -40,6 +32,14 @@ export class Portal extends Item {
         if (isInDebugMode()) {
             this.debugGraphics = new DebugGraphicsObjectSquare(game);
         }
+    }
+
+    static loadPortalImages(game) {
+        game.load.image('portal_orange', 'assets/Items/portal_orange.png');
+        game.load.image('portal_yellow', 'assets/Items/portal_yellow.png');
+
+        game.load.image('portal_orangeParticle', 'assets/Particles/portal_orangeParticle.png');
+        game.load.image('portal_yellowParticle', 'assets/Particles/portal_yellowParticle.png');
     }
 
     linkToPortal(otherPortal) {

@@ -1,10 +1,5 @@
 import PowerUpComponent from './PowerUpComponent';
 
-export function loadJetPackPowerUpImage(game) {
-    game.load.image('jetPack', 'assets/Items/PowerUpSprites/jetpack.png');
-    game.load.image('flame', 'assets/Particles/flame.png');
-}
-
 export default class JetPackPowerUpComponent extends PowerUpComponent {
     constructor(group, player, game) {
         super();
@@ -25,14 +20,15 @@ export default class JetPackPowerUpComponent extends PowerUpComponent {
         this.flameSpriteRight.height = 32;
         this.flameSpriteRight.alpha = 0;
 
-        //this.tweenLeft = game.add.tween(this.flameSpriteLeft.scale).to({y:.5}, 100, null, false, 0, -1, true);
-        //this.tweenRight = game.add.tween(this.flameSpriteRight.scale).to({y:.5}, 100, null, false, 0, -1, true);
-
-
         this.flightTimer = 0;
         this.flightMax = 1.5;
 
         this.fireTimer = 0;
+    }
+
+    static loadJetPackPowerUpImage(game) {
+        game.load.image('jetPack', 'assets/Items/PowerUpSprites/jetpack.png');
+        game.load.image('flame', 'assets/Particles/flame.png');
     }
 
     _startFire() {

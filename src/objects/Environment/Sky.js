@@ -1,10 +1,3 @@
-export function loadSkyImages(game) {
-    game.load.image('bg_1', 'assets/Background/bg_layer1.png');
-    game.load.image('bg_2', 'assets/Background/bg_layer2.png');
-    game.load.image('bg_3', 'assets/Background/bg_layer3.png');
-    game.load.image('bg_4', 'assets/Background/bg_layer4.png');
-}
-
 export default class Sky {
     constructor(game) {
         this.bg_1 = game.add.sprite(0, 0, 'bg_1');
@@ -23,6 +16,13 @@ export default class Sky {
         this.bg2_speed = 50;
 
         this.bg3_rate = .25;
+    }
+
+    static loadSkyImages(game) {
+        game.load.image('bg_1', 'assets/Background/bg_layer1.png');
+        game.load.image('bg_2', 'assets/Background/bg_layer2.png');
+        game.load.image('bg_3', 'assets/Background/bg_layer3.png');
+        game.load.image('bg_4', 'assets/Background/bg_layer4.png');
     }
 
     update(playerIsMoving, velocity, deltaTime) {

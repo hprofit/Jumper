@@ -11,7 +11,7 @@ import Cloud from '../objects/Enemies/Cloud';
 import { Spikes, SpikeTypes } from '../objects/Environment/Spikes';
 import Sky from '../objects/Environment/Sky';
 
-import Coin from '../objects/Items/Coin';
+import { Coin, COIN_TYPE } from '../objects/Items/Coin';
 import { Portal, PortalTypes } from '../objects/Items/Portal';
 import PowerUpBubble from '../objects/Items/Powerups/PowerUpBubble';
 import PowerUpJetPack from '../objects/Items/Powerups/PowerUpJetPack';
@@ -76,11 +76,11 @@ export default class GameState extends Phaser.State {
         let max = 20;
         for (let idx = 0; idx < max; idx++) {
             let tmp = MathExtensions.plotOnBell(idx / max) * -100;
-            this.items.push(new Coin(this.game, 'bronze', 1200 + idx * 35, 200 + tmp));
-            this.items.push(new Coin(this.game, 'silver', 1200 + idx * 35, 250 + tmp));
-            this.items.push(new Coin(this.game, 'gold', 1200 + idx * 35, 300 + tmp));
-            this.items.push(new Coin(this.game, 'silver', 1200 + idx * 35, 350 + tmp));
-            this.items.push(new Coin(this.game, 'bronze', 1200 + idx * 35, 400 + tmp));
+            this.items.push(new Coin(this.game, 1200 + idx * 35, 200 + tmp, COIN_TYPE.BRONZE));
+            this.items.push(new Coin(this.game, 1200 + idx * 35, 250 + tmp, COIN_TYPE.SILVER));
+            this.items.push(new Coin(this.game, 1200 + idx * 35, 300 + tmp, COIN_TYPE.GOLD));
+            this.items.push(new Coin(this.game, 1200 + idx * 35, 350 + tmp, COIN_TYPE.SILVER));
+            this.items.push(new Coin(this.game, 1200 + idx * 35, 400 + tmp, COIN_TYPE.BRONZE));
         }
 
         this.items.push(new PowerUpBubble(this.game, 512, 416));
@@ -147,7 +147,6 @@ export default class GameState extends Phaser.State {
     }
 
     update() {
-        console.log("update");
         if (this.input.keyboard.isDown(Phaser.KeyCode.SPACEBAR)) {
             this.launchPauseMenu();
         }

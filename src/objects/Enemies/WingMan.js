@@ -1,10 +1,6 @@
 import Enemy from './Enemy.js';
 import EaseInOutComponent from '../Components/EaseInOutComponent';
 
-export function loadWingManImage(game) {
-    game.load.spritesheet('wingMan', 'assets/Enemies/wingMan.png', 216, 126); // 480 x 159
-}
-
 export default class WingMan extends Enemy {
     constructor(game, x, y, stationary = false, maxYSwing = 50) {
         super(game, x, y, 'wingMan');
@@ -25,6 +21,10 @@ export default class WingMan extends Enemy {
         this.body.gravity.y = 0;
 
         this.easeInOutComponent = new EaseInOutComponent(y, maxYSwing * 2, .25)
+    }
+
+    static loadWingManImage(game) {
+        game.load.spritesheet('wingMan', 'assets/Enemies/wingMan.png', 216, 126); // 480 x 159
     }
 
     flipDirection() {

@@ -1,15 +1,15 @@
 import PowerUpComponent from './PowerUpComponent';
 
-export function loadBubblePowerUpImage(game) {
-    game.load.image('bubble', 'assets/Items/PowerUpSprites/bubble.png');
-}
-
 export default class BubblePowerUpComponent extends PowerUpComponent {
     constructor(group, player) {
         super();
         this.sprite = group.create(player.x - 32, player.y - 32, 'bubble');
         this.sprite.width = 64;
         this.sprite.height = 64;
+    }
+
+    static loadBubblePowerUpImage(game) {
+        game.load.image('bubble', 'assets/Items/PowerUpSprites/bubble.png');
     }
 
     remove() {

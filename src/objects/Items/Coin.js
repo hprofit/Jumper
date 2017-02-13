@@ -2,17 +2,16 @@ import isInDebugMode from '../Debug/Debug';
 import { DebugGraphicsObjectCircle } from '../Debug/DebugGraphicsObjects.js';
 import Item from './Item.js';
 
-export function loadCoinImages(game) {
-    game.load.spritesheet('bronze', 'assets/Items/bronze.png', 84, 84);
-    game.load.spritesheet('silver', 'assets/Items/silver.png', 84, 84);
-    game.load.spritesheet('gold', 'assets/Items/gold.png', 84, 84);
-}
+export const COIN_TYPE = {
+    BRONZE: 'bronze',
+    SILVER: 'silver',
+    GOLD: 'gold'
+};
 
-export default class Coin extends Item {
-    constructor(game, type, x, y) {
-        type = type.toLowerCase();
-        super(game, x, y, type);
-        this.type = type;
+export class Coin extends Item {
+    constructor(game, x, y, coinType = COIN_TYPE.BRONZE) {
+        super(game, x, y, coinType);
+        this.coinType = coinType;
 
         game.physics.arcade.enable(this);
 
@@ -29,6 +28,12 @@ export default class Coin extends Item {
         }
     }
 
+    static loadCoinImages(game) {
+        game.load.spritesheet(COIN_TYPE.BRONZE, 'assets/Items/bronze.png', 84, 84);
+        game.load.spritesheet(COIN_TYPE.SILVER, 'assets/Items/silver.png', 84, 84);
+        game.load.spritesheet(COIN_TYPE.GOLD, 'assets/Items/gold.png', 84, 84);
+    }
+
     updateItem() {
         if (this.debugGraphics) {
             this.debugGraphics.render(this.body);
@@ -36,7 +41,7 @@ export default class Coin extends Item {
     }
 
     touchItem(player) {
-        player.addCoin(this.type);
+        player.addCoin(this.coinType);
         this.kill();
     }
 }

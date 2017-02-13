@@ -1,9 +1,5 @@
 import Enemy from './Enemy.js';
 
-export function loadSpikeManImage(game) {
-    game.load.spritesheet('spikeMan', 'assets/Enemies/spikeMan.png', 120, 159); // 480 x 159
-}
-
 export default class SpikeMan extends Enemy {
     constructor(game, x, y) {
         super(game, x, y, 'spikeMan');
@@ -22,6 +18,10 @@ export default class SpikeMan extends Enemy {
         this.moveSpeed = 75;
         this.direction = -1;
         this.body.velocity.x = this.direction * this.moveSpeed;
+    }
+
+    static loadSpikeManImage(game) {
+        game.load.spritesheet('spikeMan', 'assets/Enemies/spikeMan.png', 120, 159); // 480 x 159
     }
 
     flipDirection() {

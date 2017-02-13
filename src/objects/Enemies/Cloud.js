@@ -2,12 +2,6 @@ import Enemy from './Enemy.js';
 import EaseInOutComponent from '../Components/EaseInOutComponent';
 import EmitterComponent from '../Components/EmitterComponent';
 
-export function loadCloudImage(game) {
-    game.load.image('cloud', 'assets/Enemies/cloud.png');
-
-    game.load.spritesheet('lightning_particle', 'assets/Particles/lightning_particle.png', 55, 114);
-}
-
 class Lightning extends Phaser.Particle {
     constructor(game, x, y, key, frame) {
         super(game, x, y, key, frame);
@@ -60,6 +54,12 @@ export default class Cloud extends Enemy {
         this.emitterComponent.setScaleBoth(.5, .5);
         this.emitterComponent.setRotationWithDefaults();
         this.emitterComponent.startEmitter(false, 0, 1500);
+    }
+
+    static loadCloudImages(game) {
+        game.load.image('cloud', 'assets/Enemies/cloud.png');
+
+        game.load.spritesheet('lightning_particle', 'assets/Particles/lightning_particle.png', 55, 114);
     }
 
     flipDirection() {

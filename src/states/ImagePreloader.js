@@ -1,54 +1,52 @@
-import { loadHUDImages } from '../objects/Player/HUD';
-import { loadPlayerImage } from '../objects/Player/Player';
+import HUD from '../objects/Player/HUD';
+import Player from '../objects/Player/Player';
 
-import { loadSpikeManImage } from '../objects/Enemies/SpikeMan';
-import { loadWingManImage } from '../objects/Enemies/WingMan';
-import { loadFlyManImage } from '../objects/Enemies/FlyMan';
-import { loadSpikeBallImage } from '../objects/Enemies/SpikeBall';
-import { loadSpringManImage } from '../objects/Enemies/SpringMan';
-import { loadSunImage } from '../objects/Enemies/Sun';
-import { loadCloudImage } from '../objects/Enemies/Cloud';
+import SpikeMan from '../objects/Enemies/SpikeMan';
+import WingMan from '../objects/Enemies/WingMan';
+import FlyMan from '../objects/Enemies/FlyMan';
+import SpikeBall from '../objects/Enemies/SpikeBall';
+import SpringMan from '../objects/Enemies/SpringMan';
+import Sun from '../objects/Enemies/Sun';
+import Cloud from '../objects/Enemies/Cloud';
 
-import { loadSkyImages } from '../objects/Environment/Sky';
-import { loadSpikeImages } from '../objects/Environment/Spikes';
+import Sky from '../objects/Environment/Sky';
+import {Spikes} from '../objects/Environment/Spikes';
 
-import { loadCoinImages } from '../objects/Items/Coin';
-import { loadPortalImages } from '../objects/Items/Portal';
-import { loadPowerUpImages } from '../objects/Items/Powerups/PowerUp';
-import { loadBubblePowerUpImage } from '../objects/Components/PowerUpComponents/BubblePowerUpComponent';
-import { loadJetPackPowerUpImage } from '../objects/Components/PowerUpComponents/JetPackPowerUpComponent';
-import { loadWingPowerUpImage } from '../objects/Components/PowerUpComponents/WingPowerUpComponent';
+import {Coin} from '../objects/Items/Coin';
+import {Portal} from '../objects/Items/Portal';
+import {PowerUp} from '../objects/Items/Powerups/PowerUp';
+import BubblePowerUpComponent from '../objects/Components/PowerUpComponents/BubblePowerUpComponent';
+import JetPackPowerUpComponent from '../objects/Components/PowerUpComponents/JetPackPowerUpComponent';
+import WingPowerUpComponent from '../objects/Components/PowerUpComponents/WingPowerUpComponent';
 
-import { loadAllPlatformImages, loadCakePlatformImages,
-    loadGrassPlatformImages, loadSandPlatformImages, loadSnowPlatformImages,
-    loadStonePlatformImages, loadWoodPlatformImages } from '../objects/Environment/Platform';
+import {Platform} from '../objects/Environment/Platform';
 
-import { loadMenuImages } from '../menus/MenuBase';
+import MenuBase from '../menus/MenuBase';
 
 export default function preloadImages(game) {
-    loadSpikeManImage(game);
-    loadWingManImage(game);
-    loadFlyManImage(game);
-    loadSpikeBallImage(game);
-    loadSpringManImage(game);
-    loadSunImage(game);
-    loadCloudImage(game);
+    SpikeMan.loadSpikeManImage(game);
+    WingMan.loadWingManImage(game);
+    FlyMan.loadFlyManImage(game);
+    SpikeBall.loadSpikeBallImage(game);
+    SpringMan.loadSpringManImage(game);
+    Sun.loadSunImage(game);
+    Cloud.loadCloudImages(game);
 
-    loadSkyImages(game);
-    loadSpikeImages(game);
+    Sky.loadSkyImages(game);
+    Spikes.loadSpikeImages(game);
 
-    loadCoinImages(game);
-    loadPortalImages(game);
-    loadPowerUpImages(game);
-    loadBubblePowerUpImage(game);
-    loadJetPackPowerUpImage(game);
-    loadWingPowerUpImage(game);
+    Coin.loadCoinImages(game);
+    Portal.loadPortalImages(game);
+    PowerUp.loadPowerUpImages(game);
+    BubblePowerUpComponent.loadBubblePowerUpImage(game);
+    JetPackPowerUpComponent.loadJetPackPowerUpImage(game);
+    WingPowerUpComponent.loadWingPowerUpImage(game);
 
-    loadHUDImages(game);
-    loadPlayerImage(game);
+    HUD.loadHUDImages(game);
+    Player.loadPlayerImage(game);
 
     // TODO: Replace this
-    loadGrassPlatformImages(game);
+    Platform.loadGrassPlatformImages(game);
 
-    loadMenuImages(game);
+    MenuBase.loadMenuImages(game);
 }

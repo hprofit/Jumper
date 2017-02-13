@@ -1,3 +1,19 @@
+export const PlatformTypes = {
+    CAKE: 'cake',
+    GRASS: 'grass',
+    SAND: 'sand',
+    SNOW: 'snow',
+    STONE: 'stone',
+    WOOD: 'wood'
+};
+
+export const PlatformSubtypes = {
+    NORMAL: 'g_',
+    BROKEN: 'gb_',
+    SMALL: 'gs_',
+    SMALL_BROKEN: 'gsb_'
+};
+
 export class Platform {
     constructor(game, type, subType, x, y, owningGroup = null) {
 
@@ -25,60 +41,44 @@ export class Platform {
 
     update() {
     }
-}
 
-export const PlatformTypes = {
-    CAKE: 'cake',
-    GRASS: 'grass',
-    SAND: 'sand',
-    SNOW: 'snow',
-    STONE: 'stone',
-    WOOD: 'wood'
-};
+    static loadPlatformImages(game, type) {
+        game.load.spritesheet(`g_${type}`, `assets/Environment/ground_${type}.png`, 380, 94); // 152w x 38h
+        game.load.spritesheet(`gb_${type}`, `assets/Environment/ground_${type}_broken.png`, 380, 94);
+        game.load.spritesheet(`gs_${type}`, `assets/Environment/ground_${type}_small.png`, 201, 100);
+        game.load.spritesheet(`gsb_${type}`, `assets/Environment/ground_${type}_small_broken.png`, 201, 100);
+    }
 
-export const PlatformSubtypes = {
-    NORMAL: 'g_',
-    BROKEN: 'gb_',
-    SMALL: 'gs_',
-    SMALL_BROKEN: 'gsb_'
-};
+    static loadCakePlatformImages(game) {
+        this.loadPlatformImages(game, 'cake');
+    }
 
-function loadPlatformImages(game, type) {
-    game.load.spritesheet(`g_${type}`, `assets/Environment/ground_${type}.png`, 380, 94); // 152w x 38h
-    game.load.spritesheet(`gb_${type}`, `assets/Environment/ground_${type}_broken.png`, 380, 94);
-    game.load.spritesheet(`gs_${type}`, `assets/Environment/ground_${type}_small.png`, 201, 100);
-    game.load.spritesheet(`gsb_${type}`, `assets/Environment/ground_${type}_small_broken.png`, 201, 100);
-}
+    static loadGrassPlatformImages(game) {
+        this.loadPlatformImages(game, 'grass');
+    }
 
-export function loadCakePlatformImages(game) {
-    loadPlatformImages(game, 'cake');
-}
+    static loadSandPlatformImages(game) {
+        this.loadPlatformImages(game, 'sand');
+    }
 
-export function loadGrassPlatformImages(game) {
-    loadPlatformImages(game, 'grass');
-}
+    static loadSnowPlatformImages(game) {
+        this.loadPlatformImages(game, 'snow');
+    }
 
-export function loadSandPlatformImages(game) {
-    loadPlatformImages(game, 'sand');
-}
+    static loadStonePlatformImages(game) {
+        this.loadPlatformImages(game, 'stone');
+    }
 
-export function loadSnowPlatformImages(game) {
-    loadPlatformImages(game, 'snow');
-}
+    static loadWoodPlatformImages(game) {
+        this.loadPlatformImages(game, 'wood');
+    }
 
-export function loadStonePlatformImages(game) {
-    loadPlatformImages(game, 'stone');
-}
-
-export function loadWoodPlatformImages(game) {
-    loadPlatformImages(game, 'wood');
-}
-
-export function loadAllPlatformImages(game) {
-    loadCakePlatformImages(game);
-    loadGrassPlatformImages(game);
-    loadSandPlatformImages(game);
-    loadSnowPlatformImages(game);
-    loadStonePlatformImages(game);
-    loadWoodPlatformImages(game);
+    static loadAllPlatformImages(game) {
+        this.loadCakePlatformImages(game);
+        this.loadGrassPlatformImages(game);
+        this.loadSandPlatformImages(game);
+        this.loadSnowPlatformImages(game);
+        this.loadStonePlatformImages(game);
+        this.loadWoodPlatformImages(game);
+    }
 }

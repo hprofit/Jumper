@@ -1,14 +1,10 @@
 import isInDebugMode from '../Debug/Debug';
+import {COIN_TYPE} from '../Items/Coin';
 import HUD from './HUD.js'
 import { DebugGraphicsObjectSquare } from '../Debug/DebugGraphicsObjects.js';
 import BubblePowerUpComponent from '../Components/PowerUpComponents/BubblePowerUpComponent';
 import JetPackPowerUpComponent from '../Components/PowerUpComponents/JetPackPowerUpComponent';
 import WingPowerUpComponent from '../Components/PowerUpComponents/WingPowerUpComponent';
-
-export function loadPlayerImage(game) {
-    game.load.spritesheet('player_purple', 'assets/Player/player_purple.png', 150, 207);
-    game.load.spritesheet('player_brown', 'assets/Player/player_brown.png', 150, 207);
-}
 
 export default class Player extends Phaser.Sprite {
     constructor(game, x, y, lives = 3) {
@@ -40,9 +36,9 @@ export default class Player extends Phaser.Sprite {
         this.isHurt = false;
 
         this.coins = {
-            bronze: 0,
-            silver: 0,
-            gold: 0
+            [`${COIN_TYPE.BRONZE}`] : 0,
+            [`${COIN_TYPE.SILVER}`] : 0,
+            [`${COIN_TYPE.GOLD}`] : 0
         };
 
         this.lives = lives;
@@ -56,6 +52,11 @@ export default class Player extends Phaser.Sprite {
         if (isInDebugMode()) {
             this.debugGraphics = new DebugGraphicsObjectSquare(game);
         }
+    }
+
+    static loadPlayerImage(game) {
+        game.load.spritesheet('player_purple', 'assets/Player/player_purple.png', 150, 207);
+        game.load.spritesheet('player_brown', 'assets/Player/player_brown.png', 150, 207);
     }
 
     isMoving() {

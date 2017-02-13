@@ -1,10 +1,6 @@
 import MathExtensions from '../../MathExtensions';
 import Enemy from './Enemy.js';
 
-export function loadSunImage(game) {
-    game.load.spritesheet('sun', 'assets/Enemies/sun.png', 148, 148);
-}
-
 export default class Sun extends Enemy {
     constructor(game, x, y) {
         super(game, x, y, 'sun');
@@ -20,6 +16,10 @@ export default class Sun extends Enemy {
         this.speedX = 75;
         this.direction = -1;
         this.body.velocity.x = -this.speedX;
+    }
+
+    static loadSunImage(game) {
+        game.load.spritesheet('sun', 'assets/Enemies/sun.png', 148, 148);
     }
 
     flipDirection() {

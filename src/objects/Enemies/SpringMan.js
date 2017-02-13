@@ -1,9 +1,5 @@
 import Enemy from './Enemy.js';
 
-export function loadSpringManImage(game) {
-    game.load.image('springMan', 'assets/Enemies/springMan.png');
-}
-
 export default class SpringMan extends Enemy {
     constructor(game, x, y) {
         super(game, x, y, 'springMan');
@@ -15,6 +11,10 @@ export default class SpringMan extends Enemy {
 
         this.body.bounce.y = 1.0;
         this.body.velocity.x = 200;
+    }
+
+    static loadSpringManImage(game) {
+        game.load.image('springMan', 'assets/Enemies/springMan.png');
     }
 
     flipDirection() {

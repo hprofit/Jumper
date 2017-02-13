@@ -1,10 +1,5 @@
 import PowerUpComponent from './PowerUpComponent';
 
-export function loadWingPowerUpImage(game) {
-    game.load.image('leftWing', 'assets/Items/PowerUpSprites/wing_left.png');
-    game.load.image('rightWing', 'assets/Items/PowerUpSprites/wing_right.png');
-}
-
 export default class WingPowerPowerUpComponent extends PowerUpComponent {
     constructor(group, player, game) {
         super();
@@ -28,6 +23,11 @@ export default class WingPowerPowerUpComponent extends PowerUpComponent {
         this.flyJumps = 0;
         this.maxFlyJumps = 3;
         this.flying = false;
+    }
+
+    static loadWingPowerUpImage(game) {
+        game.load.image('leftWing', 'assets/Items/PowerUpSprites/wing_left.png');
+        game.load.image('rightWing', 'assets/Items/PowerUpSprites/wing_right.png');
     }
 
     _flapWings() {

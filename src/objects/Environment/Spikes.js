@@ -1,3 +1,10 @@
+export const SpikeTypes = {
+    SPIKE_DOWN: 'spikeDown',
+    SPIKE_UP: 'spikeUp',
+    SPIKES_DOWN: 'spikesDown',
+    SPIKES_UP: 'spikesUp'
+};
+
 export class Spikes {
     constructor(game, type, x, y, owningGroup = null) {
         this.type = type;
@@ -14,36 +21,29 @@ export class Spikes {
         this.sprite.body.immovable = true;
     }
 
-    _spikeDownSize(){
+    _spikeDownSize() {
         this.sprite.width = 24;
     }
 
-    _spikeUpSize(){
+    _spikeUpSize() {
         this.sprite.width = 24;
     }
 
-    _spikesDownSize(){
+    _spikesDownSize() {
         this.sprite.width = 72;
     }
 
-    _spikesUpSize(){
+    _spikesUpSize() {
         this.sprite.width = 72;
     }
 
     update() {
     }
-}
 
-export const SpikeTypes = {
-    SPIKE_DOWN: 'spikeDown',
-    SPIKE_UP: 'spikeUp',
-    SPIKES_DOWN: 'spikesDown',
-    SPIKES_UP: 'spikesUp'
-};
-
-export function loadSpikeImages(game) {
-    game.load.image('spikeDown', 'assets/Environment/spike_bottom.png');
-    game.load.image('spikeUp', 'assets/Environment/spike_top.png');
-    game.load.image('spikesDown', 'assets/Environment/spikes_bottom.png');
-    game.load.image('spikesUp', 'assets/Environment/spikes_top.png');
+    static loadSpikeImages(game) {
+        game.load.image('spikeDown', 'assets/Environment/spike_bottom.png');
+        game.load.image('spikeUp', 'assets/Environment/spike_top.png');
+        game.load.image('spikesDown', 'assets/Environment/spikes_bottom.png');
+        game.load.image('spikesUp', 'assets/Environment/spikes_top.png');
+    }
 }

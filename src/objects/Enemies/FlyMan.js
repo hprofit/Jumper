@@ -1,10 +1,6 @@
 import Enemy from './Enemy.js';
 import EaseInOutComponent from '../Components/EaseInOutComponent';
 
-export function loadFlyManImage(game) {
-    game.load.spritesheet('flyMan', 'assets/Enemies/flyMan.png', 122, 139); // 480 x 159
-}
-
 export default class FlyMan extends Enemy {
     constructor(game, x, y, jumpHeight = 500) {
         super(game, x, y, 'flyMan');
@@ -28,6 +24,10 @@ export default class FlyMan extends Enemy {
         this.resting = false;
 
         this.easeInOutComponent = this.easeInOutComponent = new EaseInOutComponent(0, 20, 2.5);
+    }
+
+    static loadFlyManImage(game) {
+        game.load.spritesheet('flyMan', 'assets/Enemies/flyMan.png', 122, 139); // 480 x 159
     }
 
     jump() {
