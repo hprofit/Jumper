@@ -1,4 +1,4 @@
-import isInDebugMode from '../Debug/Debug';
+import DebugService from '../Debug/Debug';
 import { DebugGraphicsObjectCircle } from '../Debug/DebugGraphicsObjects.js';
 import Item from './Item.js';
 
@@ -23,7 +23,7 @@ export class Coin extends Item {
         this.animations.add('spin', [0, 1, 2, 3, 4, 5], 10, true);
         this.animations.play('spin');
 
-        if (isInDebugMode()) {
+        if (DebugService.isInDebugMode()) {
             this.debugGraphics = new DebugGraphicsObjectCircle(game);
         }
     }

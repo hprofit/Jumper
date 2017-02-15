@@ -95,7 +95,7 @@ export default class GameState extends Phaser.State {
         this.items.push(p1);
         this.items.push(p2);
 
-        //this.enemies.push(new SpikeMan(this.game, 1000, 100));
+        this.enemies.push(new SpikeMan(this.game, 1000, 100));
         //this.enemies.push(new WingMan(this.game, 600, 480));
         //this.enemies.push(new WingMan(this.game, 700, 300, true, 100));
         //this.enemies.push(new FlyMan(this.game, 100, this.game.world.height - 150));
@@ -121,6 +121,7 @@ export default class GameState extends Phaser.State {
     }
 
     exitGame() {
+        this.game.paused = false;
         this.game.state.start('main');
     }
 
@@ -144,6 +145,15 @@ export default class GameState extends Phaser.State {
         let deltaTime = elapsedTime - this.previousTime;
         this.previousTime = elapsedTime;
         return deltaTime;
+    }
+
+    pauseUpdate() {
+        if (this.currentMenu) {
+            let deltaTime = this.getDeltaTime();
+            let cursors = this.game.input.keyboard.createCursorKeys();
+
+            this.currentMenu.updateMenu(cursors, deltaTime);
+        }
     }
 
     update() {

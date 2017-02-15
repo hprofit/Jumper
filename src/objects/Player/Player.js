@@ -1,4 +1,4 @@
-import isInDebugMode from '../Debug/Debug';
+import DebugService from '../Debug/Debug';
 import {COIN_TYPE} from '../Items/Coin';
 import HUD from './HUD.js'
 import { DebugGraphicsObjectSquare } from '../Debug/DebugGraphicsObjects.js';
@@ -49,7 +49,7 @@ export default class Player extends Phaser.Sprite {
 
         this.powerUpComponent = null;
 
-        if (isInDebugMode()) {
+        if (DebugService.isInDebugMode()) {
             this.debugGraphics = new DebugGraphicsObjectSquare(game);
         }
     }

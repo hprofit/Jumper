@@ -1,4 +1,4 @@
-import isInDebugMode from '../Debug/Debug';
+import DebugService from '../Debug/Debug';
 import { DebugGraphicsObjectSquare } from '../Debug/DebugGraphicsObjects.js';
 import Item from './Item.js';
 import EmitterComponent from '../Components/EmitterComponent';
@@ -24,12 +24,12 @@ export class Portal extends Item {
         this.emitterComponent = new EmitterComponent(game, x + 32, y + 10, 50);
         this.emitterComponent.setWidth(50);
         this.emitterComponent.makeParticlesFromImage(`${this.type}Particle`);
-        this.emitterComponent.setSpeed(0, 0, 2, 10);
+        this.emitterComponent.setSpeed(0, 0, this.direction * 20, this.direction * 50);
         this.emitterComponent.setScaleBoth(.5, .5);
-        this.emitterComponent.setGravity(200 * this.direction);
+        this.emitterComponent.disableGravity();
         this.emitterComponent.startEmitter(false, 700, 100);
 
-        if (isInDebugMode()) {
+        if (DebugService.isInDebugMode()) {
             this.debugGraphics = new DebugGraphicsObjectSquare(game);
         }
     }

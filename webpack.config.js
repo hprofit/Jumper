@@ -13,7 +13,7 @@ module.exports = {
                 test: path.join(__dirname, 'src'),
                 loader: 'babel-loader',
                 query: {
-                  presets: ['es2015']
+                    presets: ['es2015']
                 }
             }
         ]
@@ -23,26 +23,40 @@ module.exports = {
         colors: true
     },
     plugins: [
-      new CopyWebpackPlugin([
+        new CopyWebpackPlugin([
+            //{
+            //  from: 'node_modules/phaser/build/phaser.js',
+            //  to: 'build/'
+            //},
+            //{
+            //  from: 'node_modules/phaser/build/phaser.min.js',
+            //  to: 'build/'
+            //},
+            //{
+            //  from: 'node_modules/phaser/build/phaser.map',
+            //  to: 'build/'
+            //},
+
             {
-              from: 'node_modules/phaser/build/phaser.js',
-              to: 'build/'
+                from: 'phaser-ce/phaser.js',
+                to: 'build/'
             },
             {
-              from: 'node_modules/phaser/build/phaser.min.js',
-              to: 'build/'
+                from: 'phaser-ce/phaser.min.js',
+                to: 'build/'
             },
             {
-              from: 'node_modules/phaser/build/phaser.map',
-              to: 'build/'
+                from: 'phaser-ce/phaser.map',
+                to: 'build/'
+            },
+
+            {
+                from: 'assets/Font/Bubblegum.ttf',
+                to: 'build/font/'
             },
             {
-              from: 'assets/Font/Bubblegum.ttf',
-              to: 'build/font/'
-            },
-            {
-              from: 'styles/styles.css',
-              to: 'build/'
+                from: 'styles/styles.css',
+                to: 'build/'
             }
         ], {
             ignore: [],

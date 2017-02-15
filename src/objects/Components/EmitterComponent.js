@@ -23,8 +23,12 @@ export default class EmitterComponent extends Phaser.Particles.Arcade.Emitter {
         this.width = width;
     }
 
+    disableGravity() {
+        this.setGravity(0);
+    }
+
     setGravity(gravity) {
-        this.gravity = gravity;
+        this.gravity.y = gravity;
     }
 
     moveEmitter(x, y) {

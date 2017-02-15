@@ -35,8 +35,7 @@ export default class SpikeMan extends Enemy {
         this.animations.play('walking');
 
         if (this.body.onWall() || (
-            (this.body.touching.left || this.body.touching.right) &&
-            !(this.body.wasTouching.left || this.body.wasTouching.right)) ) {
+            (this.body.touching.left || this.body.touching.right) && !(this.body.wasTouching.left || this.body.wasTouching.right))) {
             this.flipDirection();
         }
     }

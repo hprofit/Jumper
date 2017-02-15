@@ -1,4 +1,4 @@
-import isInDebugMode from '../Debug/Debug';
+import DebugService from '../Debug/Debug';
 import { DebugGraphicsObjectSquare } from '../Debug/DebugGraphicsObjects.js';
 
 export default class Enemy extends Phaser.Sprite {
@@ -14,7 +14,7 @@ export default class Enemy extends Phaser.Sprite {
         this.touchDamage = 0;
         this.doesDamage = true;
 
-        if (isInDebugMode()) {
+        if (DebugService.isInDebugMode()) {
             this.debugGraphics = new DebugGraphicsObjectSquare(game);
         }
     }

@@ -31,6 +31,8 @@ export class ClickableButton extends Phaser.Button {
             this.onInputDown.add(this._moveLabelDown, this);
             this.onInputUp.add(this._moveLabelUp, this);
         }
+
+        this.noPause = true;
     }
 
     _moveLabelDown() {
