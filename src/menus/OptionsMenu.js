@@ -36,7 +36,7 @@ export default class OptionsMenu extends MenuBase {
     }
 
     _setDebugText(isInDebug) {
-        isInDebug ? this.debugButton.setLabel('Debug: Off') : this.debugButton.setLabel('Debug: On');
+        isInDebug ? this.debugButton.setLabel('Debug: On') : this.debugButton.setLabel('Debug: Off');
     }
 
     toggleDebug() {

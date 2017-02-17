@@ -8,22 +8,30 @@ import WingPowerUpComponent from '../Components/PowerUpComponents/WingPowerUpCom
 
 export default class Player extends Phaser.Sprite {
     constructor(game, x, y, lives = 3) {
-        super(game, x, y, 'player_purple');
+        super(game, x, y, 'bunnyJumperSheet', 'Players/purple/stand_01.png');
+        this.playerType = 'purple';
+
         this.group_powerUpBack = game.add.group();
         game.add.existing(this);
         this.group_powerUpFront = game.add.group();
 
         game.physics.enable(this);
         this.body.gravity.y = 900;
-        this.anchor.setTo(.5, .5);
-        this.height = 64;
-        this.width = 48;
-        this.body.setSize(this.body.width - 30, this.body.height - 70, 15, 70);
+        this.anchor.setTo(.5, 0);
+        //this.height = 64;
+        //this.width = 48;
+        //this.body.setSize(this.body.width - 30, this.body.height - 70, 15, 70);
 
-        this.hurtFrame = 5;
-        this.jumpFrame = 4;
-        this.animations.add('stand', [0, 1], 5, true);
-        this.animations.add('walk', [2, 3], 10, true);
+        //this.hurtFrame = 5;
+        //this.jumpFrame = 4;
+        //this.animations.add('stand', [0, 1], 5, true);
+        //this.animations.add('walk', [2, 3], 10, true);
+
+        let playerUrl = `Players/${this.playerType}`;
+        this.hurtFrame = `${playerUrl}/hurt.png`;
+        this.jumpFrame = `${playerUrl}/jump.png`;
+        this.animations.add('stand', [`${playerUrl}/stand_00.png`, `${playerUrl}/stand_01.png`], 5, true);
+        this.animations.add('walk', [`${playerUrl}/walk_00.png`, `${playerUrl}/walk_01.png`], 10, true);
 
         this.leftDir = this.scale.x * -1;
         this.rightDir = this.scale.x;
