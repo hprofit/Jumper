@@ -20,7 +20,7 @@ import PowerUpLife from '../objects/Items/Powerups/PowerUpLife';
 
 import { Platform, PlatformTypes, PlatformSubtypes } from '../objects/Environment/Platform';
 import Player from '../objects/Player/Player';
-import MathExtensions from '../MathExtensions';
+import {plotOnBell} from '../MathExtensions';
 
 import PauseMenu from '../menus/PauseMenu';
 import OptionsMenu from '../menus/OptionsMenu';
@@ -52,30 +52,30 @@ export default class GameState extends Phaser.State {
         this.group_platforms.enableBody = true;
         for (let idx = 0; idx < 100; idx++) {
             let x = 128 * idx, y = 576;
-            new Platform(this.game, PlatformTypes.GRASS, PlatformSubtypes.NORMAL, x, y, this.group_platforms);
-            new Platform(this.game, PlatformTypes.GRASS, PlatformSubtypes.NORMAL, x, 0, this.group_platforms);
+            new Platform(this.game, x, y, PlatformTypes.GRASS, PlatformSubtypes.NORMAL, this.group_platforms);
+            new Platform(this.game, x, 0, PlatformTypes.GRASS, PlatformSubtypes.NORMAL, this.group_platforms);
         }
         for (let idx = 1; idx < 18; idx++) {
             let y = idx * 32;
-            new Platform(this.game, PlatformTypes.GRASS, PlatformSubtypes.SMALL, 0, y, this.group_platforms);
-            new Platform(this.game, PlatformTypes.GRASS, PlatformSubtypes.SMALL, 6000, y, this.group_platforms);
+            new Platform(this.game, 0, y, PlatformTypes.GRASS, PlatformSubtypes.SMALL, this.group_platforms);
+            new Platform(this.game, 6000, y, PlatformTypes.GRASS, PlatformSubtypes.SMALL, this.group_platforms);
         }
-        new Platform(this.game, PlatformTypes.GRASS, PlatformSubtypes.NORMAL, 512, 448, this.group_platforms);
-        new Platform(this.game, PlatformTypes.GRASS, PlatformSubtypes.NORMAL, 512, 544, this.group_platforms);
+        new Platform(this.game, 512, 448, PlatformTypes.GRASS, PlatformSubtypes.NORMAL, this.group_platforms);
+        new Platform(this.game, 512, 544, PlatformTypes.GRASS, PlatformSubtypes.NORMAL, this.group_platforms);
 
-        new Platform(this.game, PlatformTypes.GRASS, PlatformSubtypes.NORMAL, 704, 448, this.group_platforms);
-        new Platform(this.game, PlatformTypes.GRASS, PlatformSubtypes.NORMAL, 704, 544, this.group_platforms);
+        new Platform(this.game, 704, 448, PlatformTypes.GRASS, PlatformSubtypes.NORMAL, this.group_platforms);
+        new Platform(this.game, 704, 544, PlatformTypes.GRASS, PlatformSubtypes.NORMAL, this.group_platforms);
 
         this.group_hazards = this.game.add.group();
         this.group_hazards.enableBody = true;
-        new Spikes(this.game, SpikeTypes.SPIKE_UP, 100, this.game.world.height - 80, this.group_hazards);
-        new Spikes(this.game, SpikeTypes.SPIKE_DOWN, 200, 32, this.group_hazards);
-        new Spikes(this.game, SpikeTypes.SPIKES_UP, 200, this.game.world.height - 80, this.group_hazards);
-        new Spikes(this.game, SpikeTypes.SPIKES_DOWN, 300, 32, this.group_hazards);
+        //new Spikes(this.game, SpikeTypes.SPIKE_UP, 100, this.game.world.height - 80, this.group_hazards);
+        //new Spikes(this.game, SpikeTypes.SPIKE_DOWN, 200, 32, this.group_hazards);
+        //new Spikes(this.game, SpikeTypes.SPIKES_UP, 200, this.game.world.height - 80, this.group_hazards);
+        //new Spikes(this.game, SpikeTypes.SPIKES_DOWN, 300, 32, this.group_hazards);
 
         let max = 20;
         for (let idx = 0; idx < max; idx++) {
-            let tmp = MathExtensions.plotOnBell(idx / max) * -100;
+            let tmp = plotOnBell(idx / max) * -100;
             this.items.push(new Coin(this.game, 1200 + idx * 35, 200 + tmp, COIN_TYPE.BRONZE));
             this.items.push(new Coin(this.game, 1200 + idx * 35, 250 + tmp, COIN_TYPE.SILVER));
             this.items.push(new Coin(this.game, 1200 + idx * 35, 300 + tmp, COIN_TYPE.GOLD));
@@ -102,9 +102,9 @@ export default class GameState extends Phaser.State {
         //this.enemies.push(new SpikeBall(this.game, 200, this.game.world.height - 100));
         //this.enemies.push(new SpringMan(this.game, 600, this.game.world.height - 150));
         //this.enemies.push(new Sun(this.game, 600, this.game.world.height - 400));
-        //this.enemies.push(new Cloud(this.game, 600, this.game.world.height - 400));
+        this.enemies.push(new Cloud(this.game, 600, this.game.world.height - 400));
 
-        this.player = new Player(this.game, this.game.scale.width / 2, this.game.world.height - 100);
+        this.player = new Player(this.game, this.game.scale.width / 2, this.game.world.height - 300);
 
         this.game.camera.follow(this.player);
     }

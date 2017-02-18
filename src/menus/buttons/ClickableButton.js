@@ -13,12 +13,12 @@ const DEFAULT_BUTTON_FONT_OPTIONS = {
 
 export class ClickableButton extends Phaser.Button {
     constructor(game, x, y, label, callback, callbackContext, type = CLICKABLE_BUTTON_TYPE.LARGE, fontOptions = DEFAULT_BUTTON_FONT_OPTIONS) {
-        let overFrame = `${type}/button_over.png`;
-        let outFrame = `${type}/button_out.png`;
-        let downFrame = `${type}/button_down.png`;
-        let upFrame = `${type}/button_over.png`;
+        let overFrame = `UI/${type}/over.png`;
+        let outFrame = `UI/${type}/out.png`;
+        let downFrame = `UI/${type}/down.png`;
+        let upFrame = `UI/${type}/over.png`;
 
-        super(game, x, y, 'buttonSheet', callback, callbackContext, overFrame, outFrame, downFrame, upFrame);
+        super(game, x, y, 'bunnyJumperSheet', callback, callbackContext, overFrame, outFrame, downFrame, upFrame);
         this.anchor.setTo(0, 1);
 
         if (label) {

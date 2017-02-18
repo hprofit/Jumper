@@ -1,4 +1,4 @@
-import MathExtensions from '../../MathExtensions';
+import {random} from '../../MathExtensions';
 import Enemy from './Enemy.js';
 
 export default class Sun extends Enemy {
@@ -37,7 +37,7 @@ export default class Sun extends Enemy {
         let contact = _.indexOf(enemiesThatHitPlatforms, this) !== -1;
 
         if (contact && (this.body.onFloor() || this.body.touching.down)) {
-            this.body.velocity.y = -1 * MathExtensions.random(400, 700);
+            this.body.velocity.y = -1 * random(400, 700);
         }
 
         if (this.body.onWall() || (

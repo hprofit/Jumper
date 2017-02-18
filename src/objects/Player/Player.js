@@ -14,6 +14,7 @@ export default class Player extends Phaser.Sprite {
         this.group_powerUpFront = game.add.group();
 
         game.physics.enable(this);
+        this.checkWorldBounds = true;
         this.body.gravity.y = 900;
         this.anchor.setTo(.5, .5);
         this.height = 64;
@@ -207,7 +208,6 @@ export default class Player extends Phaser.Sprite {
             if ((dir === -1 && newX <= 2) ||
                 (dir === 1 && newX >= -2)) {
                 //  Stand still
-                this.animations.stop();
                 this.animations.play('stand');
                 this.body.velocity.x = 0;
             }

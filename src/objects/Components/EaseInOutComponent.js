@@ -1,4 +1,4 @@
-import MathExtensions from '../../MathExtensions';
+import {plotOnBell} from '../../MathExtensions';
 
 export default class EaseInOutComponent {
     constructor(start, max, speed, direction = 1, clip = .25){
@@ -31,7 +31,7 @@ export default class EaseInOutComponent {
      * @private
      */
     _updateCurMove(deltaTime) {
-        this._curMove += (deltaTime * this._direction * this._speed) * MathExtensions.plotOnBell(this._curMove);
+        this._curMove += (deltaTime * this._direction * this._speed) * plotOnBell(this._curMove);
     }
 
     /**

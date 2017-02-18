@@ -30,15 +30,15 @@ export default class HUD {
         this.group_hud.add(this[`${COIN_TYPE.GOLD}CoinText`]);
 
 
-        this.bronzeCoin = this.group_hud.create(16, 52, 'coin_bronze');
+        this.bronzeCoin = this.group_hud.create(16, 52, 'bunnyJumperSheet', 'HUD/Coin/bronze.png');
         this.bronzeCoin.scale.setTo(.4, .4);
         this.group_hud.add(this.bronzeCoin);
 
-        this.silverCoin = this.group_hud.create(16, 77, 'coin_silver');
+        this.silverCoin = this.group_hud.create(16, 77, 'bunnyJumperSheet', 'HUD/Coin/silver.png');
         this.silverCoin.scale.setTo(.4, .4);
         this.group_hud.add(this.silverCoin);
 
-        this.goldCoin = this.group_hud.create(16, 102, 'coin_gold');
+        this.goldCoin = this.group_hud.create(16, 102, 'bunnyJumperSheet', 'HUD/Coin/gold.png');
         this.goldCoin.scale.setTo(.4, .4);
         this.group_hud.add(this.goldCoin);
 
@@ -47,14 +47,14 @@ export default class HUD {
         this.lifeText = game.add.text(728, 16, '', Object.assign({fill: '#B67B3F', stroke: '#87592A'}, this.lifeFontOptions));
         this.group_hud.add(this.lifeText);
 
-        this.lifeIcon = this.group_hud.create(700, 16, 'life_icon');
+        this.lifeIcon = this.group_hud.create(700, 16, 'bunnyJumperSheet', 'HUD/life.png');
         this.lifeIcon.scale.setTo(.5, .5);
     }
 
     static loadHUDImages(game) {
-        game.load.image('coin_bronze', 'assets/HUD/coin_bronze.png', 61, 61);
-        game.load.image('coin_silver', 'assets/HUD/coin_silver.png', 61, 61);
-        game.load.image('coin_gold', 'assets/HUD/coin_gold.png', 61, 61);
+        game.load.image('coin_bronze', 'assets/HUD/Coin/bronze.png', 61, 61);
+        game.load.image('coin_silver', 'assets/HUD/Coin/silver.png', 61, 61);
+        game.load.image('coin_gold', 'assets/HUD/Coin/gold.png', 61, 61);
 
         game.load.image('life_icon', 'assets/HUD/lifes.png', 52, 71);
     }
