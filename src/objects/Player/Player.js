@@ -208,7 +208,6 @@ export default class Player extends Phaser.Sprite {
             if ((dir === -1 && newX <= 2) ||
                 (dir === 1 && newX >= -2)) {
                 //  Stand still
-                this.animations.stop();
                 this.animations.play('stand');
                 this.body.velocity.x = 0;
             }

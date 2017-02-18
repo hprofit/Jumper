@@ -20,7 +20,7 @@ import PowerUpLife from '../objects/Items/Powerups/PowerUpLife';
 
 import { Platform, PlatformTypes, PlatformSubtypes } from '../objects/Environment/Platform';
 import Player from '../objects/Player/Player';
-import MathExtensions from '../MathExtensions';
+import {plotOnBell} from '../MathExtensions';
 
 import PauseMenu from '../menus/PauseMenu';
 import OptionsMenu from '../menus/OptionsMenu';
@@ -75,7 +75,7 @@ export default class GameState extends Phaser.State {
 
         let max = 20;
         for (let idx = 0; idx < max; idx++) {
-            let tmp = MathExtensions.plotOnBell(idx / max) * -100;
+            let tmp = plotOnBell(idx / max) * -100;
             this.items.push(new Coin(this.game, 1200 + idx * 35, 200 + tmp, COIN_TYPE.BRONZE));
             this.items.push(new Coin(this.game, 1200 + idx * 35, 250 + tmp, COIN_TYPE.SILVER));
             this.items.push(new Coin(this.game, 1200 + idx * 35, 300 + tmp, COIN_TYPE.GOLD));

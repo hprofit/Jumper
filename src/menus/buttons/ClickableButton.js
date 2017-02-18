@@ -18,7 +18,6 @@ export class ClickableButton extends Phaser.Button {
         let downFrame = `UI/${type}/down.png`;
         let upFrame = `UI/${type}/over.png`;
 
-        //super(game, x, y, 'buttonSheet', callback, callbackContext, overFrame, outFrame, downFrame, upFrame);
         super(game, x, y, 'bunnyJumperSheet', callback, callbackContext, overFrame, outFrame, downFrame, upFrame);
         this.anchor.setTo(0, 1);
 
