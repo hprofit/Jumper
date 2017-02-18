@@ -63,8 +63,8 @@ export default class GameState extends Phaser.State {
         new Platform(this.game, 512, 448, PlatformTypes.GRASS, PlatformSubtypes.NORMAL, this.group_platforms);
         new Platform(this.game, 512, 544, PlatformTypes.GRASS, PlatformSubtypes.NORMAL, this.group_platforms);
 
-        new Platform(this.game, PlatformTypes.GRASS, PlatformSubtypes.NORMAL, 704, 448, this.group_platforms);
-        new Platform(this.game, PlatformTypes.GRASS, PlatformSubtypes.NORMAL, 704, 544, this.group_platforms);
+        new Platform(this.game, 704, 448, PlatformTypes.GRASS, PlatformSubtypes.NORMAL, this.group_platforms);
+        new Platform(this.game, 704, 544, PlatformTypes.GRASS, PlatformSubtypes.NORMAL, this.group_platforms);
 
         this.group_hazards = this.game.add.group();
         this.group_hazards.enableBody = true;
@@ -73,15 +73,15 @@ export default class GameState extends Phaser.State {
         //new Spikes(this.game, SpikeTypes.SPIKES_UP, 200, this.game.world.height - 80, this.group_hazards);
         //new Spikes(this.game, SpikeTypes.SPIKES_DOWN, 300, 32, this.group_hazards);
 
-        //let max = 20;
-        //for (let idx = 0; idx < max; idx++) {
-        //    let tmp = MathExtensions.plotOnBell(idx / max) * -100;
-        //    this.items.push(new Coin(this.game, 1200 + idx * 35, 200 + tmp, COIN_TYPE.BRONZE));
-        //    this.items.push(new Coin(this.game, 1200 + idx * 35, 250 + tmp, COIN_TYPE.SILVER));
-        //    this.items.push(new Coin(this.game, 1200 + idx * 35, 300 + tmp, COIN_TYPE.GOLD));
-        //    this.items.push(new Coin(this.game, 1200 + idx * 35, 350 + tmp, COIN_TYPE.SILVER));
-        //    this.items.push(new Coin(this.game, 1200 + idx * 35, 400 + tmp, COIN_TYPE.BRONZE));
-        //}
+        let max = 20;
+        for (let idx = 0; idx < max; idx++) {
+            let tmp = MathExtensions.plotOnBell(idx / max) * -100;
+            this.items.push(new Coin(this.game, 1200 + idx * 35, 200 + tmp, COIN_TYPE.BRONZE));
+            this.items.push(new Coin(this.game, 1200 + idx * 35, 250 + tmp, COIN_TYPE.SILVER));
+            this.items.push(new Coin(this.game, 1200 + idx * 35, 300 + tmp, COIN_TYPE.GOLD));
+            this.items.push(new Coin(this.game, 1200 + idx * 35, 350 + tmp, COIN_TYPE.SILVER));
+            this.items.push(new Coin(this.game, 1200 + idx * 35, 400 + tmp, COIN_TYPE.BRONZE));
+        }
 
         //this.items.push(new PowerUpBubble(this.game, 512, 416));
         //this.items.push(new PowerUpJetPack(this.game, 548, 416));

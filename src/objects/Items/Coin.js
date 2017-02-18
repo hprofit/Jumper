@@ -8,9 +8,17 @@ export const COIN_TYPE = {
     GOLD: 'gold'
 };
 
+let COIN_IMAGE_URL = {
+    BRONZE: 'Items/Coins/bronze_',
+    SILVER: 'Items/Coins/silver_',
+    GOLD: 'Items/Coins/gold_'
+};
+
+let COIN_FRAME_RATE = 10;
 export class Coin extends Item {
     constructor(game, x, y, coinType = COIN_TYPE.BRONZE) {
-        super(game, x, y, coinType);
+        let coinURL = COIN_IMAGE_URL[coinType.toUpperCase()];
+        super(game, x, y, 'bunnyJumperSheet', `${coinURL}0.png`);
         this.coinType = coinType;
 
         game.physics.arcade.enable(this);
@@ -20,18 +28,31 @@ export class Coin extends Item {
         this.height = 32;
         this.body.setCircle(16, 42, 42);
 
-        this.animations.add('spin', [0, 1, 2, 3, 4, 5], 10, true);
-        this.animations.play('spin');
+        this.forwardFrames = Phaser.Animation.generateFrameNames(`${coinURL}`, 0, 3, '.png');
+        this.backwardFrames = Phaser.Animation.generateFrameNames(`${coinURL}`, 1, 2, '.png');
+        this.backwardFrames.reverse();
+
+        this.spinForward = this.animations.add('spinForward', this.forwardFrames);
+        this.spinForward.onComplete.add(this._playBackward, this);
+
+        this.spinReverse = this.animations.add('spinReverse', this.backwardFrames);
+        this.spinReverse.onComplete.add(this._playForward, this);
+
+        this.spinForward.play(COIN_FRAME_RATE);
 
         if (DebugService.isInDebugMode()) {
             this.debugGraphics = new DebugGraphicsObjectCircle(game);
         }
     }
 
-    static loadCoinImages(game) {
-        game.load.spritesheet(COIN_TYPE.BRONZE, 'assets/Items/bronze.png', 84, 84);
-        game.load.spritesheet(COIN_TYPE.SILVER, 'assets/Items/silver.png', 84, 84);
-        game.load.spritesheet(COIN_TYPE.GOLD, 'assets/Items/gold.png', 84, 84);
+    _playBackward() {
+        this.scale.x *= -1;
+        this.spinReverse.play(COIN_FRAME_RATE);
+    }
+
+    _playForward() {
+        this.scale.x *= -1;
+        this.spinForward.play(COIN_FRAME_RATE);
     }
 
     updateItem() {

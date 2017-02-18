@@ -320,7 +320,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":78,"h":70},
 	"sourceSize": {"w":78,"h":70}
 },
-"Items/Coins/bronze_00.png":
+"Items/Coins/bronze_0.png":
 {
 	"frame": {"x":828,"y":627,"w":84,"h":84},
 	"rotated": false,
@@ -328,7 +328,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":84,"h":84},
 	"sourceSize": {"w":84,"h":84}
 },
-"Items/Coins/bronze_01.png":
+"Items/Coins/bronze_1.png":
 {
 	"frame": {"x":914,"y":716,"w":66,"h":84},
 	"rotated": false,
@@ -336,7 +336,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":66,"h":84},
 	"sourceSize": {"w":66,"h":84}
 },
-"Items/Coins/bronze_02.png":
+"Items/Coins/bronze_2.png":
 {
 	"frame": {"x":968,"y":266,"w":50,"h":84},
 	"rotated": false,
@@ -344,7 +344,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":50,"h":84},
 	"sourceSize": {"w":50,"h":84}
 },
-"Items/Coins/bronze_03.png":
+"Items/Coins/bronze_3.png":
 {
 	"frame": {"x":995,"y":83,"w":14,"h":84},
 	"rotated": false,
@@ -352,7 +352,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":14,"h":84},
 	"sourceSize": {"w":14,"h":84}
 },
-"Items/Coins/gold_00.png":
+"Items/Coins/gold_0.png":
 {
 	"frame": {"x":828,"y":713,"w":84,"h":84},
 	"rotated": false,
@@ -360,7 +360,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":84,"h":84},
 	"sourceSize": {"w":84,"h":84}
 },
-"Items/Coins/gold_01.png":
+"Items/Coins/gold_1.png":
 {
 	"frame": {"x":954,"y":524,"w":66,"h":84},
 	"rotated": false,
@@ -368,7 +368,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":66,"h":84},
 	"sourceSize": {"w":66,"h":84}
 },
-"Items/Coins/gold_02.png":
+"Items/Coins/gold_2.png":
 {
 	"frame": {"x":967,"y":610,"w":50,"h":84},
 	"rotated": false,
@@ -376,7 +376,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":50,"h":84},
 	"sourceSize": {"w":50,"h":84}
 },
-"Items/Coins/gold_03.png":
+"Items/Coins/gold_3.png":
 {
 	"frame": {"x":978,"y":83,"w":15,"h":84},
 	"rotated": false,
@@ -384,7 +384,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":15,"h":84},
 	"sourceSize": {"w":15,"h":84}
 },
-"Items/Coins/silver_00.png":
+"Items/Coins/silver_0.png":
 {
 	"frame": {"x":691,"y":735,"w":84,"h":84},
 	"rotated": false,
@@ -392,7 +392,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":84,"h":84},
 	"sourceSize": {"w":84,"h":84}
 },
-"Items/Coins/silver_01.png":
+"Items/Coins/silver_1.png":
 {
 	"frame": {"x":743,"y":979,"w":66,"h":84},
 	"rotated": false,
@@ -400,7 +400,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":66,"h":84},
 	"sourceSize": {"w":66,"h":84}
 },
-"Items/Coins/silver_02.png":
+"Items/Coins/silver_2.png":
 {
 	"frame": {"x":716,"y":821,"w":50,"h":84},
 	"rotated": false,
@@ -408,7 +408,7 @@
 	"spriteSourceSize": {"x":0,"y":0,"w":50,"h":84},
 	"sourceSize": {"w":50,"h":84}
 },
-"Items/Coins/silver_03.png":
+"Items/Coins/silver_3.png":
 {
 	"frame": {"x":862,"y":871,"w":14,"h":84},
 	"rotated": false,
@@ -807,6 +807,6 @@
 	"format": "RGBA8888",
 	"size": {"w":1022,"h":1138},
 	"scale": "1",
-	"smartupdate": "$TexturePacker:SmartUpdate:4a74c8b956aef6b6276055148a5997ce:96cea19011f99a4fbb786dee59a9daf2:7757c177807a1c0f79225ff06e11c623$"
+	"smartupdate": "$TexturePacker:SmartUpdate:99ced4bd37ad15356be624b2744dc898:96cea19011f99a4fbb786dee59a9daf2:7757c177807a1c0f79225ff06e11c623$"
 }
 }
