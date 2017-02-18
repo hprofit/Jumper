@@ -26,14 +26,14 @@ import MenuBase from '../menus/MenuBase';
 export default function preloadImages(game) {
     game.load.atlasJSONHash('bunnyJumperSheet', 'assets/BunnyJumper.png', 'assets/BunnyJumper.json');
 
-    //SpikeMan.loadSpikeManImage(game);
-    //WingMan.loadWingManImage(game);
-    //FlyMan.loadFlyManImage(game);
-    //SpikeBall.loadSpikeBallImage(game);
-    //SpringMan.loadSpringManImage(game);
-    //Sun.loadSunImage(game);
-    //Cloud.loadCloudImages(game);
-    //
+    SpikeMan.loadSpikeManImage(game);
+    WingMan.loadWingManImage(game);
+    FlyMan.loadFlyManImage(game);
+    SpikeBall.loadSpikeBallImage(game);
+    SpringMan.loadSpringManImage(game);
+    Sun.loadSunImage(game);
+    Cloud.loadCloudImages(game);
+
     Sky.loadSkyImages(game);
     //Spikes.loadSpikeImages(game);
     //
@@ -45,7 +45,7 @@ export default function preloadImages(game) {
     //WingPowerUpComponent.loadWingPowerUpImage(game);
     //
     //HUD.loadHUDImages(game);
-    //Player.loadPlayerImage(game);
+    Player.loadPlayerImage(game);
     //
     //// TODO: Replace this
     //Platform.loadGrassPlatformImages(game);
