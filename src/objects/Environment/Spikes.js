@@ -1,49 +1,58 @@
-export const SpikeTypes = {
-    SPIKE_DOWN: 'spikeDown',
-    SPIKE_UP: 'spikeUp',
-    SPIKES_DOWN: 'spikesDown',
-    SPIKES_UP: 'spikesUp'
+const SPIKE_VALUES = {
+    SPIKE_DOWN: {
+        filePath: 'Environment/Spikes/spike.png',
+        direction: 'DOWN',
+        width: 24
+    },
+    SPIKE_UP: {
+        filePath: 'Environment/Spikes/spike.png',
+        direction: 'UP',
+        width: 24
+    },
+    SPIKES_DOWN: {
+        filePath: 'Environment/Spikes/spikes.png',
+        direction: 'DOWN',
+        width: 72
+    },
+    SPIKES_UP: {
+        filePath: 'Environment/Spikes/spikes.png',
+        direction: 'UP',
+        width: 72
+    }
 };
 
-export class Spikes {
-    constructor(game, type, x, y, owningGroup = null) {
-        this.type = type;
+export const SPIKE_TYPES = {
+    SPIKE_DOWN: 'SPIKE_DOWN',
+    SPIKE_UP: 'SPIKE_UP',
+    SPIKES_DOWN: 'SPIKES_DOWN',
+    SPIKES_UP: 'SPIKES_UP'
+};
+
+export class Spikes extends Phaser.Sprite {
+    constructor(game, x, y, type, owningGroup = null) {
+        if (!SPIKE_VALUES[type]) {
+            throw Error('Spikes: type must be of type SPIKE_TYPES');
+        }
+
+        super(game, x, y, 'bunnyJumperSheet', SPIKE_VALUES[type].filePath);
 
         if (!owningGroup) {
-            this.sprite = game.add.sprite(x, y, type);
+            game.add.existing(this);
         }
         else {
-            this.sprite = owningGroup.create(x, y, type);
+            owningGroup.add(this);
         }
-        game.physics.arcade.enable(this.sprite);
-        this.sprite.height = 48;
-        this[`_${type}Size`]();
-        this.sprite.body.immovable = true;
-    }
+        game.physics.arcade.enable(this);
+        this.anchor.setTo(.5, 1);
+        this.height = 48;
+        this.width = SPIKE_VALUES[type].width;
+        if (SPIKE_VALUES[type].direction === 'DOWN') {
+            this.angle = 180;
+        }
 
-    _spikeDownSize() {
-        this.sprite.width = 24;
-    }
-
-    _spikeUpSize() {
-        this.sprite.width = 24;
-    }
-
-    _spikesDownSize() {
-        this.sprite.width = 72;
-    }
-
-    _spikesUpSize() {
-        this.sprite.width = 72;
+        this.body.immovable = true;
     }
 
     update() {
-    }
-
-    static loadSpikeImages(game) {
-        game.load.image('spikeDown', 'assets/Environment/spike_bottom.png');
-        game.load.image('spikeUp', 'assets/Environment/spike_top.png');
-        game.load.image('spikesDown', 'assets/Environment/spikes_bottom.png');
-        game.load.image('spikesUp', 'assets/Environment/spikes_top.png');
     }
 }

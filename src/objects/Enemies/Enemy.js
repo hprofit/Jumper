@@ -8,7 +8,6 @@ export default class Enemy extends Phaser.Sprite {
         // Default physics options for Enemy
         game.physics.arcade.enable(this);
 
-        this.checkWorldBounds = true;
         this.body.gravity.y = 900;
         this.anchor.setTo(.5, .5);
 

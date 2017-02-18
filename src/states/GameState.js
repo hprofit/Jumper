@@ -8,7 +8,7 @@ import SpringMan from '../objects/Enemies/SpringMan';
 import Sun from '../objects/Enemies/Sun';
 import Cloud from '../objects/Enemies/Cloud';
 
-import { Spikes, SpikeTypes } from '../objects/Environment/Spikes';
+import { Spikes, SPIKE_TYPES } from '../objects/Environment/Spikes';
 import Sky from '../objects/Environment/Sky';
 
 import { Coin, COIN_TYPE } from '../objects/Items/Coin';
@@ -68,10 +68,10 @@ export default class GameState extends Phaser.State {
 
         this.group_hazards = this.game.add.group();
         this.group_hazards.enableBody = true;
-        //new Spikes(this.game, SpikeTypes.SPIKE_UP, 100, this.game.world.height - 80, this.group_hazards);
-        //new Spikes(this.game, SpikeTypes.SPIKE_DOWN, 200, 32, this.group_hazards);
-        //new Spikes(this.game, SpikeTypes.SPIKES_UP, 200, this.game.world.height - 80, this.group_hazards);
-        //new Spikes(this.game, SpikeTypes.SPIKES_DOWN, 300, 32, this.group_hazards);
+        new Spikes(this.game, 100, this.game.world.height - 32, SPIKE_TYPES.SPIKE_UP, this.group_hazards);
+        new Spikes(this.game, 200, 32, SPIKE_TYPES.SPIKE_DOWN, this.group_hazards);
+        new Spikes(this.game, 200, this.game.world.height - 32, SPIKE_TYPES.SPIKES_UP, this.group_hazards);
+        new Spikes(this.game, 300, 32, SPIKE_TYPES.SPIKES_DOWN, this.group_hazards);
 
         let max = 20;
         for (let idx = 0; idx < max; idx++) {
