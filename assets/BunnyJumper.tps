@@ -417,9 +417,9 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">BunnyJumper/Items/Coins/bronze_00.png</key>
-            <key type="filename">BunnyJumper/Items/Coins/gold_00.png</key>
-            <key type="filename">BunnyJumper/Items/Coins/silver_00.png</key>
+            <key type="filename">BunnyJumper/Items/Coins/bronze_0.png</key>
+            <key type="filename">BunnyJumper/Items/Coins/gold_0.png</key>
+            <key type="filename">BunnyJumper/Items/Coins/silver_0.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -432,9 +432,9 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">BunnyJumper/Items/Coins/bronze_01.png</key>
-            <key type="filename">BunnyJumper/Items/Coins/gold_01.png</key>
-            <key type="filename">BunnyJumper/Items/Coins/silver_01.png</key>
+            <key type="filename">BunnyJumper/Items/Coins/bronze_1.png</key>
+            <key type="filename">BunnyJumper/Items/Coins/gold_1.png</key>
+            <key type="filename">BunnyJumper/Items/Coins/silver_1.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -447,9 +447,9 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">BunnyJumper/Items/Coins/bronze_02.png</key>
-            <key type="filename">BunnyJumper/Items/Coins/gold_02.png</key>
-            <key type="filename">BunnyJumper/Items/Coins/silver_02.png</key>
+            <key type="filename">BunnyJumper/Items/Coins/bronze_2.png</key>
+            <key type="filename">BunnyJumper/Items/Coins/gold_2.png</key>
+            <key type="filename">BunnyJumper/Items/Coins/silver_2.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -462,8 +462,8 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">BunnyJumper/Items/Coins/bronze_03.png</key>
-            <key type="filename">BunnyJumper/Items/Coins/silver_03.png</key>
+            <key type="filename">BunnyJumper/Items/Coins/bronze_3.png</key>
+            <key type="filename">BunnyJumper/Items/Coins/silver_3.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>
@@ -476,7 +476,7 @@
                 <key>scale9FromFile</key>
                 <false/>
             </struct>
-            <key type="filename">BunnyJumper/Items/Coins/gold_03.png</key>
+            <key type="filename">BunnyJumper/Items/Coins/gold_3.png</key>
             <struct type="IndividualSpriteSettings">
                 <key>pivotPoint</key>
                 <point_f>0.5,0.5</point_f>

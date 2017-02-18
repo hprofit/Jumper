@@ -2,31 +2,39 @@ import Enemy from './Enemy.js';
 import EaseInOutComponent from '../Components/EaseInOutComponent';
 import EmitterComponent from '../Components/EmitterComponent';
 
+let LIGHTNING_FRAME_RATE = 30;
 class Lightning extends Phaser.Particle {
-    constructor(game, x, y, key, frame) {
-        super(game, x, y, key, frame);
+    constructor(game, x, y, key) {
+        super(game, x, y, key);
         this.sprite = game.add.sprite(x, y, key);
-        this.animations.add('flash', [0, 1], 50, true);
+        this.flashAnimation = this.animations.add('flash', ['Particles/Lightning/blue.png', 'Particles/Lightning/yellow.png']);
+        this.flashAnimation.onComplete.add(this._flipSprite, this);
     }
 
     onEmit() {
-        this.animations.play('flash');
+        this.flashAnimation.play(LIGHTNING_FRAME_RATE);
+    }
+
+    _flipSprite() {
+        this.scale.x *= -1;
+        this.flashAnimation.play(LIGHTNING_FRAME_RATE);
     }
 }
 
 class LightningLarge extends Lightning {
-    constructor(game, x, y, key, frame) {
-        super(game, x, y, key, frame);
+    constructor(game, x, y, key) {
+        super(game, x, y, key);
         this.emitterComponent = new EmitterComponent(game, x, y, 10);
         this.emitterComponent.setParticleClass(Lightning);
-        this.emitterComponent.makeParticlesFromImage('lightning_particle', [0, 1]);
+
+        this.emitterComponent.makeParticlesFromAtlas('bunnyJumperSheet');
         this.emitterComponent.setSpeed(-250, 250, -250, 250);
         this.emitterComponent.setScaleBoth(.125, .125);
     }
 
     onKill() {
         this.emitterComponent.moveEmitter(this.x + this.width / 2, this.y + this.height / 2);
-        this.emitterComponent.startEmitter(true, 200, null, 10);
+        this.emitterComponent.start(true, 200, null, 10);
         this.kill();
     }
 }
@@ -49,17 +57,15 @@ export default class Cloud extends Enemy {
         this.emitterComponent = new EmitterComponent(game, x + 48, y + 24, 10, true, 2, true);
 
         this.emitterComponent.setParticleClass(LightningLarge);
-        this.emitterComponent.makeParticlesFromImage('lightning_particle', [0, 1]);
+        this.emitterComponent.makeParticlesFromAtlas('bunnyJumperSheet');
         this.emitterComponent.setSpeed(0, 0, 500, 500);
         this.emitterComponent.setScaleBoth(.5, .5);
-        this.emitterComponent.setRotationWithDefaults();
-        this.emitterComponent.startEmitter(false, 0, 1500);
+        this.emitterComponent.setRotation();
+        this.emitterComponent.start(false, 0, 1500);
     }
 
     static loadCloudImages(game) {
         game.load.image('cloud', 'assets/Enemies/cloud.png');
-
-        game.load.spritesheet('lightning_particle', 'assets/Particles/lightning_particle.png', 55, 114);
     }
 
     flipDirection() {
