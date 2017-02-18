@@ -3,12 +3,12 @@ import PowerUpComponent from './PowerUpComponent';
 export default class WingPowerPowerUpComponent extends PowerUpComponent {
     constructor(group, player, game) {
         super();
-        this.spriteLeft = group.create(player.x - 10, player.y, 'leftWing');
+        this.spriteLeft = group.create(player.x - 10, player.y, 'bunnyJumperSheet', 'Items/PowerUpSprites/Wings/left.png');
         this.spriteLeft.anchor.setTo(1, .5);
         this.spriteLeft.width = 32;
         this.spriteLeft.height = 32;
 
-        this.spriteRight = group.create(player.x + 10, player.y, 'rightWing');
+        this.spriteRight = group.create(player.x + 10, player.y, 'bunnyJumperSheet', 'Items/PowerUpSprites/Wings/right.png');
         this.spriteRight.anchor.setTo(0, .5);
         this.spriteRight.width = 32;
         this.spriteRight.height = 32;
@@ -23,11 +23,6 @@ export default class WingPowerPowerUpComponent extends PowerUpComponent {
         this.flyJumps = 0;
         this.maxFlyJumps = 3;
         this.flying = false;
-    }
-
-    static loadWingPowerUpImage(game) {
-        game.load.image('leftWing', 'assets/Items/PowerUpSprites/wing_left.png');
-        game.load.image('rightWing', 'assets/Items/PowerUpSprites/wing_right.png');
     }
 
     _flapWings() {

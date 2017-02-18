@@ -1,8 +1,8 @@
-import { PowerUp, PowerUpTypes } from './PowerUp';
+import { PowerUp, POWER_UP_TYPES } from './PowerUp';
 
 export default class PowerUpLife extends PowerUp {
     constructor(game, x, y) {
-        super(game, x, y, PowerUpTypes.BUNNY);
+        super(game, x, y, POWER_UP_TYPES.BUNNY);
     }
 
     touchItem(player, game) {
