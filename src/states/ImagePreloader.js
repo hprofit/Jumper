@@ -1,9 +1,6 @@
 import SpikeMan from '../objects/Enemies/SpikeMan';
 import WingMan from '../objects/Enemies/WingMan';
-import FlyMan from '../objects/Enemies/FlyMan';
 import SpikeBall from '../objects/Enemies/SpikeBall';
-import SpringMan from '../objects/Enemies/SpringMan';
-import Sun from '../objects/Enemies/Sun';
 import Cloud from '../objects/Enemies/Cloud';
 
 import Sky from '../objects/Environment/Sky';
@@ -20,10 +17,7 @@ export default function preloadImages(game) {
 
     SpikeMan.loadSpikeManImage(game);
     WingMan.loadWingManImage(game);
-    FlyMan.loadFlyManImage(game);
     SpikeBall.loadSpikeBallImage(game);
-    SpringMan.loadSpringManImage(game);
-    Sun.loadSunImage(game);
     Cloud.loadCloudImages(game);
 
     Sky.loadSkyImages(game);

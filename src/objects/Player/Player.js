@@ -1,17 +1,10 @@
 import DebugService from '../Debug/Debug';
-import {COIN_TYPE} from '../Items/Coin';
-import HUD from './HUD.js'
 import { DebugGraphicsObjectSquare } from '../Debug/DebugGraphicsObjects.js';
-import BubblePowerUpComponent from '../Components/PowerUpComponents/BubblePowerUpComponent';
-import JetPackPowerUpComponent from '../Components/PowerUpComponents/JetPackPowerUpComponent';
-import WingPowerUpComponent from '../Components/PowerUpComponents/WingPowerUpComponent';
 
 export default class Player extends Phaser.Sprite {
     constructor(game, x, y, lives = 3) {
         super(game, x, y, 'player_purple');
-        this.group_powerUpBack = game.add.group();
         game.add.existing(this);
-        this.group_powerUpFront = game.add.group();
 
         game.physics.enable(this);
         this.body.gravity.y = 900;
@@ -35,19 +28,6 @@ export default class Player extends Phaser.Sprite {
         this.moveEnabled = true;
         this.isHurt = false;
 
-        this.coins = {
-            [`${COIN_TYPE.BRONZE}`] : 0,
-            [`${COIN_TYPE.SILVER}`] : 0,
-            [`${COIN_TYPE.GOLD}`] : 0
-        };
-
-        this.lives = lives;
-
-        this.HUD = new HUD(game);
-        this.HUD.updateHealth(this.health);
-        this.HUD.updateLife(this.lives);
-
-        this.powerUpComponent = null;
 
         if (DebugService.isInDebugMode()) {
             this.debugGraphics = new DebugGraphicsObjectSquare(game);
@@ -56,15 +36,10 @@ export default class Player extends Phaser.Sprite {
 
     static loadPlayerImage(game) {
         game.load.spritesheet('player_purple', 'assets/Player/player_purple.png', 150, 207);
-        game.load.spritesheet('player_brown', 'assets/Player/player_brown.png', 150, 207);
     }
 
     isMoving() {
         return this.body.deltaX() !== 0;
-    }
-
-    getDeltaMovement() {
-        return this.body.deltaX();
     }
 
     getVelocity() {
@@ -87,10 +62,6 @@ export default class Player extends Phaser.Sprite {
     updatePlayer(cursors, contacts, delta) {
         if (this.debugGraphics) {
             this.debugGraphics.render(this.body);
-        }
-
-        if (this.powerUpComponent) {
-            this.powerUpComponent.update(cursors, contacts, delta, this);
         }
 
         if (this.isHurt && this.hurtTimer < this.invincibleTimer) {
@@ -198,56 +169,26 @@ export default class Player extends Phaser.Sprite {
         this.scale.x = this.rightDir;
     }
 
-    stopMoving(delta, slowRate = 500) {
-        if (this.body.velocity.x !== 0) {
-            let dir = this.body.velocity.x > 0 ? -1 : 1;
-            let decrementAmount = delta * slowRate * dir;
-            let newX = this.body.velocity.x + decrementAmount;
-
-            if ((dir === -1 && newX <= 2) ||
-                (dir === 1 && newX >= -2)) {
-                //  Stand still
-                this.animations.play('stand');
-                this.body.velocity.x = 0;
-            }
-            else {
-                this.body.velocity.x += decrementAmount;
-            }
-        }
-        else {
-            //  Stand still
-            this.animations.play('stand');
-            this.body.velocity.x = 0;
-        }
-    }
-
     _handleInput(cursors, contacts, delta) {
+        this.body.velocity.x = 0;
+
         if (this.body.touching.down && this.jumping) {
             this.jumping = false;
             this.animations.play('stand');
         }
 
-        if (this.powerUpComponent &&  this.powerUpComponent.handleHorizontalMovement) {
-            this.powerUpComponent.handleHorizontalMovement(cursors, contacts, delta, this);
+        if (cursors.left.isDown) {
+            this.goLeft();
         }
-        else {
-            if (cursors.left.isDown) {
-                this.goLeft();
-            }
-            else if (cursors.right.isDown) {
-                this.goRight();
-            }
-            else if (!this.jumping) {
-                this.stopMoving(delta);
-            }
+        else if (cursors.right.isDown) {
+            this.goRight();
+        }
+        else if (!this.jumping) {
+            this.animations.play('stand');
         }
 
-
-        if (this.powerUpComponent && this.powerUpComponent.handleJump) {
-            this.powerUpComponent.handleJump(cursors, contacts, delta, this);
-        }
         //  Allow the player to jump if they are touching the ground.
-        else if (cursors.up.isDown && this.body.touching.down && contacts) {
+        if (cursors.up.isDown && this.body.touching.down && contacts) {
             this.body.velocity.y = -500;
             this.animations.stop();
             this.frame = this.jumpFrame;
@@ -257,41 +198,5 @@ export default class Player extends Phaser.Sprite {
         if (this.body.touching.right || this.body.touching.left) {
             this.body.velocity.x = 0;
         }
-    }
-
-    addCoin(type) {
-        this.coins[type]++;
-        this.HUD.updateCoinAmount(type, this.coins[type]);
-    }
-
-    addLife() {
-        this.lives++;
-        this.HUD.updateLife(this.lives);
-    }
-
-    removeLife() {
-        this.lives--;
-        this.HUD.updateLife(this.lives);
-    }
-
-    _removePowerUpComponent() {
-        if (this.powerUpComponent) {
-            this.powerUpComponent.remove();
-        }
-    }
-
-    addBubbleComponent() {
-        this._removePowerUpComponent();
-        this.powerUpComponent = new BubblePowerUpComponent(this.group_powerUpFront, this);
-    }
-
-    addJetPackComponent(game) {
-        this._removePowerUpComponent();
-        this.powerUpComponent = new JetPackPowerUpComponent(this.group_powerUpBack, this, game);
-    }
-
-    addWingComponent(game) {
-        this._removePowerUpComponent();
-        this.powerUpComponent = new WingPowerUpComponent(this.group_powerUpBack, this, game);
     }
 }
