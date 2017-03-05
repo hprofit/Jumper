@@ -19,7 +19,6 @@ export const PlatformSubtypes = {
 export class Platform extends Phaser.Sprite {
     constructor(game, x, y, type, subType, owningGroup = null) {
         super(game, x, y, 'bunnyJumperSheet', type + subType);
-        game.physics.arcade.enable(this);
 
         if (!owningGroup) {
             game.add.existing(this);
