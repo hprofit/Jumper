@@ -1,6 +1,6 @@
 export default class Sky {
     constructor(game) {
-        this.bg_1 = game.add.sprite(0, 0, 'bg_1');
+        this.bg_1 = game.add.image(0, 0, 'bg_1');
         this.bg_2 = game.add.tileSprite(0, 0, game.world.width, game.world.height, 'bg_2');
         this.bg_3 = game.add.tileSprite(0, 0, game.world.width, game.world.height, 'bg_3');
         this.bg_4 = game.add.tileSprite(0, 0, game.world.width, game.world.height, 'bg_4');

@@ -13,7 +13,7 @@ export default class Player extends Phaser.Sprite {
         game.add.existing(this);
         this.group_powerUpFront = game.add.group();
 
-        game.physics.enable(this);
+        game.physics.arcade.enable(this);
         this.body.gravity.y = 900;
         this.anchor.setTo(.5, .5);
         this.height = 64;
