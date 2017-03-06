@@ -26,7 +26,5 @@ export default class Sky {
     }
 
     update(velocity, deltaTime) {
-        this.bg_3.tilePosition.x += this.bg3_rate * -velocity * deltaTime;
-        this.bg_2.tilePosition.x -= this.bg2_speed * deltaTime;
     }
 }
