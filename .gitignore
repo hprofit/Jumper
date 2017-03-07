@@ -6,3 +6,4 @@ logs/
 *.tmp
 *.psd
 .DS_Store
+yarn.lock
