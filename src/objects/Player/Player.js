@@ -34,6 +34,9 @@ export default class Player extends Phaser.Sprite {
         this.hurtTimer = 0;
         this.moveEnabled = true;
         this.isHurt = false;
+        this.jumping = true;
+
+        this.jumpSound = game.add.audio('playerJump');
 
         this.coins = {
             [`${COIN_TYPE.BRONZE}`] : 0,
@@ -57,6 +60,10 @@ export default class Player extends Phaser.Sprite {
     static loadPlayerImage(game) {
         game.load.spritesheet('player_purple', 'assets/Player/player_purple.png', 150, 207);
         game.load.spritesheet('player_brown', 'assets/Player/player_brown.png', 150, 207);
+    }
+
+    static loadSounds(game) {
+        game.load.audio('playerJump', 'assets/Player/jump.ogg');
     }
 
     isMoving() {
@@ -180,6 +187,7 @@ export default class Player extends Phaser.Sprite {
         this.animations.stop();
         this.frame = this.jumpFrame;
         this.jumping = true;
+        this.jumpSound.play();
     }
 
     goLeft(velocity = -150) {
@@ -242,16 +250,12 @@ export default class Player extends Phaser.Sprite {
             }
         }
 
-
         if (this.powerUpComponent && this.powerUpComponent.handleJump) {
             this.powerUpComponent.handleJump(cursors, contacts, delta, this);
         }
         //  Allow the player to jump if they are touching the ground.
         else if (cursors.up.isDown && this.body.touching.down && contacts) {
-            this.body.velocity.y = -500;
-            this.animations.stop();
-            this.frame = this.jumpFrame;
-            this.jumping = true;
+            this.jump();
         }
 
         if (this.body.touching.right || this.body.touching.left) {

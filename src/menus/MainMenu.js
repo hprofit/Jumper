@@ -1,10 +1,6 @@
 import MenuBase from './MenuBase';
 import { CLICKABLE_BUTTON_TYPE, ClickableButton } from './buttons/ClickableButton';
 
-export function loadMainMenuImages(game) {
-    game.load.atlasJSONHash('buttonSheet', 'assets/Menus/buttonSheet.png', 'assets/Menus/buttonSheet.json');
-}
-
 export default class MainMenu extends MenuBase {
     constructor(game) {
         super(game);

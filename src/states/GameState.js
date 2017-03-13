@@ -95,14 +95,14 @@ export default class GameState extends Phaser.State {
         this.items.push(p1);
         this.items.push(p2);
 
-        this.enemies.push(new SpikeMan(this.game, 1000, 100));
+        //this.enemies.push(new SpikeMan(this.game, 1000, 100));
         //this.enemies.push(new WingMan(this.game, 600, 480));
         //this.enemies.push(new WingMan(this.game, 700, 300, true, 100));
         //this.enemies.push(new FlyMan(this.game, 100, this.game.world.height - 150));
         //this.enemies.push(new SpikeBall(this.game, 200, this.game.world.height - 100));
         //this.enemies.push(new SpringMan(this.game, 600, this.game.world.height - 150));
         //this.enemies.push(new Sun(this.game, 600, this.game.world.height - 400));
-        this.enemies.push(new Cloud(this.game, 600, this.game.world.height - 400));
+        //this.enemies.push(new Cloud(this.game, 600, this.game.world.height - 400));
 
         this.player = new Player(this.game, this.game.scale.width / 2, this.game.world.height - 300);
 
@@ -204,6 +204,6 @@ export default class GameState extends Phaser.State {
         let cursors = this.game.input.keyboard.createCursorKeys();
         this.player.updatePlayer(cursors, hitPlatforms, deltaTime);
 
-        this.sky.update(this.player.isMoving(), this.player.getVelocity(), deltaTime);
+        this.sky.update(this.player.getVelocity(), deltaTime);
     }
 }

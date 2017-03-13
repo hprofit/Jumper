@@ -25,10 +25,8 @@ export default class Sky {
         game.load.image('bg_4', 'assets/Background/bg_layer4.png');
     }
 
-    update(playerIsMoving, velocity, deltaTime) {
-        if (playerIsMoving && velocity !== 0) {
-            this.bg_3.tilePosition.x += this.bg3_rate * -velocity * deltaTime;
-        }
+    update(velocity, deltaTime) {
         this.bg_2.tilePosition.x -= this.bg2_speed * deltaTime;
+        this.bg_3.tilePosition.x += this.bg3_rate * -velocity * deltaTime;
     }
 }
